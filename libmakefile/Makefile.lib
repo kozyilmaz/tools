@@ -33,7 +33,8 @@
 #   20160726 - overload cc
 #   20170209 - qt moc support
 #   20170401 - add .o as suffix
-#   20170507 - depends-y file gen fix
+#   20170407 - depends-y file gen fix
+#   20170425 - directory with space fix
 
 #
 # Example
@@ -191,7 +192,7 @@ ifeq ($(uname_S),Darwin)
 	override LDOPTS     += -keep_private_externs
 endif
 
-MAKE       := + CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" TOPDIR=$(TOPDIR) uname_S=$(uname_S) $(MAKE) $(MFLAGS) --no-print-directory
+MAKE       := + CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" TOPDIR='$(TOPDIR)' uname_S=$(uname_S) $(MAKE) $(MFLAGS) --no-print-directory
 
 CC         := $(CROSS_COMPILE_PREFIX)gcc $(SYSROOT)
 CXX        := $(CROSS_COMPILE_PREFIX)g++ $(SYSROOT)
@@ -793,7 +794,7 @@ endef
 
 define subdir_empty-defaults
     $(addsuffix _$2, $1): __FORCE
-	@$($1_makeflags-y) $(MAKE) -C $$(subst _$2,,$$@) $2
+	@$($1_makeflags-y) $(MAKE) -C '$$(subst _$2,,$$@)' $2
 endef
 
 define subdir-defaults
@@ -802,28 +803,28 @@ define subdir-defaults
     $1: $1_all
 
     $(addsuffix _all, $1): $($1_depends-y) __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _all,,$$@) all
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _all,,$$@)' all
 
-    $(addsuffix _clone, $1): __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _clone,,$$@) clone
+    $(addsuffix _clone, $1): $($1_depends-y) __FORCE
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _clone,,$$@)' clone
 
-    $(addsuffix _config, $1): __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _config,,$$@) config
+    $(addsuffix _config, $1): $($1_depends-y) __FORCE
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _config,,$$@)' config
 
     $(addsuffix _build, $1): $($1_depends-y) __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _build,,$$@) build
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _build,,$$@)' build
 
     $(addsuffix _clean, $1): __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _clean,,$$@) clean
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _clean,,$$@)' clean
 
     $(addsuffix _distclean, $1): __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _distclean,,$$@) distclean
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _distclean,,$$@)' distclean
 
     $(addsuffix _install, $1): __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _install,,$$@) install
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _install,,$$@)' install
 
     $(addsuffix _uninstall, $1): __FORCE
-	@+ $($1_makeflags-y) $(MAKE) -C $$(subst _uninstall,,$$@) uninstall
+	@+ $($1_makeflags-y) $(MAKE) -C '$$(subst _uninstall,,$$@)' uninstall
 
 endef
 
@@ -841,7 +842,7 @@ define dist-defaults
 
     $1_distclean: __FORCE
 	$(do_distclean) $(addprefix $(distdir)/$2/, $($1_files))
-	$(Q)if [ -e $$(abspath $(distdir)) ]; then find $$(abspath $(distdir)) -depth -type d -empty -exec rm -rf {} \; ; fi
+	$(Q)if [ -e '$$(abspath $(distdir))' ]; then find '$$(abspath $(distdir))' -depth -type d -empty -exec rm -rf {} \; ; fi
 endef
 
 define dist.changelog-variables
@@ -853,7 +854,7 @@ define dist.license-variables
 endef
 
 define dist.include-variables
-    $(eval $(call dist-defaults,$1,include))
+    $(eval $(call dist-defaults,$1,include/${dist.base}))
 endef
 
 define dist.obj-variables
