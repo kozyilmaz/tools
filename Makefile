@@ -81,4 +81,5 @@ include Makefile.lib
 
 syscheck:
 	@echo "  SYSCHECK   libmakefile"
+	@git fetch https://github.com/kozyilmaz/libmakefile.git buildsystem
 	@$(TOPDIR)/contrib/devtools/git-subtree-check.sh libmakefile
