@@ -77,5 +77,8 @@ isl_depends-y = \
 gnugcc_depends-y = \
 	isl
 
-
 include Makefile.lib
+
+syscheck:
+	@echo "  SYSCHECK   libmakefile"
+	@$(TOPDIR)/contrib/devtools/git-subtree-check.sh libmakefile
