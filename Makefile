@@ -86,5 +86,9 @@ syscheck:
 
 sysupdate:
 	@echo "  SYSUPDATE  libmakefile"
+ifeq ($(shell git remote -v |grep '\<libmakefile-remote\>'),)
 	@git remote add libmakefile-remote https://github.com/kozyilmaz/libmakefile.git
+else
+	@git remote set-url libmakefile-remote https://github.com/kozyilmaz/libmakefile.git
+endif
 	@git subtree pull --prefix=libmakefile/ --squash libmakefile-remote buildsystem
