@@ -14,9 +14,9 @@ version_build:
 
 version_install:
 ifeq ($(shell git diff),)
-	@${BSPSUDO} echo $(shell git rev-parse --verify HEAD) > ${BSPTOOLS}/version.txt
+	@${BSPSUDO} sh -c "echo '$(shell git rev-parse --verify HEAD)' > ${BSPTOOLS}/version.txt"
 else
-	@${BSPSUDO} echo $(shell git rev-parse --verify HEAD)-dirty > ${BSPTOOLS}/version.txt
+	@${BSPSUDO} sh -c "echo '$(shell git rev-parse --verify HEAD)-dirty' > ${BSPTOOLS}/version.txt"
 endif
 
 version_uninstall:
