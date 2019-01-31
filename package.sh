@@ -38,15 +38,14 @@ export BSPSUDO=sudo;
 export BSPTOOLS=/usr/local/tools-$release_version;
 export PATH=${BSPTOOLS}/bin:${PATH};
 
-# add version info
-sudo mkdir -p ${BSPTOOLS}
-echo $git_rev_string  > version.txt
-echo $git_tag_string >> version.txt
-sudo mv version.txt ${BSPTOOLS}/version.txt
-
 # build tools
-make
+make all
 echo "'tools-$release_version' is installed with root priviliges under ${BSPTOOLS}"
+
+# modify version info
+echo "added by package script:" >> ${BSPTOOLS}/version.txt
+echo $git_rev_string >> ${BSPTOOLS}/version.txt
+echo $git_tag_string >> ${BSPTOOLS}/version.txt
 
 # create tarball and checksum
 echo "creating tools tarball 'tools-$release_version.tar.bz2' and checksum"

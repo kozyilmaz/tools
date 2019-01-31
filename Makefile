@@ -77,6 +77,10 @@ isl_depends-y = \
 gnugcc_depends-y = \
 	isl
 
+# version file created last!
+subdir-y += \
+	version
+
 include Makefile.lib
 
 syscheck:
