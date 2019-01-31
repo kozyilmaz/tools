@@ -43,9 +43,8 @@ make all
 echo "'tools-$release_version' is installed with root priviliges under ${BSPTOOLS}"
 
 # modify version info
-echo "added by package script:" >> ${BSPTOOLS}/version.txt
-echo $git_rev_string >> ${BSPTOOLS}/version.txt
-echo $git_tag_string >> ${BSPTOOLS}/version.txt
+${BSPSUDO} sh -c "echo '$git_rev_string' >> ${BSPTOOLS}/version.txt"
+${BSPSUDO} sh -c "echo '$git_tag_string' >> ${BSPTOOLS}/version.txt"
 
 # create tarball and checksum
 echo "creating tools tarball 'tools-$release_version.tar.bz2' and checksum"
