@@ -22,7 +22,7 @@ autoconf_uninstall:
 	${BSPSUDO} make -C autoconf-$(AUTOCONF_VERSION) uninstall
 
 autoconf_clean:
-	if [ -f "autoconf-$(AUTOCONF_VERSION)/Makefile" ]; then make -C autoconf-$(AUTOCONF_VERSION) distclean; fi
+	rm -rf autoconf-$(AUTOCONF_VERSION)
 
 autoconf_distclean:
 	rm -rf autoconf-$(AUTOCONF_VERSION)

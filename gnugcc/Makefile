@@ -22,7 +22,7 @@ gnugcc_uninstall:
 	${BSPSUDO} make -C gcc-$(GCC_VERSION) uninstall
 
 gnugcc_clean:
-	if [ -f "gcc-$(GCC_VERSION)/Makefile" ]; then make -C gcc-$(GCC_VERSION) distclean; fi
+	rm -rf gcc-$(GCC_VERSION)
 
 gnugcc_distclean:
 	rm -rf gcc-$(GCC_VERSION)

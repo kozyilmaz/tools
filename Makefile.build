@@ -60,6 +60,8 @@ clean: __FORCE
 	@${MAKE} ${target_name}_clean $(OUTPUT_DEV);
 	@rm -rf .built
 	@rm -rf .configured
+	@rm -rf .patched
+	@rm -rf .cloned
 
 distclean: __FORCE
 	@echo "\033[0;31m  DISTCLEAN  ${target_name}\033[0m"

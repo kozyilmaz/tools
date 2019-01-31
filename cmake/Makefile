@@ -25,7 +25,7 @@ cmake_uninstall:
 	${BSPSUDO} make -C cmake-$(CMAKE_VERSION) uninstall
 
 cmake_clean:
-	if [ -f "cmake-$(CMAKE_VERSION)/Makefile" ]; then make -C cmake-$(CMAKE_VERSION) clean; fi
+	rm -rf cmake-$(CMAKE_VERSION)
 
 cmake_distclean:
 	rm -rf cmake-$(CMAKE_VERSION)

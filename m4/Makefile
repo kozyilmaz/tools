@@ -22,7 +22,7 @@ m4_uninstall:
 	${BSPSUDO} make -C m4-$(M4_VERSION) uninstall
 
 m4_clean:
-	if [ -f "m4-$(M4_VERSION)/Makefile" ]; then make -C m4-$(M4_VERSION) distclean; fi
+	rm -rf m4-$(M4_VERSION)
 
 m4_distclean:
 	rm -rf m4-$(M4_VERSION)

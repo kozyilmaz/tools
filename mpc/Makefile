@@ -22,7 +22,7 @@ mpc_uninstall:
 	${BSPSUDO} make -C mpc-$(MPC_VERSION) uninstall
 
 mpc_clean:
-	if [ -f "mpc-$(MPC_VERSION)/Makefile" ]; then make -C mpc-$(MPC_VERSION) distclean; fi
+	rm -rf mpc-$(MPC_VERSION)
 
 mpc_distclean:
 	rm -rf mpc-$(MPC_VERSION)

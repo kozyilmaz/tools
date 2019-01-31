@@ -24,7 +24,7 @@ kconfig_uninstall:
 	${BSPSUDO} rm -rf ${BSPTOOLS}/bin/mconf
 
 kconfig_clean:
-	if [ -d "kconfig-$(KCONFIG_VERSION)" ]; then PKG_CONFIG_PATH="" make CC="gcc" HOSTCC="gcc" obj=. -C kconfig-$(KCONFIG_VERSION) -f Makefile.br distclean; fi
+	rm -rf kconfig-$(KCONFIG_VERSION)
 
 kconfig_distclean:
 	rm -rf kconfig-$(KCONFIG_VERSION)

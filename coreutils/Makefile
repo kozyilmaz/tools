@@ -26,7 +26,7 @@ coreutils_uninstall:
 	${BSPSUDO} rm -rf ${BSPTOOLS}/bin/ginstall
 
 coreutils_clean:
-	if [ -f "coreutils-$(COREUTILS_VERSION)/Makefile" ]; then make -C coreutils-$(COREUTILS_VERSION) distclean; fi
+	rm -rf coreutils-$(COREUTILS_VERSION)
 
 coreutils_distclean:
 	rm -rf coreutils-$(COREUTILS_VERSION)

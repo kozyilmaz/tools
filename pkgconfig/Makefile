@@ -23,7 +23,7 @@ pkgconfig_uninstall:
 	${BSPSUDO} make -C pkg-config-$(PKGCONFIG_VERSION) uninstall
 
 pkgconfig_clean:
-	if [ -f "pkg-config-$(PKGCONFIG_VERSION)/Makefile" ]; then make -C pkg-config-$(PKGCONFIG_VERSION) distclean; fi
+	rm -rf pkg-config-$(PKGCONFIG_VERSION)
 
 pkgconfig_distclean:
 	rm -rf pkg-config-$(PKGCONFIG_VERSION)

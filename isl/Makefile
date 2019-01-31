@@ -23,7 +23,7 @@ isl_uninstall:
 	${BSPSUDO} make -C isl-$(ISL_VERSION) uninstall
 
 isl_clean:
-	if [ -f "isl-$(ISL_VERSION)/Makefile" ]; then make -C isl-$(ISL_VERSION) distclean; fi
+	rm -rf isl-$(ISL_VERSION)
 
 isl_distclean:
 	rm -rf isl-$(ISL_VERSION)

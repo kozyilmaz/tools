@@ -22,7 +22,7 @@ mpfr_uninstall:
 	${BSPSUDO} make -C mpfr-$(MPFR_VERSION) uninstall
 
 mpfr_clean:
-	if [ -f "mpfr-$(MPFR_VERSION)/Makefile" ]; then make -C mpfr-$(MPFR_VERSION) distclean; fi
+	rm -rf mpfr-$(MPFR_VERSION)
 
 mpfr_distclean:
 	rm -rf mpfr-$(MPFR_VERSION)

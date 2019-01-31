@@ -22,7 +22,7 @@ gmp_uninstall:
 	${BSPSUDO} make -C gmp-$(GMP_VERSION) uninstall
 
 gmp_clean:
-	if [ -f "gmp-$(GMP_VERSION)/Makefile" ]; then make -C gmp-$(GMP_VERSION) distclean; fi
+	rm -rf gmp-$(GMP_VERSION)
 
 gmp_distclean:
 	rm -rf gmp-$(GMP_VERSION)

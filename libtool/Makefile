@@ -22,7 +22,7 @@ libtool_uninstall:
 	${BSPSUDO} make -C libtool-$(LIBTOOL_VERSION) uninstall
 
 libtool_clean:
-	if [ -f "libtool-$(LIBTOOL_VERSION)/Makefile" ]; then make -C libtool-$(LIBTOOL_VERSION) distclean; fi
+	rm -rf libtool-$(LIBTOOL_VERSION)
 
 libtool_distclean:
 	rm -rf libtool-$(LIBTOOL_VERSION)
