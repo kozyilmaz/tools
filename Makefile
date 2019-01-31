@@ -83,3 +83,8 @@ syscheck:
 	@echo "  SYSCHECK   libmakefile"
 	@git fetch https://github.com/kozyilmaz/libmakefile.git buildsystem
 	@$(TOPDIR)/contrib/devtools/git-subtree-check.sh libmakefile
+
+sysupdate:
+	@echo "  SYSUPDATE  libmakefile"
+	@git remote add libmakefile-remote https://github.com/kozyilmaz/libmakefile.git
+	@git subtree pull --prefix=libmakefile/ --squash libmakefile-remote buildsystem
