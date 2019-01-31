@@ -20,7 +20,7 @@ else
 endif
 
 version_uninstall:
-	rm -rf ${BSPTOOLS}/version.txt
+	${BSPSUDO} rm -rf ${BSPTOOLS}/version.txt
 
 version_clean:
 	@true
