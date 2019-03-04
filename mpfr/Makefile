@@ -3,7 +3,7 @@ target_name ?= mpfr
 
 include ../Makefile.build
 
-MPFR_VERSION="4.0.1"
+MPFR_VERSION="4.0.2"
 
 mpfr_clone:
 	if [ ! -f "mpfr-$(MPFR_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/mpfr/mpfr-$(MPFR_VERSION).tar.bz2; fi;
