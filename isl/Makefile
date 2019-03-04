@@ -3,8 +3,7 @@ target_name ?= isl
 
 include ../Makefile.build
 
-# ISL v0.20 is released but gcc-8.2.0 has issues
-ISL_VERSION="0.19"
+ISL_VERSION="0.20"
 
 isl_clone:
 	if [ ! -f "isl-$(ISL_VERSION).tar.gz" ]; then curl -OL http://isl.gforge.inria.fr/isl-$(ISL_VERSION).tar.bz2; fi;
