@@ -14,6 +14,8 @@ else ifneq ($(findstring ios64, $(TARGET_QUERY)),)
 TARGET_PLATFORM := IOS64
 else ifneq ($(findstring iossim, $(TARGET_QUERY)),)
 TARGET_PLATFORM := IOSSIM
+else ifneq ($(findstring android-aarch64, $(TARGET_QUERY)),)
+TARGET_PLATFORM := ANDROID-AARCH64
 else
 TARGET_PLATFORM := UNKNOWN
 endif
