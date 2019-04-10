@@ -235,12 +235,10 @@ else ifeq ($(TARGET_OS),MACOS)
     override __DARWIN__  = y
     override MFLAGS     += __DARWIN__=y
     __CFLAGS      += -D__DARWIN__=1
-    #__CFLAGS     += -fassociative-math -fno-signed-zeros
 else ifeq ($(TARGET_OS),LINUX)
     override __LINUX__  = y
     override MFLAGS     += __LINUX__=y
     __CFLAGS      += -D__LINUX__=1
-    #__CFLAGS     += -fassociative-math -fno-signed-zeros
 endif
 
 __CXXFLAGS := $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(__CFLAGS)
