@@ -212,7 +212,7 @@ MV         := mv
 RM         := rm -rf
 MKDIR      := mkdir -p
 
-__CFLAGS := -Wall -Wextra -pipe -g3 -O2 -fsigned-char -fno-strict-aliasing -fPIC -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $(CFLAGS) $(EXTRA_CFLAGS)
+__CFLAGS := -Wall -Wextra -pipe -g3 -O2 -fsigned-char -fno-strict-aliasing -fPIC $(CFLAGS) $(EXTRA_CFLAGS)
 #__CFLAGS += -Wswitch-enum -Wshadow
 #__CFLAGS += -fvisibility=hidden
 #__CFLAGS += -fno-math-errno -fno-trapping-math
