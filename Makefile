@@ -84,12 +84,12 @@ subdir-y += \
 include Makefile.lib
 
 libmakefile-check:
-	@echo "  SYSCHECK   libmakefile"
+	@echo "  CHECK      libmakefile"
 	@git fetch https://github.com/kozyilmaz/libmakefile.git buildsystem
 	@$(TOPDIR)/contrib/devtools/git-subtree-check.sh libmakefile
 
 libmakefile-update:
-	@echo "  SYSUPDATE  libmakefile"
+	@echo "  UPDATE     libmakefile"
 ifeq ($(shell git remote -v |grep '\<libmakefile-remote\>'),)
 	@git remote add libmakefile-remote https://github.com/kozyilmaz/libmakefile.git
 else
