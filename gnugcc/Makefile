@@ -3,7 +3,7 @@ target_name ?= gnugcc
 
 include ../Makefile.build
 
-GCC_VERSION="8.3.0"
+GCC_VERSION="9.1.0"
 
 gnugcc_clone:
 	if [ ! -f "gcc-$(GCC_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/gcc/gcc-$(GCC_VERSION)/gcc-$(GCC_VERSION).tar.gz; fi;
