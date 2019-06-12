@@ -5,6 +5,14 @@ include ../Makefile.build
 
 GCC_VERSION="9.1.0"
 
+ifeq      ($(HOST_PLATFORM),WINDOWS)
+HOST_GCC_FLAGS =
+else ifeq ($(HOST_PLATFORM),LINUX)
+HOST_GCC_FLAGS =
+else ifeq ($(HOST_PLATFORM),MACOS)
+HOST_GCC_FLAGS = --with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk --with-native-system-header-dir=/usr/include
+endif
+
 gnugcc_clone:
 	if [ ! -f "gcc-$(GCC_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/gcc/gcc-$(GCC_VERSION)/gcc-$(GCC_VERSION).tar.gz; fi;
 	if [ ! -d "gcc-$(GCC_VERSION)" ]; then tar xzf gcc-$(GCC_VERSION).tar.gz; fi
@@ -21,9 +29,8 @@ gnugcc_config:
 		--enable-languages=c,c++ \
 		--disable-multilib \
 		--disable-nls \
-		--with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk \
-		--with-native-system-header-dir=/usr/include \
-		--program-suffix=-$(GCC_VERSION); \
+		--program-suffix=-$(GCC_VERSION) \
+		$(HOST_GCC_FLAGS) \
 	)
 
 gnugcc_build:
