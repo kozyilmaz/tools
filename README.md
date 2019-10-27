@@ -11,7 +11,6 @@ automake
 libtool    (prefixed with 'g')
 pkg-config
 cmake
-kconfig
 gmp        (only as static library)
 mpfr       (only as static library)
 mpc        (only as static library)
@@ -44,7 +43,5 @@ BSPJOB=4
 # environment file can be edited to select/unselect packages:
 export TOOLS_ENABLE_ESSENTIALS=y
 export TOOLS_ENABLE_CMAKE=y
-export TOOLS_ENABLE_GNUTOOLS=y
-export TOOLS_ENABLE_KCONFIG=y
 export TOOLS_ENABLE_GCC=y
 ```
