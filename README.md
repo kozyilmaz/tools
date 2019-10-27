@@ -10,10 +10,7 @@ autoconf
 automake
 libtool    (prefixed with 'g')
 pkg-config
-objconv
-fasm
 cmake
-coreutils  (only install and readlink)
 kconfig
 gmp        (only as static library)
 mpfr       (only as static library)

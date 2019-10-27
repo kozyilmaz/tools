@@ -6,13 +6,11 @@ endif
 ifeq ($(uname_S), Linux)
 TOOLS_ENABLE_ESSENTIALS ?= y
 TOOLS_ENABLE_CMAKE      ?= n
-TOOLS_ENABLE_GNUTOOLS   ?= n
 TOOLS_ENABLE_KCONFIG    ?= n
 TOOLS_ENABLE_GCC        ?= n
 else
 TOOLS_ENABLE_ESSENTIALS ?= y
 TOOLS_ENABLE_CMAKE      ?= n
-TOOLS_ENABLE_GNUTOOLS   ?= n
 TOOLS_ENABLE_KCONFIG    ?= n
 TOOLS_ENABLE_GCC        ?= n
 endif
@@ -27,10 +25,6 @@ subdir-${TOOLS_ENABLE_ESSENTIALS} = \
 # cmake (on macOS)
 subdir-${TOOLS_ENABLE_CMAKE} += \
 	cmake
-
-# gnu utils (on macOS)
-subdir-${TOOLS_ENABLE_GNUTOOLS} += \
-	coreutils
 
 # kconfig
 subdir-${TOOLS_ENABLE_KCONFIG} += \
@@ -54,9 +48,6 @@ pkgconfig_depends-y = \
 	libtool
 
 cmake_depends-y = \
-	pkgconfig
-
-coreutils_depends-y = \
 	pkgconfig
 
 kconfig_depends-y = \
