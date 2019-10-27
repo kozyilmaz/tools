@@ -3,7 +3,7 @@ target_name ?= gnugcc
 
 include ../Makefile.build
 
-GCC_VERSION="9.1.0"
+GCC_VERSION="9.2.0"
 
 ifeq      ($(HOST_PLATFORM),WINDOWS)
 HOST_GCC_FLAGS =
