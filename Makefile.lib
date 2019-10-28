@@ -47,6 +47,9 @@
 #   20180807 - fix circular dependency with complex makefile setup
 #   20181017 - fix subdir makeflag passing
 #   20190104 - add soname support
+#   20190701 - do not override depends-y
+#   20190702 - fix depends-y for subdirs
+#   20190806 - fix parallel compilation of ${target}_depends-y
 
 #
 # Example
@@ -316,6 +319,8 @@ pur_disp_clean            = echo "  CLEAN      $$(subst _clean,,$(pur_objects))"
 pur_disp_dist             = echo "  DIST       $(pur_objects)"
 pur_disp_distclean        = echo "  DISTCLEAN  $$(subst _distclean,,$(pur_objects))"
 
+pur_disp_print_deps       =
+
 #
 # VER
 #
@@ -367,6 +372,8 @@ ver_disp_clean            = echo "$(subst ",\",$(_cmd_clean) $1 .$1 $$@.cmd)"
 
 ver_disp_dist             = echo "$(subst ",\",$(_cmd_dist))"
 ver_disp_distclean        = echo "$(subst ",\",$(_cmd_distclean) $1 .$1 $$@.cmd)"
+
+ver_disp_print_deps       = echo "Target $$@ depends on prerequisites '$$^'"
 
 #
 # DISP
@@ -420,6 +427,8 @@ disp_clean                = $($(verbose)_disp_clean)
 disp_dist                 = $($(verbose)_disp_dist)
 disp_distclean            = $($(verbose)_disp_distclean)
 
+disp_print_deps           = $($(verbose)_disp_print_deps)
+
 #
 # _CMD
 #
@@ -430,9 +439,9 @@ _cmd_depend.c             = $(CC) $(__CFLAGS) $($1_cflags) \
                             $(MV) $$@.p $$@
 _cmd_compile.c            = $(CC) $(__CFLAGS) $($1_cflags) \
                             $$($1_$$<_cflags-y) $($1_includes) -c -o $$@ $$<
-_cmd_link.c               = $(CC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link.c               = $(CC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $(__LDFLAGS)
-_cmd_link_so.c            = $(CC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link_so.c            = $(CC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
 
 _cmd_depend.c.host        = $(HOSTCC) $(__CFLAGS) $($1_cflags) \
@@ -442,9 +451,9 @@ _cmd_depend.c.host        = $(HOSTCC) $(__CFLAGS) $($1_cflags) \
                             $(MV) $$@.p $$@
 _cmd_compile.c.host       = $(HOSTCC) $(__CFLAGS) $($1_cflags) \
                             $$($1_$$<_cflags-y) $($1_includes) -c -o $$@ $$<
-_cmd_link.c.host          = $(HOSTCC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link.c.host          = $(HOSTCC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $(__LDFLAGS)
-_cmd_link_so.c.host       = $(HOSTCC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link_so.c.host       = $(HOSTCC) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
 
 _cmd_depend.cxx           = $(CXX) $(__CXXFLAGS) $($1_cxxflags) \
@@ -454,9 +463,9 @@ _cmd_depend.cxx           = $(CXX) $(__CXXFLAGS) $($1_cxxflags) \
                             $(MV) $$@.p $$@
 _cmd_compile.cxx          = $(CXX) $(__CXXFLAGS) $($1_cxxflags) \
                             $$($1_$$<_cxxflags-y) $($1_includes) -c -o $$@ $$<
-_cmd_link.cxx             = $(CXX) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link.cxx             = $(CXX) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $(__LDFLAGS)
-_cmd_link_so.cxx          = $(CXX) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link_so.cxx          = $(CXX) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
 
 _cmd_depend.cxx.host      = $(HOSTCXX) $(__CXXFLAGS) $($1_cxxflags) \
@@ -466,9 +475,9 @@ _cmd_depend.cxx.host      = $(HOSTCXX) $(__CXXFLAGS) $($1_cxxflags) \
                             $(MV) $$@.p $$@
 _cmd_compile.cxx.host     = $(HOSTCXX) $(__CXXFLAGS) $($1_cxxflags) \
                             $$($1_$$<_cxxflags-y) $($1_includes) -c -o $$@ $$<
-_cmd_link.cxx.host        = $(HOSTCXX) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link.cxx.host        = $(HOSTCXX) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $(__LDFLAGS)
-_cmd_link_so.cxx.host     = $(HOSTCXX) $(__CXXFLAGS)$($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link_so.cxx.host     = $(HOSTCXX) $(__CXXFLAGS)$($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
 
 _cmd_moc.qt               = $(MOC) $($1_mocflags) $($1_includes) $$< -o $$@
@@ -484,9 +493,9 @@ _cmd_depend.m             = $(CC) $(__CXXFLAGS) $($1_cflags) $($1_cxxflags) \
                             $(MV) $$@.p $$@
 _cmd_compile.m            = $(CC) $(__CXXFLAGS) $($1_cflags) $($1_cxxflags) \
                             $$($1_$$<_cflags-y) $($1_includes) -c -o $$@ $$<
-_cmd_link.m               = $(CC) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link.m               = $(CC) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $(__LDFLAGS)
-_cmd_link_so.m            = $(CC) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link_so.m            = $(CC) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
 
 _cmd_depend.m.host        = $(HOSTCC) $(__CXXFLAGS) $($1_cflags) \
@@ -496,16 +505,16 @@ _cmd_depend.m.host        = $(HOSTCC) $(__CXXFLAGS) $($1_cflags) \
                             $(MV) $$@.p $$@
 _cmd_compile.m.host       = $(HOSTCC) $(__CXXFLAGS) $($1_cflags) \
                             $($1_cxxflags) $($1_includes) $$($1_$$<_cflags-y) -c -o $$@ $$<
-_cmd_link.m.host          = $(HOSTCC) $(__CXXFLAGS)  $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link.m.host          = $(HOSTCC) $(__CXXFLAGS)  $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $(__LDFLAGS)
-_cmd_link_so.m.host       = $(HOSTCC) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^) \
+_cmd_link_so.m.host       = $(HOSTCC) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
 
-_cmd_ar                   = $(AR) rcs $$@ $$(filter-out __FORCE $($1_depends-y),$$^)
+_cmd_ar                   = $(AR) rcs $$@ $$(filter-out __FORCE $($1_depends_y),$$^)
 _cmd_ranlib               = $(RANLIB) $$@
-_cmd_ld                   = $(LD) $(LDOPTS) -r -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^)
+_cmd_ld                   = $(LD) $(LDOPTS) -r -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^)
 
-_cmd_ld.host              = $(HOSTLD) $(LDOPTS) -r -o $$@ $$(filter-out __FORCE $($1_depends-y),$$^)
+_cmd_ld.host              = $(HOSTLD) $(LDOPTS) -r -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^)
 
 _cmd_cp                   = $(CP) $$< $$@
 _cmd_mkdir                = $(MKDIR) $@
@@ -618,6 +627,8 @@ do_clean                  = @$(disp_clean)            ; $(cmd_clean)
 do_dist                   = @$(disp_dist)             ; $(MKDIR) $$(dir $$@); $(cmd_dist)
 do_distclean              = @$(disp_distclean)        ; $(cmd_distclean)
 
+do_print_deps             = @$(disp_print_deps)
+
 #
 # Functions
 #
@@ -670,14 +681,21 @@ define target-defaults_base
     $(eval $1_depends_m    = $(subst ../,__UPDIR__/,$($1_depends_m)))
     $(eval $1_objects_m    = $(subst ../,__UPDIR__/,$($1_objects_m)))
 
+    $(eval $1_objects      = $($1_objects_c))
+    $(eval $1_objects     += $($1_objects_cc))
+    $(eval $1_objects     += $($1_objects_cpp))
+    $(eval $1_objects     += $($1_objects_moc))
+    $(eval $1_objects     += $($1_objects_m))
+
     $(eval $1_directories  = $(sort $(dir .$1/ $($1_objects_c) $($1_objects_cpp) $($1_objects_m) $($1_objects_moc))))
 
     $(eval $1_depends      = $(MAKEFILE_LIST) $($1_depends_c) $($1_depends_cc) $($1_depends_cpp) $($1_depends_m) $($1_depends_moc))
-    $(eval $1_depends-y   += $($1_depends))
+    $(eval $1_depends_y    = $($1_depends))
+    $(eval $1_depends_y   += $($1_depends-y))
     $(eval $1_depends-n   += $($1_headers_c))
     $(eval $1_depends-n   += $($1_headers_m))
     $(eval $1_depends-n   += $($1_headers_cxx))
-    $(eval $1_depends-y   += $($1_headers_uic))
+    $(eval $1_depends_y   += $($1_headers_uic))
 
     $(eval target-builds  += $1)
     $(eval target-objects += $($1_objects_c))
@@ -706,12 +724,15 @@ define target-defaults_base
     $($1_objects_m):   .$1/%.o: .$1/%.d $(MAKEFILE_LIST)
     $($1_objects_e):   $(MAKEFILE_LIST)
 
-    $(target-depends): $(filter-out $(target-builds) $($1_depends), $($1_depends-y))
+    $(target-depends): $(filter-out $(target-builds) $($1_depends), $($1_depends_y))
 
     $1: .$1/$1 $(MAKEFILE_LIST)
 	$(do_cp)
+	$(do_print_deps)
 
-    .$1/$1: $($1_depends-y) $($1_objects_c) $($1_objects_cc) $($1_objects_cpp) $($1_objects_moc) $($1_objects_m) $($1_objects_e)
+    .NOTPARALLEL: $($1_depends_y) $($1_objects_e) $($1_objects)
+
+    .$1/$1: $($1_depends_y) $($1_objects_e) $($1_objects)
 
     $1_clean: __FORCE
 	$(do_clean) $1 .$1 $$@.cmd $1.dSYM $($1_headers_uic)
@@ -776,6 +797,7 @@ ifeq ($($1_sources_cpp),)
 else
 	$(do_link.cxx)
 endif
+	$(do_print_deps)
 endef
 
 define target.host-variables
@@ -783,6 +805,7 @@ define target.host-variables
 
     .$1/$1:
 	$(do_link.c.host)
+	$(do_print_deps)
 endef
 
 define target.so-variables
@@ -794,6 +817,7 @@ ifeq ($($1_sources_cpp),)
 else
 	$(do_link_so.cxx)
 endif
+	$(do_print_deps)
 endef
 
 define target.so.host-variables
@@ -801,6 +825,7 @@ define target.so.host-variables
 
     .$1/$1:
 	$(do_link_so.c.host)
+	$(do_print_deps)
 endef
 
 define target.a-variables
@@ -809,6 +834,7 @@ define target.a-variables
     .$1/$1:
 	$(do_ar)
 	$(do_ranlib)
+	$(do_print_deps)
 endef
 
 define target.a.host-variables
@@ -817,6 +843,7 @@ define target.a.host-variables
     .$1/$1:
 	$(do_ar.host)
 	$(do_ranlib.host)
+	$(do_print_deps)
 endef
 
 define target.o-variables
@@ -824,6 +851,7 @@ define target.o-variables
 
     .$1/$1:
 	$(do_ld)
+	$(do_print_deps)
 endef
 
 define target.o.host-variables
@@ -831,6 +859,7 @@ define target.o.host-variables
 
     .$1/$1:
 	$(do_ld.host)
+	$(do_print_deps)
 endef
 
 define target_empty-defaults
@@ -842,38 +871,39 @@ endef
 
 define subdir_empty-defaults
     $(addsuffix _$2, $1): __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _$2,,$$@)' $2
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _$2,,$$@)' $2
 endef
 
 define subdir-defaults
     subdirs += $1
 
     $1: $1_all
+	$(do_print_deps)
 
     $(addsuffix _all, $1): $($1_depends-y) __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _all,,$$@)' all
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _all,,$$@)' all
+	$(do_print_deps)
 
-    $(addsuffix _clone, $1): $($1_depends-y) __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _clone,,$$@)' clone
+    $(addsuffix _clone, $1): __FORCE
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _clone,,$$@)' clone
 
-    $(addsuffix _config, $1): $($1_depends-y) __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _config,,$$@)' config
+    $(addsuffix _config, $1): __FORCE
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _config,,$$@)' config
 
-    $(addsuffix _build, $1): $($1_depends-y) __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _build,,$$@)' build
+    $(addsuffix _build, $1): __FORCE
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _build,,$$@)' build
 
     $(addsuffix _clean, $1): __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _clean,,$$@)' clean
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _clean,,$$@)' clean
 
     $(addsuffix _distclean, $1): __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _distclean,,$$@)' distclean
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _distclean,,$$@)' distclean
 
     $(addsuffix _install, $1): __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _install,,$$@)' install
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _install,,$$@)' install
 
     $(addsuffix _uninstall, $1): __FORCE
-	@+ $(MAKE) $($1_makeflags-y) -C '$$(subst _uninstall,,$$@)' uninstall
-
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _uninstall,,$$@)' uninstall
 endef
 
 define dist-defaults
