@@ -10,7 +10,7 @@ HOST_GCC_FLAGS =
 else ifeq ($(HOST_PLATFORM),LINUX)
 HOST_GCC_FLAGS =
 else ifeq ($(HOST_PLATFORM),MACOS)
-HOST_GCC_FLAGS = --with-sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk --with-native-system-header-dir=/usr/include
+HOST_GCC_FLAGS = --with-sysroot=$(shell xcrun --sdk macosx --show-sdk-path) --with-native-system-header-dir=/usr/include
 endif
 
 gnugcc_clone:
