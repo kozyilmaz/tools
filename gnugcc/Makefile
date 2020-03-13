@@ -3,7 +3,7 @@ target_name ?= gnugcc
 
 include ../Makefile.build
 
-GCC_VERSION="9.2.0"
+GCC_VERSION="9.3.0"
 
 ifeq      ($(HOST_PLATFORM),WINDOWS)
 HOST_GCC_FLAGS =
@@ -29,7 +29,7 @@ gnugcc_config:
 		--enable-languages=c,c++ \
 		--disable-multilib \
 		--disable-nls \
-		--program-suffix=-$(GCC_VERSION) \
+		--program-suffix=-gnu \
 		$(HOST_GCC_FLAGS) \
 	)
 
