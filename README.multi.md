@@ -14,6 +14,7 @@ $ git remote add tools-remote https://github.com/kozyilmaz/tools.git
 $ git subtree pull --prefix=tools/ --squash tools-remote master
 ```
 
+### Creating top-level Makefile targets/rules
 Alternatively `Makefile` targets like below can be used to keep track (check/update) of the `tools` subtree easily  
 ```sh
 tools-check:
@@ -31,6 +32,27 @@ endif
 	@git subtree pull --prefix=tools/ --squash tools-remote master
 ```
 
+
+A build dependency for `tools` can be injected as follows  
+```
+ifeq ($(BSPROOT),)
+    $(error You must first run 'source environment')
+endif
+
+TOOLSGOALS := clean distclean
+ifeq ($(filter $(TOOLSGOALS),$(MAKECMDGOALS)),)
+# check if 'tools' is already built, if not, add to subdir
+ifeq ($(shell if [ -e $(BSPTOOLS)/version.txt ]; then cat $(BSPTOOLS)/version.txt | cut -d '-' -f 1; fi),)
+subdir-y += tools
+endif
+else
+# add tools for 'clean' and 'distclean' anyway
+subdir-y += tools
+endif
+```
+
+
+### Creating top-level environment file
 Assuming `tools` is in the top directory of the project (`$PROJECT_DIR/tools`), then a shim `environment` file should be created in `$PROJECT_DIR` (example below)  
 ```sh
 #!/bin/sh
@@ -39,7 +61,7 @@ Assuming `tools` is in the top directory of the project (`$PROJECT_DIR/tools`), 
 source tools/environment $1
 ```
 
-### Linux and macOS
+## Linux and macOS
 ```sh
 $ source environment
 $ make all
@@ -48,7 +70,7 @@ $ PRINT_DEBUG=y make all
 ```
 Output directory will be `$PROJECT_DIR/release/x86_64`
 
-### iOS
+## iOS
 ```sh
 $ source environment ios-arm64
 $ make all
@@ -57,7 +79,7 @@ $ PRINT_DEBUG=y make all
 ```
 Output directory will be `$PROJECT_DIR/release/ios-arm64`
 
-### iOS Simulator
+## iOS Simulator
 ```sh
 $ source environment ios-sim
 $ make all
@@ -66,7 +88,7 @@ $ PRINT_DEBUG=y make all
 ```
 Output directory will be `$PROJECT_DIR/release/ios-sim`
 
-### Android (arm64-v8a, armeabi-v7a)
+## Android (arm64-v8a, armeabi-v7a)
 Please refer to [Android NDK README](https://developer.android.com/ndk/guides/other_build_systems) for `$NDK` and `$HOST_TAG` variables
 ```sh
 $ export ANDROID_NDK=$PATH_TO_NDK
