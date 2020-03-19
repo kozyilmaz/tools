@@ -45,3 +45,6 @@ export TOOLS_ENABLE_ESSENTIALS=y
 export TOOLS_ENABLE_CMAKE=y
 export TOOLS_ENABLE_GCC=y
 ```
+
+### Providing Multi-Platform Build Options
+* [How to include and use 'tools' as build option provider?](README.multi.md)
