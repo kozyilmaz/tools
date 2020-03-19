@@ -1,11 +1,112 @@
 #!/bin/sh
 
+# usage: source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64]
+ARG=$1
+
+if [[ -z "$ARG" ]]; then
+    echo "setting compiler for desktop platforms";
+elif [ "ios-arm64" == "$ARG" ]; then
+    echo "setting compiler for Apple iOS (only 64bit)";
+elif [ "ios-sim" == "$ARG" ]; then
+    echo "setting compiler for Apple iOS Simulator";
+elif [ "android-arm64-v8a" == "$ARG" ]; then
+    echo "setting compiler for Android arm64-v8a";
+elif [ "android-armeabi-v7a" == "$ARG" ]; then
+    echo "setting compiler for Android armeabi-v7a";
+elif [ "android-x86_64" == "$ARG" ]; then
+    echo "setting compiler for Android x86_64";
+else
+    echo "no suitable platform found, options are 'ios-arm64', 'ios-sim', 'android-arm64-v8a', 'android-armeabi-v7a', 'android-x86_64']"
+    return 1
+fi
+
+ANDROIDREGEX="^(android)"
+# check Android env vars
+if [[ "$ARG" =~ $ANDROIDREGEX ]]; then
+    echo "checking env vars for Android";
+    if [[ -z "$ANDROID_NDK" ]]; then
+        echo "ANDROID_NDK not defined! Example: 'export ANDROID_NDK=/usr/local/android-ndk-r21'";
+        return 1
+    fi
+    if [[ -z "$ANDROID_HOST_TAG" ]]; then
+        echo "ANDROID_HOST_TAG not defined! Example: 'export ANDROID_HOST_TAG=darwin-x86_64' for macOS";
+        return 1
+    fi
+    # sample ANDROID definitions and paths for macOS
+    # export ANDROID_NDK=/usr/local/android-ndk-r21
+    # export ANDROID_HOST_TAG=darwin-x86_64
+    echo "using ANDROID_NDK=$ANDROID_NDK";
+    echo "using ANDROID_HOST_TAG=$ANDROID_HOST_TAG";
+    export PATH=${ANDROID_NDK}/toolchains/llvm/prebuilt/${ANDROID_HOST_TAG}/bin:${PATH};
+    echo "using PATH=${PATH}";
+fi
+
+# common
 BSPJOB=4
-BSPTOOLS=`pwd`/o
+BSPROOT=$(cd $(dirname "${BASH_SOURCE[0]}") >/dev/null && pwd)
+
+# platform
+if [[ -z "$ARG" ]]; then
+    BSPCC=gcc
+    BSPCXX=g++
+    BSPHOST=
+    BSPPREFIX=
+    BSPCFLAGS=
+    BSPLDFLAGS=
+    BSPPLATFORM=x86_64
+elif [ "ios-arm64" == "$ARG" ]; then
+    BSPCC=$(xcrun --sdk iphoneos -f clang)
+    BSPCXX=$(xcrun --sdk iphoneos -f clang++)
+    BSPHOST="--host=aarch64-apple-darwin"
+    BSPPREFIX=
+    BSPCFLAGS="-arch arm64 -miphoneos-version-min=12.1 -isysroot $(xcrun --sdk iphoneos --show-sdk-path) -fno-common"
+    BSPLDFLAGS=
+    BSPPLATFORM=ios-arm64
+elif [ "ios-sim" == "$ARG" ]; then
+    BSPCC=$(xcrun --sdk iphonesimulator -f clang)
+    BSPCXX=$(xcrun --sdk iphonesimulator -f clang++)
+    BSPHOST="--host=x86_64-apple-darwin"
+    BSPPREFIX=
+    BSPCFLAGS="-arch x86_64 -miphonesimulator-version-min=12.1 -isysroot $(xcrun --sdk iphonesimulator --show-sdk-path)"
+    BSPLDFLAGS=
+    BSPPLATFORM=ios-sim
+elif [ "android-arm64-v8a" == "$ARG" ]; then
+    BSPCC=aarch64-linux-android21-clang
+    BSPCXX=aarch64-linux-android21-clang++
+    BSPHOST="--host aarch64-linux-android"
+    BSPPREFIX=aarch64-linux-android
+    BSPCFLAGS="-fPIC"
+    BSPLDFLAGS=
+    BSPPLATFORM=android-arm64-v8a
+elif [ "android-armeabi-v7a" == "$ARG" ]; then
+    BSPCC=armv7a-linux-androideabi21-clang
+    BSPCXX=armv7a-linux-androideabi21-clang++
+    BSPHOST="--host arm-linux-androideabi"
+    BSPPREFIX=arm-linux-androideabi
+    BSPCFLAGS="-fPIC"
+    BSPLDFLAGS=
+    BSPPLATFORM=android-armeabi-v7a
+elif [ "android-x86_64" == "$ARG" ]; then
+    BSPCC=x86_64-linux-android21-clang
+    BSPCXX=x86_64-linux-android21-clang++
+    BSPHOST="--host x86_64-linux-android"
+    BSPPREFIX=x86_64-linux-android
+    BSPCFLAGS="-fPIC"
+    BSPLDFLAGS=
+    BSPPLATFORM=android-x86_64
+fi
+
+# debugging & profiling
+BSPEXTRAFLAGS=
+
+# tools and output
+BSPTOOLS=${BSPROOT}/o
+BSPROOTFS=${BSPROOT}/../release/${BSPPLATFORM}
 PATH=${BSPTOOLS}/bin:${PATH}
 
-export BSPJOB BSPTOOLS PATH
+export BSPJOB BSPROOT BSPCC BSPCXX BSPHOST BSPPREFIX BSPCFLAGS BSPLDFLAGS BSPPLATFORM BSPEXTRAFLAGS BSPTOOLS BSPROOTFS PATH
 
+# tools selection
 export TOOLS_ENABLE_ESSENTIALS=y
 export TOOLS_ENABLE_CMAKE=y
 export TOOLS_ENABLE_GCC=y
