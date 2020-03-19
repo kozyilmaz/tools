@@ -15,26 +15,12 @@ $ git subtree pull --prefix=tools/ --squash tools-remote master
 ```
 
 ### Creating top-level Makefile targets/rules
-Alternatively `Makefile` targets like below can be used to keep track (check/update) of the `tools` subtree easily  
+Alternatively `Makefile` targets can be used to keep track (check/update) of the `tools` subtree  
+In addition, a build dependency for `tools` can be added on top of the project `Makefile`  
+
+Below is a template for the top-level `Makefile` for a project that wants to use `tools`
+
 ```sh
-tools-check:
-	@echo "  CHECK      tools"
-	@git fetch https://github.com/kozyilmaz/tools.git master
-	@$(TOPDIR)/tools/contrib/devtools/git-subtree-check.sh tools
-
-tools-update:
-	@echo "  UPDATE     tools"
-ifeq ($(shell git remote -v |grep '\<tools-remote\>'),)
-	@git remote add tools-remote https://github.com/kozyilmaz/tools.git
-else
-	@git remote set-url tools-remote https://github.com/kozyilmaz/tools.git
-endif
-	@git subtree pull --prefix=tools/ --squash tools-remote master
-```
-
-
-A build dependency for `tools` can be injected as follows  
-```
 ifeq ($(BSPROOT),)
     $(error You must first run 'source environment')
 endif
@@ -49,6 +35,46 @@ else
 # add tools for 'clean' and 'distclean' anyway
 subdir-y += tools
 endif
+
+subdir-${ANY_ENV_VAR} += \
+	package_dir_to_be_built
+
+include Makefile.lib
+
+tools-check:
+	@echo "  CHECK      tools"
+	@git fetch https://github.com/kozyilmaz/tools.git master
+	@$(TOPDIR)/tools/contrib/devtools/git-subtree-check.sh tools
+
+tools-update:
+	@echo "  UPDATE     tools"
+ifeq ($(shell git remote -v |grep '\<tools-remote\>'),)
+	@git remote add tools-remote https://github.com/kozyilmaz/tools.git
+else
+	@git remote set-url tools-remote https://github.com/kozyilmaz/tools.git
+endif
+	@git subtree pull --prefix=tools/ --squash tools-remote master
+
+clone:
+	@true
+
+config:
+	@true
+
+build:
+	@true
+
+install:
+	@true
+
+uninstall:
+	@true
+
+clean:
+	@true
+
+distclean: clean
+	@true
 ```
 
 
