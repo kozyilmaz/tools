@@ -61,7 +61,9 @@ Assuming `tools` is in the top directory of the project (`$PROJECT_DIR/tools`), 
 source tools/environment $1
 ```
 
-## Linux and macOS
+## Providing build options
+
+### Linux and macOS
 ```sh
 $ source environment
 $ make all
@@ -70,7 +72,7 @@ $ PRINT_DEBUG=y make all
 ```
 Output directory will be `$PROJECT_DIR/release/x86_64`
 
-## iOS
+### iOS
 ```sh
 $ source environment ios-arm64
 $ make all
@@ -79,7 +81,7 @@ $ PRINT_DEBUG=y make all
 ```
 Output directory will be `$PROJECT_DIR/release/ios-arm64`
 
-## iOS Simulator
+### iOS Simulator
 ```sh
 $ source environment ios-sim
 $ make all
@@ -88,7 +90,7 @@ $ PRINT_DEBUG=y make all
 ```
 Output directory will be `$PROJECT_DIR/release/ios-sim`
 
-## Android (arm64-v8a, armeabi-v7a)
+### Android (arm64-v8a, armeabi-v7a)
 Please refer to [Android NDK README](https://developer.android.com/ndk/guides/other_build_systems) for `$NDK` and `$HOST_TAG` variables
 ```sh
 $ export ANDROID_NDK=$PATH_TO_NDK
