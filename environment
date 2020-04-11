@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# usage: source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64]
+# usage: source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64, mingw-w64]
 ARG=$1
 
 if [[ -z "$ARG" ]]; then
@@ -15,8 +15,10 @@ elif [ "android-armeabi-v7a" == "$ARG" ]; then
     echo "setting compiler for Android armeabi-v7a";
 elif [ "android-x86_64" == "$ARG" ]; then
     echo "setting compiler for Android x86_64";
+elif [ "mingw-w64" == "$ARG" ]; then
+    echo "setting compiler for Windows x86_64";
 else
-    echo "no suitable platform found, options are 'ios-arm64', 'ios-sim', 'android-arm64-v8a', 'android-armeabi-v7a', 'android-x86_64']"
+    echo "no suitable platform found, options are 'ios-arm64', 'ios-sim', 'android-arm64-v8a', 'android-armeabi-v7a', 'android-x86_64', 'mingw-w64']"
     return 1
 fi
 
@@ -94,6 +96,14 @@ elif [ "android-x86_64" == "$ARG" ]; then
     BSPCFLAGS="-fPIC"
     BSPLDFLAGS=
     BSPPLATFORM=android-x86_64
+elif [ "mingw-w64" == "$ARG" ]; then
+    BSPCC=x86_64-w64-mingw32-gcc
+    BSPCXX=x86_64-w64-mingw32-g++
+    BSPHOST="--host x86_64-w64-mingw32"
+    BSPPREFIX=x86_64-w64-mingw32
+    BSPCFLAGS="-fPIC"
+    BSPLDFLAGS=
+    BSPPLATFORM=mingw-w64
 fi
 
 # debugging & profiling
