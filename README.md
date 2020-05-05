@@ -15,7 +15,7 @@ gmp        (only as static library)
 mpfr       (only as static library)
 mpc        (only as static library)
 isl        (only as static library)
-gcc        (suffixed with version)
+gcc        (suffixed with '-gnu')
 ```
 
 ### Build instructions
@@ -47,4 +47,4 @@ export TOOLS_ENABLE_GCC=y
 ```
 
 ### Providing Multi-Platform Build Options
-* [How to include and use 'tools' as build option provider?](README.multi.md)
+* [How to include and use 'tools' as build option provider?](documents/README.multi.md)

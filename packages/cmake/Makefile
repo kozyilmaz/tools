@@ -1,11 +1,11 @@
 
 target_name ?= cmake
 
-include ../Makefile.build
+include ../../Makefile.build
 
 CMAKE_MAJOR=3
-CMAKE_MINOR=16
-CMAKE_MICRO=5
+CMAKE_MINOR=17
+CMAKE_MICRO=2
 CMAKE_VERSION=$(CMAKE_MAJOR).$(CMAKE_MINOR).$(CMAKE_MICRO)
 
 cmake_clone:
@@ -15,7 +15,7 @@ cmake_clone:
 cmake_config:
 	( cd cmake-$(CMAKE_VERSION); \
 		CC=gcc CFLAGS="" CXXFLAGS="" \
-		./bootstrap --parallel=${BSPJOB} --prefix=${BSPTOOLS} --no-qt-gui; \
+		./bootstrap --parallel=${BSPJOB} --prefix=${BSPTOOLS} --no-qt-gui -- -DCMAKE_USE_OPENSSL=OFF; \
 	)
 
 cmake_build:

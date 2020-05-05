@@ -1,7 +1,7 @@
 
 target_name ?= autoconf
 
-include ../Makefile.build
+include ../../Makefile.build
 
 AUTOCONF_VERSION="2.69"
 

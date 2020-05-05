@@ -1,7 +1,7 @@
 
 target_name ?= gnugcc
 
-include ../Makefile.build
+include ../../Makefile.build
 
 GCC_VERSION="9.3.0"
 

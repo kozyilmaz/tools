@@ -1,7 +1,7 @@
 
 target_name ?= libtool
 
-include ../Makefile.build
+include ../../Makefile.build
 
 LIBTOOL_VERSION="2.4.6"
 
