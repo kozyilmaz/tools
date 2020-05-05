@@ -1,7 +1,7 @@
 
 target_name ?= pkgconfig
 
-include ../Makefile.build
+include ../../Makefile.build
 
 PKGCONFIG_VERSION="0.29.2"
 

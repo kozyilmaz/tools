@@ -3,65 +3,15 @@ ifeq ($(BSPTOOLS),)
     $(error You must first run 'source environment')
 endif
 
-ifeq ($(uname_S), Linux)
-TOOLS_ENABLE_ESSENTIALS ?= y
-TOOLS_ENABLE_CMAKE      ?= n
-TOOLS_ENABLE_GCC        ?= n
-else
-TOOLS_ENABLE_ESSENTIALS ?= y
-TOOLS_ENABLE_CMAKE      ?= n
-TOOLS_ENABLE_GCC        ?= n
-endif
+# platform native tools
+subdir-y = \
+	host
 
-# essentials
-subdir-${TOOLS_ENABLE_ESSENTIALS} = \
-	autoconf \
-	automake \
-	libtool \
-	pkgconfig
-
-# cmake (on macOS)
-subdir-${TOOLS_ENABLE_CMAKE} += \
-	cmake
-
-# gcc (on macOS)
-subdir-${TOOLS_ENABLE_GCC} += \
-	gmp \
-	mpfr \
-	mpc \
-	isl \
-	gnugcc
-
-automake_depends-y = \
-	autoconf
-
-libtool_depends-y = \
-	automake
-
-pkgconfig_depends-y = \
-	libtool
-
-cmake_depends-y = \
-	pkgconfig
-
-gmp_depends-y = \
-	pkgconfig
-
-mpfr_depends-y = \
-	gmp
-
-mpc_depends-y = \
-	mpfr
-
-isl_depends-y = \
-	mpc
-
-gnugcc_depends-y = \
-	isl
-
-# version file created last!
 subdir-y += \
 	version
+
+version_depends-y = \
+	host
 
 include Makefile.lib
 

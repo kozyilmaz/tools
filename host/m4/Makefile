@@ -1,7 +1,7 @@
 
 target_name ?= m4
 
-include ../Makefile.build
+include ../../Makefile.build
 
 M4_VERSION="1.4.18"
 

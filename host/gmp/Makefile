@@ -1,13 +1,13 @@
 
 target_name ?= gmp
 
-include ../Makefile.build
+include ../../Makefile.build
 
 GMP_VERSION="6.2.0"
 
 gmp_clone:
-	if [ ! -f "gmp-$(GMP_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/gmp/gmp-$(GMP_VERSION).tar.bz2; fi;
-	if [ ! -d "gmp-$(GMP_VERSION)" ]; then tar xzf gmp-$(GMP_VERSION).tar.bz2; fi
+	if [ ! -f "gmp-$(GMP_VERSION).tar.bz2" ]; then curl -OL https://ftpmirror.gnu.org/gmp/gmp-$(GMP_VERSION).tar.bz2; fi;
+	if [ ! -d "gmp-$(GMP_VERSION)" ]; then tar xjf gmp-$(GMP_VERSION).tar.bz2; fi
 
 gmp_config:
 	( cd gmp-$(GMP_VERSION); CFLAGS="" CXXFLAGS="" ./configure --prefix=${BSPTOOLS} --with-pic --enable-cxx --enable-static --disable-shared; )

@@ -1,7 +1,7 @@
 
 target_name ?= mpc
 
-include ../Makefile.build
+include ../../Makefile.build
 
 MPC_VERSION="1.1.0"
 
