@@ -47,4 +47,4 @@ export TOOLS_ENABLE_GCC=y
 ```
 
 ### Providing Multi-Platform Build Options
-* [How to include and use 'tools' as build option provider?](README.multi.md)
+* [How to include and use 'tools' as build option provider?](documents/README.multi.md)
