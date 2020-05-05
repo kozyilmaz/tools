@@ -3,9 +3,8 @@ ifeq ($(BSPTOOLS),)
     $(error You must first run 'source environment')
 endif
 
-# platform native tools
 subdir-y = \
-	host
+	packages
 
 subdir-y += \
 	version
