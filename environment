@@ -53,7 +53,7 @@ if [[ -z "$ARG" ]]; then
     BSPCXX=g++
     BSPHOST=
     BSPPREFIX=
-    BSPCFLAGS=
+    BSPCFLAGS="-fPIC"
     BSPLDFLAGS=
     BSPPLATFORM=x86_64
 elif [ "ios-arm64" == "$ARG" ]; then
