@@ -10,7 +10,7 @@ subdir-y += \
 	version
 
 version_depends-y = \
-	host
+	packages
 
 include Makefile.lib
 
