@@ -9,7 +9,7 @@ $ git subtree add --prefix=tools/ --squash tools master
 ### check subtree after clean clone
 ```
 $ git fetch https://github.com/kozyilmaz/tools.git master
-$ ./contrib/devtools/git-subtree-check.sh tools
+$ ./scripts/git-subtree-check.sh tools
 ```
 
 ### sync subtree repositories
@@ -64,7 +64,7 @@ $ git remote add libmakefile https://github.com/kozyilmaz/libmakefile.git
 $ git subtree add --prefix=libmakefile/ --squash libmakefile buildsystem
 # check
 $ git fetch https://github.com/kozyilmaz/libmakefile.git buildsystem
-$ ./contrib/devtools/git-subtree-check.sh libmakefile
+$ ./scripts/git-subtree-check.sh libmakefile
 # sync
 $ git remote add libmakefile-remote https://github.com/kozyilmaz/libmakefile.git
 $ git subtree pull --prefix=libmakefile/ --squash libmakefile-remote buildsystem

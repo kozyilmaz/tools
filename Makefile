@@ -17,7 +17,7 @@ include Makefile.lib
 libmakefile-check:
 	@echo "  CHECK      libmakefile"
 	@git fetch https://github.com/kozyilmaz/libmakefile.git buildsystem
-	@$(TOPDIR)/contrib/devtools/git-subtree-check.sh libmakefile
+	@$(TOPDIR)/scripts/git-subtree-check.sh libmakefile
 
 libmakefile-update:
 	@echo "  UPDATE     libmakefile"
