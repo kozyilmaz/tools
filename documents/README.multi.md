@@ -8,7 +8,7 @@ $ git remote add tools https://github.com/kozyilmaz/tools.git
 $ git subtree add --prefix=tools/ --squash tools master
 # check tools subtree updates
 $ git fetch https://github.com/kozyilmaz/tools.git master
-$ ./contrib/devtools/git-subtree-check.sh tools
+$ ./scripts/git-subtree-check.sh tools
 # sync tools subtree with tools/master
 $ git remote add tools-remote https://github.com/kozyilmaz/tools.git
 $ git subtree pull --prefix=tools/ --squash tools-remote master
@@ -44,7 +44,7 @@ include Makefile.lib
 tools-check:
 	@echo "  CHECK      tools"
 	@git fetch https://github.com/kozyilmaz/tools.git master
-	@$(TOPDIR)/tools/contrib/devtools/git-subtree-check.sh tools
+	@$(TOPDIR)/tools/scripts/git-subtree-check.sh tools
 
 tools-update:
 	@echo "  UPDATE     tools"
