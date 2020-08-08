@@ -50,6 +50,7 @@
 #   20190701 - do not override depends-y
 #   20190702 - fix depends-y for subdirs
 #   20190806 - fix parallel compilation of ${target}_depends-y
+#   20200627 - uniq files
 
 #
 # Example
@@ -954,35 +955,35 @@ endef
 
 # generate target variables
 
-$(eval $(foreach T,$(target-y), $(eval $(call target-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target-y), $(eval $(call target-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.o-y), $(eval $(call target.o-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.o-y), $(eval $(call target.o-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.o-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.o-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.a-y), $(eval $(call target.a-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.a-y), $(eval $(call target.a-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.a-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.a-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.so-y), $(eval $(call target.so-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.so-y), $(eval $(call target.so-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.so-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.so-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.host-y), $(eval $(call target.host-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.host-y), $(eval $(call target.host-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.host-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.host-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.o.host-y), $(eval $(call target.o.host-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.o.host-y), $(eval $(call target.o.host-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.o.host-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.o.host-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.so.host-y), $(eval $(call target.so.host-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.so.host-y), $(eval $(call target.so.host-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.so.host-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.so.host-),  $(eval $(call target_empty-defaults,$T))))
 
-$(eval $(foreach T,$(target.a.host-y), $(eval $(call target.a.host-variables,$T,$($T_files-y)))))
+$(eval $(foreach T,$(target.a.host-y), $(eval $(call target.a.host-variables,$T,$(sort $($T_files-y))))))
 $(eval $(foreach T,$(target.a.host-n), $(eval $(call target_empty-defaults,$T))))
 $(eval $(foreach T,$(target.a.host-),  $(eval $(call target_empty-defaults,$T))))
 
