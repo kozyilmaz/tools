@@ -13,13 +13,10 @@ subdir-${DEPENDS_ENABLE_ZLIB} += \
 
 # openssl
 subdir-${DEPENDS_ENABLE_OPENSSL} += \
-	zlib \
 	openssl
 
 # curl
 subdir-${DEPENDS_ENABLE_CURL} += \
-	zlib \
-	openssl \
 	curl
 
 
@@ -28,8 +25,7 @@ openssl_depends-y = \
 	zlib
 
 curl_depends-y = \
-	openssl \
-	zlib
+	openssl
 
 
 include ../Makefile.lib
