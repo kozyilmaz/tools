@@ -21,7 +21,6 @@ ifeq ($(shell git diff),)
 	@${BSPSUDO} sh -c "echo '$(GIT_TAG)' >> ${BSPTOOLS}/version.txt"
 else
 	@${BSPSUDO} sh -c "echo '$(GIT_REV)-dirty' > ${BSPTOOLS}/version.txt"
-	@${BSPSUDO} sh -c "echo '$(GIT_TAG)' >> ${BSPTOOLS}/version.txt"
 endif
 
 version_uninstall:
