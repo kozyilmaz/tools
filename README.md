@@ -37,7 +37,7 @@ $ cd tools
 $ source environment
 $ PRINT_DEBUG=y make all
 
-# environment file can be edited to increase/decrease parallel jobs
+# environment file can be edited to increase/decrease parallel jobs (default autodetect)
 BSPJOB=4
 
 # environment file can be edited to select/unselect tools:
@@ -47,4 +47,4 @@ export TOOLS_ENABLE_GCC=y
 ```
 
 ### Providing Multi-Platform Build Options
-* [How to include and use 'tools' as build option provider?](documents/README.multi.md)
+* [How to include and use 'tools' as build option provider and utilize 'depends' packages?](documents/README.multi.md)
