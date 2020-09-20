@@ -58,10 +58,10 @@ openssl_build:
 	make -C openssl-$(OPENSSL_VERSION) -j ${BSPJOB}
 
 openssl_install:
-	make -C openssl-$(OPENSSL_VERSION) install_sw
+	${BSPSUDO} make -C openssl-$(OPENSSL_VERSION) install_sw
 
 openssl_uninstall:
-	make -C openssl-$(OPENSSL_VERSION) uninstall_sw
+	${BSPSUDO} make -C openssl-$(OPENSSL_VERSION) uninstall_sw
 
 openssl_clean:
 	rm -rf openssl-$(OPENSSL_VERSION)

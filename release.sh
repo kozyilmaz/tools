@@ -52,9 +52,8 @@ shasum -a 256 tools-$release_version.tar.bz2 > tools-$release_version.tar.bz2.ha
 shasum -a 256 -c tools-$release_version.tar.bz2.hash
 
 # depends build for all archs
-# set env for an arch
-#source environment;
 # loop for every arch
+#source environment XXX;
 #export BSPSUDO=sudo;
 #export BSPTOOLS=/usr/local/tools-$release_version;
 #export BSPROOTFS=/usr/local/depends-$release_version/${BSPPLATFORM};

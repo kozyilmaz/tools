@@ -26,10 +26,10 @@ zlib_build:
 	make -C zlib-$(ZLIB_VERSION) -j ${BSPJOB}
 
 zlib_install:
-	make -C zlib-$(ZLIB_VERSION) install
+	${BSPSUDO} make -C zlib-$(ZLIB_VERSION) install
 
 zlib_uninstall:
-	make -C zlib-$(ZLIB_VERSION) uninstall
+	${BSPSUDO} make -C zlib-$(ZLIB_VERSION) uninstall
 
 zlib_clean:
 	rm -rf zlib-$(ZLIB_VERSION)

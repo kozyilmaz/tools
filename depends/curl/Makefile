@@ -42,10 +42,10 @@ curl_build:
 	make -C curl-$(CURL_VERSION) -j ${BSPJOB}
 
 curl_install:
-	make -C curl-$(CURL_VERSION) install
+	${BSPSUDO} make -C curl-$(CURL_VERSION) install
 
 curl_uninstall:
-	make -C curl-$(CURL_VERSION) uninstall
+	${BSPSUDO} make -C curl-$(CURL_VERSION) uninstall
 
 curl_clean:
 	rm -rf curl-$(CURL_VERSION)
