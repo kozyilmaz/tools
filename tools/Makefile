@@ -12,7 +12,7 @@ TOOLS_ENABLE_GCC        ?= n
 # therefore,
 # if m4 is not available, it is built (out-of-the-box Linux)
 # libtool is built with 'g' prefix on all platforms
-ifeq ($(shell command -v m4),)
+ifeq ($(shell command -v sed;),)
 subdir-y = \
 	m4
 endif
