@@ -87,6 +87,33 @@ Assuming `tools` is in the top directory of the project (`$PROJECT_DIR/tools`), 
 source tools/environment $1
 ```
 
+
+### Using 'depends' packages and customize requirements
+Assuming `tools` is in the top directory of the project (`$PROJECT_DIR/tools`), ready-made dependency packages can be compiled and used for all the supported archs by creating a soft link to `depends` folder (example below)  
+```sh
+$ cd $PROJECT_DIR
+$ ln -s tools/templates/ depends
+```
+
+Packages can be selected on/off via top-level environment file
+```sh
+#!/bin/sh
+
+# usage: source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64]
+source tools/environment $1
+
+# tools selection
+export TOOLS_ENABLE_ESSENTIALS=y
+export TOOLS_ENABLE_CMAKE=y
+export TOOLS_ENABLE_GCC=n
+
+# depends selection
+export DEPENDS_ENABLE_ZLIB=y
+export DEPENDS_ENABLE_OPENSSL=y
+export DEPENDS_ENABLE_CURL=n
+```
+
+
 ## Providing build options
 
 ### Linux and macOS
