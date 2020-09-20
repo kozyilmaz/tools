@@ -1,7 +1,7 @@
 
 target_name ?= zlib
 
-include ../Makefile.build
+include ../../Makefile.build
 
 ZLIB_VERSION=1.2.11
 

@@ -1,7 +1,7 @@
 
 target_name ?= curl
 
-include ../Makefile.build
+include ../../Makefile.build
 
 CURL_VERSION=7.72.0
 

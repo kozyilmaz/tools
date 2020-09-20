@@ -1,7 +1,7 @@
 
 target_name ?= openssl
 
-include ../Makefile.build
+include ../../Makefile.build
 
 OPENSSL_MAJOR=1
 OPENSSL_MINOR=1
