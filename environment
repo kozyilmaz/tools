@@ -44,7 +44,7 @@ if [[ "$ARG" =~ $ANDROIDREGEX ]]; then
 fi
 
 # common
-BSPJOB=4
+BSPJOB=$(getconf _NPROCESSORS_ONLN)
 BSPROOT=$(cd $(dirname "${BASH_SOURCE[0]}") >/dev/null && pwd)
 
 # platform
@@ -110,7 +110,7 @@ fi
 BSPEXTRAFLAGS=
 
 # tools and output
-BSPTOOLS=${BSPROOT}/o
+BSPTOOLS=${BSPROOT}/tools-out
 BSPROOTFS=${BSPROOT}/../release/${BSPPLATFORM}
 PATH=${BSPTOOLS}/bin:${PATH}
 

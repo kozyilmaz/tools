@@ -4,13 +4,13 @@ ifeq ($(BSPTOOLS),)
 endif
 
 subdir-y = \
-	packages
+	tools
 
 subdir-y += \
 	version
 
 version_depends-y = \
-	packages
+	tools
 
 include Makefile.lib
 

@@ -4,7 +4,7 @@ This repository builds most used GNU tools for macOS
 No additional dependency required except Xcode Command Line Tools  
 All build tools are compiled from scratch with native macOS `clang`  
 
-### Available packages
+### Available Tools
 ```
 autoconf
 automake
@@ -40,7 +40,7 @@ $ PRINT_DEBUG=y make all
 # environment file can be edited to increase/decrease parallel jobs
 BSPJOB=4
 
-# environment file can be edited to select/unselect packages:
+# environment file can be edited to select/unselect tools:
 export TOOLS_ENABLE_ESSENTIALS=y
 export TOOLS_ENABLE_CMAKE=y
 export TOOLS_ENABLE_GCC=y
