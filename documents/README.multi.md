@@ -110,7 +110,7 @@ export TOOLS_ENABLE_GCC=n
 # depends selection
 export DEPENDS_ENABLE_ZLIB=y
 export DEPENDS_ENABLE_OPENSSL=y
-export DEPENDS_ENABLE_CURL=n
+export DEPENDS_ENABLE_CURL=y
 ```
 
 
