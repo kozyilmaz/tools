@@ -42,6 +42,7 @@ make all
 echo "'tools-$release_version' is installed with root priviliges under ${BSPTOOLS}"
 
 # modify version info
+${BSPSUDO} sh -c "echo 'release script:' >> ${BSPTOOLS}/version.txt"
 ${BSPSUDO} sh -c "echo '$git_rev_string' >> ${BSPTOOLS}/version.txt"
 ${BSPSUDO} sh -c "echo '$git_tag_string' >> ${BSPTOOLS}/version.txt"
 
