@@ -33,7 +33,6 @@ echo "creating 'tools-$release_version' release"
 
 # prepare environment
 source environment;
-export BSPJOB=16;
 export BSPSUDO=sudo;
 export BSPTOOLS=/usr/local/tools-$release_version;
 export PATH=${BSPTOOLS}/bin:${PATH};
@@ -51,3 +50,14 @@ echo "creating tools tarball 'tools-$release_version.tar.bz2' and checksum"
 tar -cjvf tools-$release_version.tar.bz2 ${BSPTOOLS}
 shasum -a 256 tools-$release_version.tar.bz2 > tools-$release_version.tar.bz2.hash
 shasum -a 256 -c tools-$release_version.tar.bz2.hash
+
+# depends build for all archs
+# set env for an arch
+#source environment;
+# loop for every arch
+#export BSPSUDO=sudo;
+#export BSPTOOLS=/usr/local/tools-$release_version;
+#export BSPROOTFS=/usr/local/depends-$release_version/${BSPPLATFORM};
+#export PATH=${BSPTOOLS}/bin:${PATH};
+#make -C depends
+#make -C depends clean
