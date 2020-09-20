@@ -110,7 +110,7 @@ fi
 BSPEXTRAFLAGS=
 
 # tools and output
-BSPTOOLS=${BSPROOT}/o
+BSPTOOLS=${BSPROOT}/tools-out
 BSPROOTFS=${BSPROOT}/../release/${BSPPLATFORM}
 PATH=${BSPTOOLS}/bin:${PATH}
 
