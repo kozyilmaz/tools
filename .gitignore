@@ -1,2 +1,3 @@
 # do not show binary directory
 tools-out
+depends-out
