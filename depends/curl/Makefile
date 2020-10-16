@@ -3,7 +3,7 @@ target_name ?= curl
 
 include ../../Makefile.build
 
-CURL_VERSION=7.72.0
+CURL_VERSION=7.73.0
 
 curl_clone:
 	if [ ! -f "curl-$(CURL_VERSION).tar.gz" ]; then curl -OL https://curl.haxx.se/download/curl-$(CURL_VERSION).tar.gz; fi
