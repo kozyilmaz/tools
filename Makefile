@@ -27,3 +27,11 @@ else
 	@git remote set-url libmakefile-remote https://github.com/kozyilmaz/libmakefile.git
 endif
 	@git subtree pull --prefix=libmakefile/ --squash libmakefile-remote buildsystem
+
+depends-build:
+	@echo "  COMPILE    depends"
+	@make -C depends
+
+depends-clean:
+	@echo "  CLEAN      depends"
+	@make -C depends clean
