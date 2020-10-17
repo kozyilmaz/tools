@@ -93,7 +93,7 @@ Packages can be selected on/off via top-level environment file
 ```sh
 #!/bin/sh
 
-# usage: source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64]
+# usage: source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64, mingw-w64]
 source tools/environment $1
 
 # tools selection
