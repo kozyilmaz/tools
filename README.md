@@ -39,7 +39,7 @@ $ make
 
 # compile packages for a specific arch
 $ source environment [optional: ios-arm64, ios-sim, android-arm64-v8a, android-armeabi-v7a, android-x86_64, mingw-w64]
-$ make packages
+$ make packages-build
 ```
 
 ### Fine Tuning and Debugging

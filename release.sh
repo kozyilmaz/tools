@@ -59,5 +59,5 @@ shasum -a 256 -c tools-$release_version.tar.bz2.hash
 #export BSPTOOLS=/usr/local/tools-$release_version;
 #export BSPROOTFS=/usr/local/packages-$release_version/${BSPPLATFORM};
 #export PATH=${BSPTOOLS}/bin:${PATH};
-#make packages
+#make packages-build
 #make packages-clean
