@@ -28,7 +28,7 @@ else
 endif
 	@git subtree pull --prefix=libmakefile/ --squash libmakefile-remote buildsystem
 
-packages-build:
+packages:
 	@echo "  COMPILE    packages"
 	@make -C packages
 
