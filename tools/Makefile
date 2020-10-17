@@ -12,7 +12,14 @@ TOOLS_ENABLE_GCC        ?= n
 # therefore,
 # if m4 is not available, it is built (out-of-the-box Linux)
 # libtool is built with 'g' prefix on all platforms
+
+# check for m4 presence, add if not
 ifeq ($(shell command -v m4;),)
+subdir-y = \
+	m4
+endif
+# for distclean inclusion
+ifneq ($(findstring $(BSPTOOLS)/bin/m4,$(shell command -v m4;)),)
 subdir-y = \
 	m4
 endif
