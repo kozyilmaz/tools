@@ -1,8 +1,8 @@
-# GNU Tools for macOS
+# GNU Tools for macOS/Linux
 
-This repository builds most used GNU tools for macOS  
-No additional dependency required except Xcode Command Line Tools  
-All build tools are compiled from scratch with native macOS `clang`  
+This repository builds most used GNU tools for macOS and Linux  
+No additional dependency required except Xcode Command Line Tools for macOS  
+All build tools are compiled from scratch with native macOS `clang` and Linux `gcc`  
 
 ### Available Tools
 ```
@@ -20,7 +20,7 @@ gcc        (suffixed with '-gnu')
 
 ### Build instructions
 ```shell
-# run once to install Xcode CLI tools
+# run once to install Xcode CLI tools for macOS
 $ xcode-select --install
 
 # clone and build tools
