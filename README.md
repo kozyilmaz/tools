@@ -59,4 +59,4 @@ export TOOLS_ENABLE_GCC=y
 ```
 
 ### Providing Multi-Platform Build Options
-* [How to include and use 'tools' as a build system and compile GNU tools and packages for various architectures?](documents/README.multi.md)
+* [How to use 'tools' as a build system (as a subtree), to compile GNU tools/create SDKs for various architectures?](documents/README.multi.md)
