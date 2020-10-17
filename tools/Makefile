@@ -4,8 +4,8 @@ ifeq ($(BSPTOOLS),)
 endif
 
 TOOLS_ENABLE_ESSENTIALS ?= y
-TOOLS_ENABLE_CMAKE      ?= n
-TOOLS_ENABLE_GCC        ?= n
+TOOLS_ENABLE_CMAKE      ?= y
+TOOLS_ENABLE_GCC        ?= y
 
 # macOS does have m4 and libtool by default
 # Linux does not have any tools by default
