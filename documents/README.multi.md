@@ -36,9 +36,9 @@ else
 subdir-y += tools
 endif
 
-subdir-${ANY_ENV_VAR} += \
+subdir-y += \
 	tools/packages \
-	package_dir_to_be_built
+	any_dir_to_be_built
 
 include Makefile.lib
 
