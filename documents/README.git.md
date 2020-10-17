@@ -1,4 +1,4 @@
-# Tools
+# Git Cheatsheet
 
 ### add subtree to project
 ```

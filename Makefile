@@ -28,10 +28,10 @@ else
 endif
 	@git subtree pull --prefix=libmakefile/ --squash libmakefile-remote buildsystem
 
-depends-build:
-	@echo "  COMPILE    depends"
-	@make -C depends
+packages-build:
+	@echo "  COMPILE    packages"
+	@make -C packages
 
-depends-clean:
-	@echo "  CLEAN      depends"
-	@make -C depends clean
+packages-clean:
+	@echo "  CLEAN      packages"
+	@make -C packages clean

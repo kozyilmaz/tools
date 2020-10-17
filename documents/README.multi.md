@@ -37,6 +37,7 @@ subdir-y += tools
 endif
 
 subdir-${ANY_ENV_VAR} += \
+	tools/packages \
 	package_dir_to_be_built
 
 include Makefile.lib
@@ -88,13 +89,6 @@ source tools/environment $1
 ```
 
 
-### Using 'depends' packages and customize requirements
-Assuming `tools` is in the top directory of the project (`$PROJECT_DIR/tools`), ready-made dependency packages can be compiled and used for all the supported archs by creating a soft link to `depends` folder (example below)  
-```sh
-$ cd $PROJECT_DIR
-$ ln -s tools/templates/ depends
-```
-
 Packages can be selected on/off via top-level environment file
 ```sh
 #!/bin/sh
@@ -108,9 +102,9 @@ export TOOLS_ENABLE_CMAKE=y
 export TOOLS_ENABLE_GCC=n
 
 # depends selection
-export DEPENDS_ENABLE_ZLIB=y
-export DEPENDS_ENABLE_OPENSSL=y
-export DEPENDS_ENABLE_CURL=y
+export PACKAGES_ENABLE_ZLIB=y
+export PACKAGES_ENABLE_OPENSSL=y
+export PACKAGES_ENABLE_CURL=y
 ```
 
 

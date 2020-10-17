@@ -52,12 +52,12 @@ tar -cjvf tools-$release_version.tar.bz2 ${BSPTOOLS}
 shasum -a 256 tools-$release_version.tar.bz2 > tools-$release_version.tar.bz2.hash
 shasum -a 256 -c tools-$release_version.tar.bz2.hash
 
-# depends build for all archs
+# packages build for all archs
 # loop for every arch
 #source environment XXX;
 #export BSPSUDO=sudo;
 #export BSPTOOLS=/usr/local/tools-$release_version;
-#export BSPROOTFS=/usr/local/depends-$release_version/${BSPPLATFORM};
+#export BSPROOTFS=/usr/local/packages-$release_version/${BSPPLATFORM};
 #export PATH=${BSPTOOLS}/bin:${PATH};
-#make -C depends
-#make -C depends clean
+#make packages-build
+#make packages-clean

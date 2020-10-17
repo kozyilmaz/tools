@@ -3,20 +3,20 @@ ifeq ($(BSPTOOLS),)
     $(error You must first run 'source environment')
 endif
 
-DEPENDS_ENABLE_ZLIB    ?= y
-DEPENDS_ENABLE_OPENSSL ?= y
-DEPENDS_ENABLE_CURL    ?= y
+PACKAGES_ENABLE_ZLIB    ?= y
+PACKAGES_ENABLE_OPENSSL ?= y
+PACKAGES_ENABLE_CURL    ?= y
 
 # zlib
-subdir-${DEPENDS_ENABLE_ZLIB} += \
+subdir-${PACKAGES_ENABLE_ZLIB} += \
 	zlib
 
 # openssl
-subdir-${DEPENDS_ENABLE_OPENSSL} += \
+subdir-${PACKAGES_ENABLE_OPENSSL} += \
 	openssl
 
 # curl
-subdir-${DEPENDS_ENABLE_CURL} += \
+subdir-${PACKAGES_ENABLE_CURL} += \
 	curl
 
 
