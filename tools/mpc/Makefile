@@ -3,7 +3,7 @@ target_name ?= mpc
 
 include ../../Makefile.build
 
-MPC_VERSION="1.2.0"
+MPC_VERSION="1.2.1"
 
 mpc_clone:
 	if [ ! -f "mpc-$(MPC_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/mpc/mpc-$(MPC_VERSION).tar.gz; fi;
