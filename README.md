@@ -24,6 +24,7 @@ gcc        (suffixed with '-gnu')
 zlib
 openssl
 curl
+libuuid
 ```
 
 ### Build instructions
