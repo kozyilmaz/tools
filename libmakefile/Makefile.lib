@@ -51,6 +51,7 @@
 #   20190702 - fix depends-y for subdirs
 #   20190806 - fix parallel compilation of ${target}_depends-y
 #   20200627 - uniq files
+#   20211105 - accept *.h as cpp header
 
 #
 # Example
@@ -216,7 +217,7 @@ MV         := mv
 RM         := rm -rf
 MKDIR      := mkdir -p
 
-__CFLAGS := -Wall -Wextra -pipe -g3 -O2 -fsigned-char -fno-strict-aliasing -fPIC $(CFLAGS) $(EXTRA_CFLAGS)
+__CFLAGS := -Wall -Wextra -pipe -ggdb3 -O2 -fsigned-char -fno-strict-aliasing -fPIC $(CFLAGS) $(EXTRA_CFLAGS)
 #__CFLAGS += -Wswitch-enum -Wshadow
 #__CFLAGS += -fvisibility=hidden
 #__CFLAGS += -fno-math-errno -fno-trapping-math
@@ -235,6 +236,10 @@ else
 endif
 
 ifeq      ($(TARGET_OS),WINDOWS)
+    override __WINDOWS__  = y
+    override MFLAGS     += __WINDOWS__=y
+    __CFLAGS      += -D__WINDOWS__=1
+    __CFLAGS      += -D_POSIX=1
 else ifeq ($(TARGET_OS),MACOS)
     override __DARWIN__  = y
     override MFLAGS     += __DARWIN__=y
@@ -640,7 +645,8 @@ define target-defaults_base
     $(eval $1_headers_c    = $(filter %.h,$2))
     $(eval $1_sources_cc   = $(filter %.cc,$2))
     $(eval $1_sources_cpp  = $(filter %.cpp,$2))
-    $(eval $1_headers_cxx  = $(filter %.hh,$2))
+    $(eval $1_headers_cxx  = $(filter %.h,$2))
+    $(eval $1_headers_cxx += $(filter %.hh,$2))
     $(eval $1_headers_cxx += $(filter %.hpp,$2))
     $(eval $1_sources_moc  = $(filter %.moc,$2))
     $(eval $1_sources_uic  = $(filter %.ui,$2))
@@ -755,7 +761,7 @@ define target-defaults
 
     $(eval $(foreach F,$($1_depends_cc), $(eval $(call target-defaults-rule,$1,$F,.$1/%.cc.d,%.cc,$(do_depend.cxx)))))
     $(eval $(foreach F,$($1_objects_cc), $(eval $(call target-defaults-rule,$1,$F,.$1/%.cc.o,%.cc,$(do_compile.cxx)))))
-    
+
     $(eval $(foreach F,$($1_depends_cpp), $(eval $(call target-defaults-rule,$1,$F,.$1/%.cpp.d,%.cpp,$(do_depend.cxx)))))
     $(eval $(foreach F,$($1_objects_cpp), $(eval $(call target-defaults-rule,$1,$F,.$1/%.cpp.o,%.cpp,$(do_compile.cxx)))))
 
@@ -797,6 +803,9 @@ ifeq ($($1_sources_cpp),)
 	$(do_link.c)
 else
 	$(do_link.cxx)
+endif
+ifeq ($(__WINDOWS__), y)
+	${Q}${CP} $$@.exe $$@
 endif
 	$(do_print_deps)
 endef
