@@ -3,11 +3,11 @@ target_name ?= isl
 
 include ../../Makefile.build
 
-ISL_VERSION="0.23"
+ISL_VERSION="0.24"
 
 isl_clone:
-	if [ ! -f "isl-$(ISL_VERSION).tar.gz" ]; then curl -OL http://isl.gforge.inria.fr/isl-$(ISL_VERSION).tar.gz; fi;
-	if [ ! -d "isl-$(ISL_VERSION)" ]; then tar xzf isl-$(ISL_VERSION).tar.gz; fi
+	if [ ! -f "isl-$(ISL_VERSION).tar.bz2" ]; then curl -OL https://gcc.gnu.org/pub/gcc/infrastructure/isl-$(ISL_VERSION).tar.bz2; fi;
+	if [ ! -d "isl-$(ISL_VERSION)" ]; then tar xzf isl-$(ISL_VERSION).tar.bz2; fi
 
 isl_config:
 	( cd isl-$(ISL_VERSION); CFLAGS="" CXXFLAGS="" ./configure --prefix=${BSPTOOLS} --with-gmp-prefix=${BSPTOOLS} --enable-static --disable-shared; )
@@ -26,4 +26,4 @@ isl_clean:
 
 isl_distclean:
 	rm -rf isl-$(ISL_VERSION)
-	rm -rf isl-$(ISL_VERSION).tar.gz
+	rm -rf isl-$(ISL_VERSION).tar.bz2
