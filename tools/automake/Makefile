@@ -3,16 +3,14 @@ target_name ?= automake
 
 include ../../Makefile.build
 
-AUTOMAKE_VERSION="1.16.3"
+AUTOMAKE_VERSION="1.16.5"
 
 automake_clone:
 	if [ ! -f "automake-$(AUTOMAKE_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/automake/automake-$(AUTOMAKE_VERSION).tar.gz; fi;
 	if [ ! -d "automake-$(AUTOMAKE_VERSION)" ]; then tar xzf automake-$(AUTOMAKE_VERSION).tar.gz; fi
 
 automake_config:
-	$(call patchme,automake-$(AUTOMAKE_VERSION))
-# autoconf 2.70 changes require a automake bootstrap on macOS
-	( cd automake-$(AUTOMAKE_VERSION); ./bootstrap; ./configure --prefix=${BSPTOOLS}; )
+	( cd automake-$(AUTOMAKE_VERSION); ./configure --prefix=${BSPTOOLS}; )
 
 automake_build:
 	make -C automake-$(AUTOMAKE_VERSION) -j ${BSPJOB}
