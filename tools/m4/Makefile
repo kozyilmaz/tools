@@ -3,14 +3,14 @@ target_name ?= m4
 
 include ../../Makefile.build
 
-M4_VERSION="1.4.18"
+M4_VERSION="1.4.19"
 
 m4_clone:
 	if [ ! -f "m4-$(M4_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/m4/m4-$(M4_VERSION).tar.gz; fi
 	if [ ! -d "m4-$(M4_VERSION)" ]; then tar xzf m4-$(M4_VERSION).tar.gz; fi
 
 m4_config:
-	$(call patchme,m4-$(M4_VERSION))
+#	$(call patchme,m4-$(M4_VERSION))
 	( cd m4-$(M4_VERSION); ./configure --prefix=${BSPTOOLS} )
 
 m4_build:
