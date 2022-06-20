@@ -3,7 +3,7 @@ target_name ?= zlib
 
 include ../../Makefile.build
 
-ZLIB_VERSION=1.2.11
+ZLIB_VERSION=1.2.12
 
 zlib_clone:
 	if [ ! -f "zlib-$(ZLIB_VERSION).tar.gz" ]; then curl -OL https://www.zlib.net/zlib-$(ZLIB_VERSION).tar.gz; fi

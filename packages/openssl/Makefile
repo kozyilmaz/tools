@@ -6,7 +6,7 @@ include ../../Makefile.build
 OPENSSL_MAJOR=1
 OPENSSL_MINOR=1
 OPENSSL_MICRO=1
-OPENSSL_LETTER=j
+OPENSSL_LETTER=o
 
 OPENSSL_VERSION=$(OPENSSL_MAJOR).$(OPENSSL_MINOR).$(OPENSSL_MICRO)$(OPENSSL_LETTER)
 
@@ -22,8 +22,16 @@ else ifeq (${BSPPLATFORM},android-x86_64)
 OPENSSL_PLT = android-x86_64 -D__ANDROID_API__=21
 else ifeq (${BSPPLATFORM},mingw-w64)
 OPENSSL_PLT = --cross-compile-prefix=x86_64-w64-mingw32- mingw64
+else ifeq (${BSPPLATFORM},arm64)
+# native arm64
+ifeq      ($(HOST_PLATFORM),WINDOWS)
+else ifeq ($(HOST_PLATFORM),MACOS)
+OPENSSL_PLT = darwin64-arm64-cc
+else ifeq ($(HOST_PLATFORM),LINUX)
+OPENSSL_PLT = test_linux
+endif
 else ifeq (${BSPPLATFORM},x86_64)
-# native
+# native x64_64
 ifeq      ($(HOST_PLATFORM),WINDOWS)
 else ifeq ($(HOST_PLATFORM),MACOS)
 OPENSSL_PLT = darwin64-x86_64-cc
