@@ -4,7 +4,7 @@
 ARG=$1
 
 if [[ -z "$ARG" ]]; then
-    echo "setting compiler for desktop platforms";
+    echo "setting compiler for native build";
 elif [ "ios-arm64" == "$ARG" ]; then
     echo "setting compiler for Apple iOS (only 64bit)";
 elif [ "ios-sim" == "$ARG" ]; then
@@ -55,7 +55,7 @@ if [[ -z "$ARG" ]]; then
     BSPPREFIX=
     BSPCFLAGS="-fPIC"
     BSPLDFLAGS=
-    BSPPLATFORM=x86_64
+    BSPPLATFORM=$(arch)
 elif [ "ios-arm64" == "$ARG" ]; then
     BSPCC=$(xcrun --sdk iphoneos -f clang)
     BSPCXX=$(xcrun --sdk iphoneos -f clang++)
@@ -115,3 +115,12 @@ BSPROOTFS=${BSPROOT}/packages-out/${BSPPLATFORM}
 PATH=${BSPTOOLS}/bin:${PATH}
 
 export BSPJOB BSPROOT BSPCC BSPCXX BSPHOST BSPPREFIX BSPCFLAGS BSPLDFLAGS BSPPLATFORM BSPEXTRAFLAGS BSPTOOLS BSPROOTFS PATH
+
+echo "using settings:"
+echo "  BSPCC=$BSPCC"
+echo "  BSPCXX=$BSPCXX"
+echo "  BSPHOST=$BSPHOST"
+echo "  BSPPREFIX=$BSPPREFIX"
+echo "  BSPCFLAGS=$BSPCFLAGS"
+echo "  BSPLDFLAGS=$BSPLDFLAGS"
+echo "  BSPPLATFORM=$BSPPLATFORM"
