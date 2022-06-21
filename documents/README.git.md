@@ -44,6 +44,9 @@ $ git push -u origin <branch>
 $ git checkout <branch>
 $ git revert <commit>
 $ git push origin <branch>
+# or
+$ git reset --hard HEAD~1
+$ git push --force
 ```
 
 ### tag tree
