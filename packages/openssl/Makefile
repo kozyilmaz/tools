@@ -28,7 +28,7 @@ ifeq      ($(HOST_PLATFORM),WINDOWS)
 else ifeq ($(HOST_PLATFORM),MACOS)
 OPENSSL_PLT = darwin64-arm64-cc
 else ifeq ($(HOST_PLATFORM),LINUX)
-OPENSSL_PLT = test_linux
+OPENSSL_PLT = linux-aarch64
 endif
 else ifeq (${BSPPLATFORM},x86_64)
 # native x64_64
