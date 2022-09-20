@@ -10,7 +10,7 @@ HOST_GCC_FLAGS =
 else ifeq ($(HOST_PLATFORM),LINUX)
 HOST_GCC_FLAGS =
 else ifeq ($(HOST_PLATFORM),MACOS)
-HOST_GCC_FLAGS = --with-sysroot=$(shell xcrun --sdk macosx --show-sdk-path) --with-native-system-header-dir=/usr/include
+HOST_GCC_FLAGS = --build=${BSPPLATFORM}-apple-darwin21.6.0 --with-sysroot=$(shell xcrun --sdk macosx --show-sdk-path) --with-native-system-header-dir=/usr/include
 endif
 
 gnugcc_clone:
@@ -18,6 +18,7 @@ gnugcc_clone:
 	if [ ! -d "gcc-$(GCC_VERSION)" ]; then tar xzf gcc-$(GCC_VERSION).tar.gz; fi
 
 gnugcc_config:
+	$(call patchme,gcc-$(GCC_VERSION))
 	( cd gcc-$(GCC_VERSION); \
 		CFLAGS="" CXXFLAGS="" \
 		./configure --prefix=${BSPTOOLS} \
