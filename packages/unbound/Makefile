@@ -18,7 +18,7 @@ unbound_build:
 	( cd blockchain-crypto-mpc; \
 		CC=${BSPCC} \
 		CXX=${BSPCXX} \
-		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include -Wno-deprecated-declarations -DMPC_CRYPTO_NO_JNI" \
+		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include -Wno-parentheses -Wno-unused-command-line-argument -Wno-deprecated -Wno-deprecated-declarations -DMPC_CRYPTO_NO_JNI" \
 		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib -L${BSPROOTFS}/lib64" \
 		make -f makefile -j ${BSPJOB} \
 	)
