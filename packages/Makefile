@@ -8,6 +8,7 @@ PACKAGES_ENABLE_OPENSSL        ?= y
 PACKAGES_ENABLE_CURL           ?= y
 PACKAGES_ENABLE_UTIL_LINUX     ?= y
 PACKAGES_ENABLE_LIBMICROHTTPD  ?= y
+PACKAGES_ENABLE_LIBHTTPSERVER  ?= y
 PACKAGES_ENABLE_UNBOUND        ?= n
 
 # zlib
@@ -30,6 +31,10 @@ subdir-${PACKAGES_ENABLE_UTIL_LINUX} += \
 subdir-${PACKAGES_ENABLE_LIBMICROHTTPD} += \
 	libmicrohttpd
 
+# libhttpserver
+subdir-${PACKAGES_ENABLE_LIBHTTPSERVER} += \
+	libhttpserver
+
 # unbound crypto mpc
 subdir-${PACKAGES_ENABLE_UNBOUND} += \
 	unbound
@@ -43,6 +48,9 @@ curl_depends-y = \
 
 libmicrohttpd_depends-y = \
 	curl
+
+libhttpserver_depends-y = \
+	libmicrohttpd
 
 unbound_depends-y = \
 	openssl
