@@ -6,9 +6,10 @@ include ../../Makefile.build
 LIBHTTPSERVER_VERSION=17dd3998375dad611651872e1993954e973fbdb9
 
 libhttpserver_clone:
-	if [ ! -d "prometheus-cpp-$(LIBHTTPSERVER_VERSION)" ]; then (git clone https://github.com/etr/libhttpserver.git libhttpserver-$(LIBHTTPSERVER_VERSION) && cd libhttpserver-$(LIBHTTPSERVER_VERSION) && git checkout $(LIBHTTPSERVER_VERSION)); fi
+	if [ ! -d "libhttpserver-$(LIBHTTPSERVER_VERSION)" ]; then (git clone https://github.com/etr/libhttpserver.git libhttpserver-$(LIBHTTPSERVER_VERSION) && cd libhttpserver-$(LIBHTTPSERVER_VERSION) && git checkout $(LIBHTTPSERVER_VERSION)); fi
 
 libhttpserver_config:
+	$(call patchme,libhttpserver-$(LIBHTTPSERVER_VERSION))
 	( cd libhttpserver-$(LIBHTTPSERVER_VERSION) && ./bootstrap && rm -rf build && mkdir build && cd build; \
 		CC=${BSPCC} \
 		CXX=${BSPCXX} \
