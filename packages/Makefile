@@ -7,6 +7,7 @@ PACKAGES_ENABLE_ZLIB       ?= y
 PACKAGES_ENABLE_OPENSSL    ?= y
 PACKAGES_ENABLE_CURL       ?= y
 PACKAGES_ENABLE_UTIL_LINUX ?= y
+PACKAGES_ENABLE_UNBOUND    ?= y
 
 # zlib
 subdir-${PACKAGES_ENABLE_ZLIB} += \
@@ -24,7 +25,14 @@ subdir-${PACKAGES_ENABLE_CURL} += \
 subdir-${PACKAGES_ENABLE_UTIL_LINUX} += \
 	util-linux
 
+# unbound crypto mpc
+subdir-${PACKAGES_ENABLE_UNBOUND} += \
+	unbound
+
 # internal depends
+unbound_depends-y = \
+	openssl
+
 openssl_depends-y = \
 	zlib
 

@@ -1,0 +1,20 @@
+diff --git a/makefile b/makefile
+index d42a640..d90c49d 100644
+--- a/makefile
++++ b/makefile
+@@ -25,6 +25,7 @@ COMMON_INCLUDES = \
+ 	-I include
+ 
+ COMMON_CPPFLAGS = \
++	${CFLAGS} \
+ 	-O2 \
+ 	-fPIC \
+ 	-fno-strict-aliasing \
+@@ -36,6 +37,7 @@ COMMON_CPPFLAGS = \
+ 	-std=c++0x
+ 
+ COMMON_LDFLAGS = \
++	${LDFLAGS} \
+ 	-s
+ 
+ #---------------- LIB -------------------
