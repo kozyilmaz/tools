@@ -3,7 +3,7 @@ target_name ?= libhttpserver
 
 include ../../Makefile.build
 
-LIBHTTPSERVER_VERSION=cd91b8f4c0ef77346c2b8052fd81577eafee2c3f
+LIBHTTPSERVER_VERSION=17dd3998375dad611651872e1993954e973fbdb9
 
 libhttpserver_clone:
 	if [ ! -d "prometheus-cpp-$(LIBHTTPSERVER_VERSION)" ]; then (git clone https://github.com/etr/libhttpserver.git libhttpserver-$(LIBHTTPSERVER_VERSION) && cd libhttpserver-$(LIBHTTPSERVER_VERSION) && git checkout $(LIBHTTPSERVER_VERSION)); fi
