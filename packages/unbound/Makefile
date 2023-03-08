@@ -5,6 +5,12 @@ include ../../Makefile.build
 
 BLOCKCHAIN_CRYPTO_MPC_VERSION=f86f72fc00444eedbc7ab994030c68a55b3770e8
 
+ifeq (${BSPPLATFORM},x86_64)
+else
+# non x64_64
+$(error Unbound MPC only allows x86-64 builds due to ASM parts)
+endif
+
 unbound_clone:
 	if [ ! -d "blockchain-crypto-mpc" ]; then git clone https://github.com/unboundsecurity/blockchain-crypto-mpc.git; fi
 	( cd blockchain-crypto-mpc; \
