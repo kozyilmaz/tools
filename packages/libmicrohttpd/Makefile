@@ -21,6 +21,7 @@ libmicrohttpd_config:
 		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --enable-static --disable-shared \
 		--disable-nls --enable-gcc-hardening \
+		--disable-curl \
 	)
 
 libmicrohttpd_build:
