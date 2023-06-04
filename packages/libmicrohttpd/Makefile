@@ -3,7 +3,7 @@ target_name ?= libmicrohttpd
 
 include ../../Makefile.build
 
-LIBMICROHTTPD_VERSION=0.9.76
+LIBMICROHTTPD_VERSION=0.9.77
 
 libmicrohttpd_clone:
 	if [ ! -f "libmicrohttpd-$(LIBMICROHTTPD_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/libmicrohttpd/libmicrohttpd-$(LIBMICROHTTPD_VERSION).tar.gz; fi;
