@@ -9,6 +9,7 @@ PACKAGES_ENABLE_CURL           ?= y
 PACKAGES_ENABLE_UTIL_LINUX     ?= y
 PACKAGES_ENABLE_LIBMICROHTTPD  ?= y
 PACKAGES_ENABLE_LIBHTTPSERVER  ?= y
+PACKAGES_ENABLE_PROMETHEUS     ?= y
 PACKAGES_ENABLE_UNBOUND        ?= n
 
 # zlib
@@ -35,6 +36,10 @@ subdir-${PACKAGES_ENABLE_LIBMICROHTTPD} += \
 subdir-${PACKAGES_ENABLE_LIBHTTPSERVER} += \
 	libhttpserver
 
+# prometheus
+subdir-${PACKAGES_ENABLE_PROMETHEUS} += \
+	prometheus
+
 # unbound crypto mpc
 subdir-${PACKAGES_ENABLE_UNBOUND} += \
 	unbound
@@ -51,6 +56,11 @@ libmicrohttpd_depends-y = \
 
 libhttpserver_depends-y = \
 	libmicrohttpd
+
+prometheus_depends-y = \
+	zlib \
+	openssl \
+	curl
 
 unbound_depends-y = \
 	openssl
