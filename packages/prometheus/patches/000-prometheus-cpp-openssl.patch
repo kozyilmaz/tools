@@ -1,0 +1,19 @@
+diff --git a/push/CMakeLists.txt b/push/CMakeLists.txt
+index bc116ed..c16a454 100644
+--- a/push/CMakeLists.txt
++++ b/push/CMakeLists.txt
+@@ -1,5 +1,6 @@
+ 
+ find_package(CURL REQUIRED)
++find_package(OpenSSL 3.0 REQUIRED)
+ 
+ add_library(push
+   src/curl_wrapper.cc
+@@ -20,6 +21,7 @@ target_link_libraries(push
+   PRIVATE
+     Threads::Threads
+     CURL::libcurl
++    OpenSSL::SSL OpenSSL::Crypto
+     $<$<AND:$<BOOL:UNIX>,$<NOT:$<BOOL:APPLE>>>:rt>
+ )
+ 
