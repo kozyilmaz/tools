@@ -5,7 +5,7 @@ endif
 
 TOOLS_ENABLE_ESSENTIALS ?= y
 TOOLS_ENABLE_CMAKE      ?= y
-TOOLS_ENABLE_GCC        ?= y
+TOOLS_ENABLE_GCC        ?= n
 
 # macOS does have m4 and libtool by default
 # Linux does not have any tools by default
