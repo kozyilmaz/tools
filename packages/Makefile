@@ -10,7 +10,7 @@ PACKAGES_ENABLE_UTIL_LINUX     ?= y
 PACKAGES_ENABLE_LIBMICROHTTPD  ?= y
 PACKAGES_ENABLE_LIBHTTPSERVER  ?= y
 PACKAGES_ENABLE_PROMETHEUS     ?= y
-PACKAGES_ENABLE_UNBOUND        ?= n
+PACKAGES_ENABLE_SECP256K1      ?= y
 
 # zlib
 subdir-${PACKAGES_ENABLE_ZLIB} += \
@@ -40,9 +40,9 @@ subdir-${PACKAGES_ENABLE_LIBHTTPSERVER} += \
 subdir-${PACKAGES_ENABLE_PROMETHEUS} += \
 	prometheus
 
-# unbound crypto mpc
-subdir-${PACKAGES_ENABLE_UNBOUND} += \
-	unbound
+# secp256k1
+subdir-${PACKAGES_ENABLE_SECP256K1} += \
+	secp256k1
 
 # internal depends
 openssl_depends-y = \
