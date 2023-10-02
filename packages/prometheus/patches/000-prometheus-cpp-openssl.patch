@@ -1,11 +1,11 @@
 diff --git a/push/CMakeLists.txt b/push/CMakeLists.txt
-index bc116ed..c16a454 100644
+index bc116ed..90a4b52 100644
 --- a/push/CMakeLists.txt
 +++ b/push/CMakeLists.txt
 @@ -1,5 +1,6 @@
  
  find_package(CURL REQUIRED)
-+find_package(OpenSSL 3.0 REQUIRED)
++find_package(OpenSSL REQUIRED)
  
  add_library(push
    src/curl_wrapper.cc
