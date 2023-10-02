@@ -453,7 +453,7 @@ _cmd_compile.c            = $(CC) $(__ARCHFLAGS) $(__CFLAGS) $($1_archflags) $($
 _cmd_link.c               = $(CC) $(__ARCHFLAGS) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_archflags) $($1_ldflags) $(__LDFLAGS)
 _cmd_link_so.c            = $(CC) $(__ARCHFLAGS) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
-                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
+                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),)
 
 _cmd_depend.c.host        = $(HOSTCC) $(__CFLAGS) $($1_cflags) \
                             $$($1_$$<_cflags-y) $($1_includes) -M $$< | $(SED) 's,\($$(basename $$(basename $$(notdir $$@)))\.o\) *:,$$(dir $$@)\1 $$@: ,' > $$@; \
@@ -465,7 +465,7 @@ _cmd_compile.c.host       = $(HOSTCC) $(__HOSTARCHFLAGS) $(__CFLAGS) $($1_archfl
 _cmd_link.c.host          = $(HOSTCC) $(__HOSTARCHFLAGS) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_archflags) $($1_ldflags) $(__LDFLAGS)
 _cmd_link_so.c.host       = $(HOSTCC) $(__HOSTARCHFLAGS) $(__CFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
-                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
+                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),)
 
 _cmd_depend.cxx           = $(CXX) $(__CXXFLAGS) $($1_cxxflags) \
                             $$($1_$$<_cxxflags-y) $($1_includes) -M $$< | $(SED) 's,\($$(basename $$(basename $$(notdir $$@)))\.o\) *:,$$(dir $$@)\1 $$@: ,' > $$@; \
@@ -477,7 +477,7 @@ _cmd_compile.cxx          = $(CXX) $(__ARCHFLAGS) $(__CXXFLAGS) $($1_archflags) 
 _cmd_link.cxx             = $(CXX) $(__ARCHFLAGS) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_archflags) $($1_ldflags) $(__LDFLAGS)
 _cmd_link_so.cxx          = $(CXX) $(__ARCHFLAGS) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
-                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
+                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),)
 
 _cmd_depend.cxx.host      = $(HOSTCXX) $(__CXXFLAGS) $($1_cxxflags) \
                             $$($1_$$<_cxxflags-y) $($1_includes) -M $$< | $(SED) 's,\($$(basename $$(basename $$(notdir $$@)))\.o\) *:,$$(dir $$@)\1 $$@: ,' > $$@; \
@@ -489,7 +489,7 @@ _cmd_compile.cxx.host     = $(HOSTCXX) $(__HOSTARCHFLAGS) $(__CXXFLAGS) $($1_arc
 _cmd_link.cxx.host        = $(HOSTCXX) $(__HOSTARCHFLAGS) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_archflags) $($1_ldflags) $(__LDFLAGS)
 _cmd_link_so.cxx.host     = $(HOSTCXX) $(__HOSTARCHFLAGS) $(__CXXFLAGS)$($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
-                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
+                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),)
 
 _cmd_moc.qt               = $(MOC) $($1_mocflags) $($1_includes) $$< -o $$@
 _cmd_moc.qt.host          = $(HOSTMOC) $($1_mocflags) $($1_includes) $$< -o $$@
@@ -507,7 +507,7 @@ _cmd_compile.m            = $(CC) $(__ARCHFLAGS) $(__CXXFLAGS) $($1_archflags) $
 _cmd_link.m               = $(CC) $(__ARCHFLAGS) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_archflags) $($1_ldflags) $(__LDFLAGS)
 _cmd_link_so.m            = $(CC) $(__ARCHFLAGS) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
-                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
+                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),)
 
 _cmd_depend.m.host        = $(HOSTCC) $(__CXXFLAGS) $($1_cflags) \
                             $($1_cxxflags) $($1_includes) -M $$< | $(SED) 's,\($$(basename $$(basename $$(notdir $$@)))\.o\) *:,$$(dir $$@)\1 $$@: ,' > $$@; \
@@ -519,7 +519,7 @@ _cmd_compile.m.host       = $(HOSTCC) $(__HOSTARCHFLAGS) $(__CXXFLAGS) $($1_arch
 _cmd_link.m.host          = $(HOSTCC) $(__HOSTARCHFLAGS) $(__CXXFLAGS)  $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
                             $($1_archflags) $($1_ldflags) $(__LDFLAGS)
 _cmd_link_so.m.host       = $(HOSTCC) $(__HOSTARCHFLAGS) $(__CXXFLAGS) $($1_libraries) -o $$@ $$(filter-out __FORCE $($1_depends_y),$$^) \
-                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),-Wl$$(comma)-soname$$(comma)$$(notdir $$@))
+                            $($1_archflags) $($1_ldflags) $$(filter-out -static,$(__LDFLAGS)) -shared $$(if $($1_soname-y),-Wl$$(comma)-soname$$(comma)$($1_soname-y),)
 
 _cmd_ar                   = $(AR) rcs $$@ $$(filter-out __FORCE $($1_depends_y),$$^)
 _cmd_ranlib               = $(RANLIB) $$@
