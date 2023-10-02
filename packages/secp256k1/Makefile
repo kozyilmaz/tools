@@ -16,7 +16,6 @@ secp256k1_config:
 		CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
 		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
 		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
-		LIBS="-lpthread" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
 		../configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --enable-static --disable-shared \
