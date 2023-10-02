@@ -17,6 +17,12 @@ ifeq      ($(HOST_PLATFORM),WINDOWS)
 else ifeq ($(HOST_PLATFORM),MACOS)
 MPC_LIB_FLAGS =
 else ifeq ($(HOST_PLATFORM),LINUX)
+endif
+else ifeq (${BSPPLATFORM},aarch64)
+# native aarch64
+ifeq      ($(HOST_PLATFORM),WINDOWS)
+else ifeq ($(HOST_PLATFORM),MACOS)
+else ifeq ($(HOST_PLATFORM),LINUX)
 MPC_LIB_FLAGS =
 endif
 else ifeq (${BSPPLATFORM},x86_64)
