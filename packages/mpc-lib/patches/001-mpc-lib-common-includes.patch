@@ -1,0 +1,13 @@
+diff --git a/src/common/Makefile b/src/common/Makefile
+index 12f58d6..1230d36 100644
+--- a/src/common/Makefile
++++ b/src/common/Makefile
+@@ -22,7 +22,7 @@ Cpp_Files := cosigner/cosigner_exception.cpp cosigner/cmp_setup_service.cpp cosi
+ 
+ Cpp_Objects := $(Cpp_Files:.cpp=.o)
+ 
+-Include_Paths := -I. -I../../include
++Include_Paths := -I. -I../../include -I$(BSPROOTFS)/include
+ 
+ C_Flags := $(COMMON_CFLAGS) -fstack-protector-strong
+ C_Flags += $(Include_Paths)
