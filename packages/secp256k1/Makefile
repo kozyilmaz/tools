@@ -22,17 +22,16 @@ secp256k1_config:
 	)
 
 secp256k1_build:
-	make -C secp256k1-$(SECP256K1_VERSION)/build -j ${BSPJOB}
+	make -C secp256k1-$(SECP256K1_VERSION) -j ${BSPJOB}
 
 secp256k1_install:
-	make -C secp256k1-$(SECP256K1_VERSION)/build install
+	make -C secp256k1-$(SECP256K1_VERSION) install
 
 secp256k1_uninstall:
-	make -C secp256k1-$(SECP256K1_VERSION)/build uninstall
+	make -C secp256k1-$(SECP256K1_VERSION) uninstall
 
 secp256k1_clean:
 	rm -rf secp256k1-$(SECP256K1_VERSION)
 
 secp256k1_distclean:
 	rm -rf secp256k1-$(SECP256K1_VERSION)
-	rm -rf secp256k1-$(SECP256K1_VERSION).tar.gz
