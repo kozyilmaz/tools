@@ -1,0 +1,58 @@
+
+target_name ?= mpc-lib
+
+include ../../Makefile.build
+
+MPC_LIB_VERSION=84b7fb83502a998703b6ceb113273fc20fa55b7b
+
+ifeq      (${BSPPLATFORM},ios-arm64)
+else ifeq (${BSPPLATFORM},ios-sim)
+else ifeq (${BSPPLATFORM},android-arm64-v8a)
+else ifeq (${BSPPLATFORM},android-armeabi-v7a)
+else ifeq (${BSPPLATFORM},android-x86_64)
+else ifeq (${BSPPLATFORM},mingw-w64)
+else ifeq (${BSPPLATFORM},arm64)
+# native arm64
+ifeq      ($(HOST_PLATFORM),WINDOWS)
+else ifeq ($(HOST_PLATFORM),MACOS)
+MPC_LIB_FLAGS =
+else ifeq ($(HOST_PLATFORM),LINUX)
+MPC_LIB_FLAGS =
+endif
+else ifeq (${BSPPLATFORM},x86_64)
+# native x64_64
+ifeq      ($(HOST_PLATFORM),WINDOWS)
+else ifeq ($(HOST_PLATFORM),MACOS)
+MPC_LIB_FLAGS =
+else ifeq ($(HOST_PLATFORM),LINUX)
+MPC_LIB_FLAGS =
+endif
+endif
+
+mpc-lib_clone:
+	if [ ! -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then (git clone https://github.com/fireblocks/mpc-lib.git mpc-lib-$(MPC_LIB_VERSION) && cd mpc-lib-$(MPC_LIB_VERSION) && git checkout $(MPC_LIB_VERSION)); fi
+
+mpc-lib_config:
+	$(call patchme,mpc-lib-$(MPC_LIB_VERSION))
+
+mpc-lib_build:
+		CC=${BSPCC} \
+		CXX=${BSPCXX} \
+		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
+		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
+		ARCH_CFLAGS=$(MPC_LIB_FLAGS) make -C mpc-lib-$(MPC_LIB_VERSION) -j ${BSPJOB};
+
+mpc-lib_install:
+	make -C mpc-lib-$(MPC_LIB_VERSION) install
+
+mpc-lib_uninstall:
+	make -C mpc-lib-$(MPC_LIB_VERSION) uninstall
+
+mpc-lib_clean:
+	rm -rf mpc-lib-$(MPC_LIB_VERSION)
+
+mpc-lib_distclean:
+	rm -rf mpc-lib-$(MPC_LIB_VERSION)

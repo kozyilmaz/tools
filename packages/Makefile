@@ -11,6 +11,7 @@ PACKAGES_ENABLE_LIBMICROHTTPD  ?= y
 PACKAGES_ENABLE_LIBHTTPSERVER  ?= y
 PACKAGES_ENABLE_PROMETHEUS     ?= y
 PACKAGES_ENABLE_SECP256K1      ?= y
+PACKAGES_ENABLE_MPC_LIB        ?= y
 
 # zlib
 subdir-${PACKAGES_ENABLE_ZLIB} += \
@@ -44,6 +45,10 @@ subdir-${PACKAGES_ENABLE_PROMETHEUS} += \
 subdir-${PACKAGES_ENABLE_SECP256K1} += \
 	secp256k1
 
+# mpc-lib
+subdir-${PACKAGES_ENABLE_MPC_LIB} += \
+	mpc-lib
+
 # internal depends
 openssl_depends-y = \
 	zlib
@@ -62,7 +67,8 @@ prometheus_depends-y = \
 	openssl \
 	curl
 
-unbound_depends-y = \
-	openssl
+mpc-lib_depends-y = \
+	openssl \
+	secp256k1
 
 include ../Makefile.lib

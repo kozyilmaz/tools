@@ -1,0 +1,11 @@
+diff --git a/src/common/Makefile b/src/common/Makefile
+index 12f58d6..4654e8a 100644
+--- a/src/common/Makefile
++++ b/src/common/Makefile
+@@ -1,4 +1,5 @@
+-COMMON_CFLAGS := -m64 -fPIC -march=skylake -Wall -Wextra -Wvla -Wswitch-enum -Wno-missing-field-initializers -fdiagnostics-color=always
++ARCH_CFLAGS ?= -m64 -march=skylake
++COMMON_CFLAGS := $(ARCH_CFLAGS) -fPIC -Wall -Wextra -Wvla -Wswitch-enum -Wno-missing-field-initializers -fdiagnostics-color=always
+ DEBUG ?= 1
+ 
+ ifeq ($(DEBUG), 1)
