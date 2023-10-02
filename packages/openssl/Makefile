@@ -3,10 +3,10 @@ target_name ?= openssl
 
 include ../../Makefile.build
 
-OPENSSL_MAJOR=3
-OPENSSL_MINOR=0
-OPENSSL_MICRO=11
-OPENSSL_LETTER=
+OPENSSL_MAJOR=1
+OPENSSL_MINOR=1
+OPENSSL_MICRO=1
+OPENSSL_LETTER=w
 
 OPENSSL_VERSION=$(OPENSSL_MAJOR).$(OPENSSL_MINOR).$(OPENSSL_MICRO)$(OPENSSL_LETTER)
 
@@ -27,6 +27,12 @@ else ifeq (${BSPPLATFORM},arm64)
 ifeq      ($(HOST_PLATFORM),WINDOWS)
 else ifeq ($(HOST_PLATFORM),MACOS)
 OPENSSL_PLT = darwin64-arm64-cc
+else ifeq ($(HOST_PLATFORM),LINUX)
+endif
+else ifeq (${BSPPLATFORM},aarch64)
+# native aarch64
+ifeq      ($(HOST_PLATFORM),WINDOWS)
+else ifeq ($(HOST_PLATFORM),MACOS)
 else ifeq ($(HOST_PLATFORM),LINUX)
 OPENSSL_PLT = linux-aarch64
 endif
