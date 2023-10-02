@@ -9,7 +9,7 @@ secp256k1_clone:
 	if [ ! -d "secp256k1-$(SECP256K1_VERSION)" ]; then (git clone https://github.com/bitcoin-core/secp256k1.git secp256k1-$(SECP256K1_VERSION) && cd secp256k1-$(SECP256K1_VERSION) && git checkout $(SECP256K1_VERSION)); fi
 
 secp256k1_config:
-	( cd secp256k1-$(SECP256K1_VERSION) && LIBTOOLIZE=glibtoolize sh autogen.sh; \
+	( cd secp256k1-$(SECP256K1_VERSION) && LIBTOOLIZE=glibtoolize ./autogen.sh; \
 		CC=${BSPCC} \
 		CXX=${BSPCXX} \
 		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
@@ -17,7 +17,7 @@ secp256k1_config:
 		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
 		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
-		../configure ${BSPHOST} --prefix=${BSPROOTFS} \
+		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --enable-static --disable-shared \
 	)
 
