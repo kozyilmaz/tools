@@ -1,60 +1,90 @@
+diff --git a/test/crypto/drng/Makefile b/test/crypto/drng/Makefile
+index 461fe37..2e6b2e4 100644
+--- a/test/crypto/drng/Makefile
++++ b/test/crypto/drng/Makefile
+@@ -1,8 +1,8 @@
+ App_Name := test
+ 
+-App_C_Flags := -g -Wall -Wextra -I../../../include
++App_C_Flags := -g -Wall -Wextra -I../../../include -I$(BSPROOTFS)/include
+ App_Cpp_Flags := $(App_C_Flags) -std=c++17
+-App_Link_Flags := -lcrypto
++App_Link_Flags := -L$(BSPROOTFS)/lib -lcrypto
+ 
+ all: $(App_Name)
+ 
 diff --git a/test/crypto/ed25519_algebra/Makefile b/test/crypto/ed25519_algebra/Makefile
-index 704db9e..6761e7a 100644
+index 704db9e..22d70c1 100644
 --- a/test/crypto/ed25519_algebra/Makefile
 +++ b/test/crypto/ed25519_algebra/Makefile
-@@ -1,6 +1,6 @@
+@@ -1,8 +1,8 @@
  App_Name := test
  
 -App_C_Flags := -g -Wall -Wextra -I../../../include
 +App_C_Flags := -g -Wall -Wextra -I../../../include -I$(BSPROOTFS)/include
  App_Cpp_Flags := $(App_C_Flags) -std=c++17
- App_Link_Flags := -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -pthread -ldl
+-App_Link_Flags := -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -pthread -ldl
++App_Link_Flags := -L$(BSPROOTFS)/lib -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -pthread -ldl
+ 
+ all: $(App_Name)
  
 diff --git a/test/crypto/paillier/Makefile b/test/crypto/paillier/Makefile
-index 38307c5..8ac464a 100644
+index 38307c5..9c750b5 100644
 --- a/test/crypto/paillier/Makefile
 +++ b/test/crypto/paillier/Makefile
-@@ -1,6 +1,6 @@
+@@ -1,8 +1,8 @@
  App_Name := test
  
 -App_C_Flags := -g -Wall -Wextra -I../../../include
 +App_C_Flags := -g -Wall -Wextra -I../../../include -I$(BSPROOTFS)/include
  App_Cpp_Flags := $(App_C_Flags) -std=c++17
- App_Link_Flags := -lcrypto
+-App_Link_Flags := -lcrypto
++App_Link_Flags := -L$(BSPROOTFS)/lib -lcrypto
+ 
+ all: $(App_Name)
  
 diff --git a/test/crypto/secp256k1_algebra/Makefile b/test/crypto/secp256k1_algebra/Makefile
-index 93258af..1863325 100644
+index 93258af..4faf41e 100644
 --- a/test/crypto/secp256k1_algebra/Makefile
 +++ b/test/crypto/secp256k1_algebra/Makefile
-@@ -1,6 +1,6 @@
+@@ -1,8 +1,8 @@
  App_Name := test
  
 -App_C_Flags := -g -Wall -Wextra -I../../../include
 +App_C_Flags := -g -Wall -Wextra -I../../../include -I$(BSPROOTFS)/include
  App_Cpp_Flags := $(App_C_Flags) -std=c++17
- App_Link_Flags := -lcrypto
+-App_Link_Flags := -lcrypto
++App_Link_Flags := -L$(BSPROOTFS)/lib -lcrypto
+ 
+ all: $(App_Name)
  
 diff --git a/test/crypto/shamir_secret_sharing/Makefile b/test/crypto/shamir_secret_sharing/Makefile
-index 73a0ed8..de13ae5 100644
+index 73a0ed8..2f0c5f2 100644
 --- a/test/crypto/shamir_secret_sharing/Makefile
 +++ b/test/crypto/shamir_secret_sharing/Makefile
-@@ -1,6 +1,6 @@
+@@ -1,8 +1,8 @@
  App_Name := test
  
 -App_C_Flags := -g -Wall -Wextra -I../../../include
 +App_C_Flags := -g -Wall -Wextra -I../../../include -I$(BSPROOTFS)/include
  App_Cpp_Flags := $(App_C_Flags) -std=c++17
- App_Link_Flags := -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -pthread -ldl
+-App_Link_Flags := -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -pthread -ldl
++App_Link_Flags := -L$(BSPROOTFS)/lib -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -pthread -ldl
+ 
+ all: $(App_Name)
  
 diff --git a/test/crypto/zero_knowledge_proof/Makefile b/test/crypto/zero_knowledge_proof/Makefile
-index 5e89967..34a735a 100644
+index 5e89967..e94fe59 100644
 --- a/test/crypto/zero_knowledge_proof/Makefile
 +++ b/test/crypto/zero_knowledge_proof/Makefile
-@@ -1,6 +1,6 @@
+@@ -1,8 +1,8 @@
  App_Name := test
  
 -App_C_Flags := -g -O0 -Wall -Wextra -I../../../include
 +App_C_Flags := -g -O0 -Wall -Wextra -I../../../include -I$(BSPROOTFS)/include
  App_Cpp_Flags := $(App_C_Flags) -std=c++17
- App_Link_Flags := -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -ldl -pthread
+-App_Link_Flags := -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -ldl -pthread
++App_Link_Flags := -L$(BSPROOTFS)/lib -Wl,-Bstatic -lcrypto -Wl,-Bdynamic -ldl -pthread
+ 
+ all: $(App_Name)
  
