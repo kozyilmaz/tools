@@ -52,10 +52,15 @@ mpc-lib_build:
 		ARCH_CFLAGS=$(MPC_LIB_FLAGS) make -C mpc-lib-$(MPC_LIB_VERSION) -j ${BSPJOB};
 
 mpc-lib_install:
-	make -C mpc-lib-$(MPC_LIB_VERSION) install
+	mkdir -p ${BSPROOTFS}/include/mpc-lib
+	cp -a mpc-lib-$(MPC_LIB_VERSION)/include/* ${BSPROOTFS}/include/mpc-lib
+	cp -a mpc-lib-$(MPC_LIB_VERSION)/src/common/libcosigner.so ${BSPROOTFS}/lib
+	cp -a mpc-lib-$(MPC_LIB_VERSION)/test/cosigner/test ${BSPROOTFS}/bin/cosigner-test
 
 mpc-lib_uninstall:
-	make -C mpc-lib-$(MPC_LIB_VERSION) uninstall
+	rm -rf ${BSPROOTFS}/include/mpc-lib
+	rm -rf ${BSPROOTFS}/lib/libcosigner.so
+	rm -rf ${BSPROOTFS}/bin/cosigner-test
 
 mpc-lib_clean:
 	rm -rf mpc-lib-$(MPC_LIB_VERSION)
