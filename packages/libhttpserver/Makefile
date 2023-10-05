@@ -27,10 +27,10 @@ libhttpserver_build:
 	make -C libhttpserver-$(LIBHTTPSERVER_VERSION)/build -j ${BSPJOB}
 
 libhttpserver_install:
-	make -C libhttpserver-$(LIBHTTPSERVER_VERSION)/build install
+	${BSPSUDO} make -C libhttpserver-$(LIBHTTPSERVER_VERSION)/build install
 
 libhttpserver_uninstall:
-	make -C libhttpserver-$(LIBHTTPSERVER_VERSION)/build uninstall
+	${BSPSUDO} make -C libhttpserver-$(LIBHTTPSERVER_VERSION)/build uninstall
 
 libhttpserver_clean:
 	rm -rf libhttpserver-$(LIBHTTPSERVER_VERSION)
