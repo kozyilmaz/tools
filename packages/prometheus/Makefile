@@ -32,12 +32,12 @@ prometheus_build:
 	make -C prometheus-cpp-$(PROMETHEUS_VERSION)/_build -j ${BSPJOB}
 
 prometheus_install:
-	make -C prometheus-cpp-$(PROMETHEUS_VERSION)/_build install
+	${BSPSUDO} make -C prometheus-cpp-$(PROMETHEUS_VERSION)/_build install
 
 prometheus_uninstall:
-	rm -rf ${BSPROOTFS}/include/prometheus
-	rm -rf ${BSPROOTFS}/lib/libprometheus-cpp-*
-	rm -rf ${BSPROOTFS}/lib/cmake/prometheus-cpp
+	${BSPSUDO} rm -rf ${BSPROOTFS}/include/prometheus
+	${BSPSUDO} rm -rf ${BSPROOTFS}/lib/libprometheus-cpp-*
+	${BSPSUDO} rm -rf ${BSPROOTFS}/lib/cmake/prometheus-cpp
 
 prometheus_clean:
 	if [ -d "prometheus-cpp-$(PROMETHEUS_VERSION)" ]; then cd prometheus-cpp-$(PROMETHEUS_VERSION) && git clean -dfx && git clean -dfX && git checkout * ; fi
