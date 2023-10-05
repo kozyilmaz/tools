@@ -31,10 +31,10 @@ util-linux_build:
 	make -C util-linux-$(UTIL-LINUX_VERSION) -j ${BSPJOB}
 
 util-linux_install:
-	make -C util-linux-$(UTIL-LINUX_VERSION) install
+	${BSPSUDO} make -C util-linux-$(UTIL-LINUX_VERSION) install
 
 util-linux_uninstall:
-	make -C util-linux-$(UTIL-LINUX_VERSION) uninstall
+	${BSPSUDO} make -C util-linux-$(UTIL-LINUX_VERSION) uninstall
 
 util-linux_clean:
 	rm -rf util-linux-$(UTIL-LINUX_VERSION)
