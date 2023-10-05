@@ -28,10 +28,10 @@ libmicrohttpd_build:
 	make -C libmicrohttpd-$(LIBMICROHTTPD_VERSION) -j ${BSPJOB}
 
 libmicrohttpd_install:
-	make -C libmicrohttpd-$(LIBMICROHTTPD_VERSION) install
+	${BSPSUDO} make -C libmicrohttpd-$(LIBMICROHTTPD_VERSION) install
 
 libmicrohttpd_uninstall:
-	make -C libmicrohttpd-$(LIBMICROHTTPD_VERSION) uninstall
+	${BSPSUDO} make -C libmicrohttpd-$(LIBMICROHTTPD_VERSION) uninstall
 
 libmicrohttpd_clean:
 	rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION)
