@@ -42,20 +42,24 @@ mpc-lib_config:
 	$(call patchme,mpc-lib-$(MPC_LIB_VERSION))
 
 mpc-lib_build:
-		CC=${BSPCC} \
-		CXX=${BSPCXX} \
-		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
-		CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
-		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
-		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
-		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
-		ARCH_CFLAGS=$(MPC_LIB_FLAGS) make -C mpc-lib-$(MPC_LIB_VERSION) -j ${BSPJOB};
+ifeq ($(HOST_PLATFORM),LINUX)
+	CC=${BSPCC} \
+	CXX=${BSPCXX} \
+	CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+	CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+	CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+	LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
+	PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
+	ARCH_CFLAGS=$(MPC_LIB_FLAGS) make -C mpc-lib-$(MPC_LIB_VERSION) -j ${BSPJOB};
+else
+$(warning mpc-lib is only available on Linux-based platforms)
+endif
 
 mpc-lib_install:
-	mkdir -p ${BSPROOTFS}/include/mpc-lib
-	cp -a mpc-lib-$(MPC_LIB_VERSION)/include/* ${BSPROOTFS}/include/mpc-lib
-	cp -a mpc-lib-$(MPC_LIB_VERSION)/src/common/libcosigner.so ${BSPROOTFS}/lib
-	cp -a mpc-lib-$(MPC_LIB_VERSION)/test/cosigner/test ${BSPROOTFS}/bin/cosigner-test
+	if [ ! -d "${BSPROOTFS}/include/mpc-lib" ]; then ${BSPSUDO} mkdir -p ${BSPROOTFS}/include/mpc-lib; fi
+	if [ -d "mpc-lib-$(MPC_LIB_VERSION)/include" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/include/* ${BSPROOTFS}/include/mpc-lib; fi
+	if [ -f "mpc-lib-$(MPC_LIB_VERSION)/src/common/libcosigner.so" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/src/common/libcosigner.so ${BSPROOTFS}/lib; fi
+	if [ -f "mpc-lib-$(MPC_LIB_VERSION)/test/cosigner/test" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/test/cosigner/test ${BSPROOTFS}/bin/cosigner-test; fi
 
 mpc-lib_uninstall:
 	rm -rf ${BSPROOTFS}/include/mpc-lib
