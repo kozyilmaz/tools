@@ -62,9 +62,9 @@ mpc-lib_install:
 	if [ -f "mpc-lib-$(MPC_LIB_VERSION)/test/cosigner/test" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/test/cosigner/test ${BSPROOTFS}/bin/cosigner-test; fi
 
 mpc-lib_uninstall:
-	rm -rf ${BSPROOTFS}/include/mpc-lib
-	rm -rf ${BSPROOTFS}/lib/libcosigner.so
-	rm -rf ${BSPROOTFS}/bin/cosigner-test
+	${BSPSUDO} rm -rf ${BSPROOTFS}/include/mpc-lib
+	${BSPSUDO} rm -rf ${BSPROOTFS}/lib/libcosigner.so
+	${BSPSUDO} rm -rf ${BSPROOTFS}/bin/cosigner-test
 
 mpc-lib_clean:
 	rm -rf mpc-lib-$(MPC_LIB_VERSION)
