@@ -69,6 +69,7 @@ prometheus_depends-y = \
 
 mpc-lib_depends-y = \
 	openssl \
+	util-linux \
 	secp256k1
 
 include ../Makefile.lib
