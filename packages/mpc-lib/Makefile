@@ -40,9 +40,13 @@ mpc-lib_clone:
 
 mpc-lib_config:
 	$(call patchme,mpc-lib-$(MPC_LIB_VERSION))
+ifeq ($(HOST_PLATFORM),MACOS)
+	if [ -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then patch -d mpc-lib-$(MPC_LIB_VERSION) -p1 < patches-macos/006-mpc-lib-macos-no-tests.patch ; fi
+	if [ -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then patch -d mpc-lib-$(MPC_LIB_VERSION) -p1 < patches-macos/007-mpc-lib-macos-format.patch ; fi
+	if [ -d "mpc-lib-$(MPC_LIB_VERSION)/include" ]; then cp -a patches-macos/byteswap.h mpc-lib-$(MPC_LIB_VERSION)/include/ ; fi
+endif
 
 mpc-lib_build:
-ifeq ($(HOST_PLATFORM),LINUX)
 	CC=${BSPCC} \
 	CXX=${BSPCXX} \
 	CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
@@ -51,9 +55,6 @@ ifeq ($(HOST_PLATFORM),LINUX)
 	LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
 	PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
 	ARCH_CFLAGS=$(MPC_LIB_FLAGS) make -C mpc-lib-$(MPC_LIB_VERSION) -j ${BSPJOB};
-else
-$(warning mpc-lib is only available on Linux-based platforms)
-endif
 
 mpc-lib_install:
 	if [ ! -d "${BSPROOTFS}/include/mpc-lib" ]; then ${BSPSUDO} mkdir -p ${BSPROOTFS}/include/mpc-lib; fi
