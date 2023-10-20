@@ -1,0 +1,879 @@
+diff --git a/src/common/cosigner/asymmetric_eddsa_cosigner_client.cpp b/src/common/cosigner/asymmetric_eddsa_cosigner_client.cpp
+index ea01267..2126eb7 100644
+--- a/src/common/cosigner/asymmetric_eddsa_cosigner_client.cpp
++++ b/src/common/cosigner/asymmetric_eddsa_cosigner_client.cpp
+@@ -68,7 +68,7 @@ void asymmetric_eddsa_cosigner_client::start_signature_preprocessing(const std::
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("Player %lu is not part of key %s", *i, key_id.c_str());
++            LOG_ERROR("Player %llu is not part of key %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -118,7 +118,7 @@ uint64_t asymmetric_eddsa_cosigner_client::eddsa_sign_offline(const std::string&
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("player %lu is not part of key %s", *i, key_id.c_str());
++            LOG_ERROR("player %llu is not part of key %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -148,12 +148,12 @@ uint64_t asymmetric_eddsa_cosigner_client::eddsa_sign_offline(const std::string&
+         }
+         else if (metadata.players_info.find(i->first) == metadata.players_info.end())
+         {
+-            LOG_ERROR("got Rs from player %lu who is not part of key %s", i->first, key_id.c_str());
++            LOG_ERROR("got Rs from player %llu who is not part of key %s", i->first, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         else if (i->second.Rs.size() != blocks)
+         {
+-            LOG_ERROR("got %lu Rs from player %lu but the siging request is for %lu blocks", i->second.Rs.size(), i->first, blocks);
++            LOG_ERROR("got %lu Rs from player %llu but the siging request is for %lu blocks", i->second.Rs.size(), i->first, blocks);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+@@ -168,7 +168,7 @@ uint64_t asymmetric_eddsa_cosigner_client::eddsa_sign_offline(const std::string&
+             {
+                 if (memcmp(first_player->second.Rs[j].data, i->second.Rs[j].data, sizeof(elliptic_curve256_point_t)) != 0)
+                 {
+-                    LOG_ERROR("R indexed %lu from player %lu is different from player %lu R", j, i->first, first_player->first);
++                    LOG_ERROR("R indexed %lu from player %llu is different from player %llu R", j, i->first, first_player->first);
+                     throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+                 }
+             }
+@@ -178,7 +178,7 @@ uint64_t asymmetric_eddsa_cosigner_client::eddsa_sign_offline(const std::string&
+         SHA256_Final(md.data(), &sha);
+         if (md != i->second.R_commitment)
+         {
+-            LOG_ERROR("R commitments %s from player %lu is different from claculated %s", HexStr(i->second.R_commitment.begin(), i->second.R_commitment.end()).c_str(), i->first, HexStr(md.begin(), md.end()).c_str());
++            LOG_ERROR("R commitments %s from player %llu is different from claculated %s", HexStr(i->second.R_commitment.begin(), i->second.R_commitment.end()).c_str(), i->first, HexStr(md.begin(), md.end()).c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+diff --git a/src/common/cosigner/asymmetric_eddsa_cosigner_server.cpp b/src/common/cosigner/asymmetric_eddsa_cosigner_server.cpp
+index 362cad9..4444239 100644
+--- a/src/common/cosigner/asymmetric_eddsa_cosigner_server.cpp
++++ b/src/common/cosigner/asymmetric_eddsa_cosigner_server.cpp
+@@ -66,7 +66,7 @@ void asymmetric_eddsa_cosigner_server::store_presigning_data(const std::string&
+ 
+     if (!_service.is_client_id(sender))
+     {
+-        LOG_ERROR("client id %lu is not an mobile device", sender);
++        LOG_ERROR("client id %llu is not an mobile device", sender);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ 
+@@ -74,13 +74,13 @@ void asymmetric_eddsa_cosigner_server::store_presigning_data(const std::string&
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("Player %lu is not part of key %s", *i, key_id.c_str());
++            LOG_ERROR("Player %llu is not part of key %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+         if (*i != sender && _service.is_client_id(*i))
+         {
+-            LOG_ERROR("Key %s was created with more then one client device %lu, and sender %lu", key_id.c_str(), *i, sender);
++            LOG_ERROR("Key %s was created with more then one client device %llu, and sender %llu", key_id.c_str(), *i, sender);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -123,7 +123,7 @@ void asymmetric_eddsa_cosigner_server::eddsa_sign_offline(const std::string& key
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("playerid %lu not part of key, for keyid = %s, txid = %s", *i, key_id.c_str(), txid.c_str());
++            LOG_ERROR("playerid %llu not part of key, for keyid = %s, txid = %s", *i, key_id.c_str(), txid.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -228,7 +228,7 @@ uint64_t asymmetric_eddsa_cosigner_server::decommit_r(const std::string& txid, c
+     {
+         if (!_service.is_client_id(*i) && commitments.find(*i) == commitments.end())
+         {
+-            LOG_ERROR("commitment for player %lu not found in commitments list", *i);
++            LOG_ERROR("commitment for player %llu not found in commitments list", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -236,7 +236,7 @@ uint64_t asymmetric_eddsa_cosigner_server::decommit_r(const std::string& txid, c
+     {
+         if (i->second.size() != data.sig_data.size())
+         {
+-            LOG_ERROR("commitment for player %lu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
++            LOG_ERROR("commitment for player %llu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -280,7 +280,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_r(const std::string& txid,
+             send_to = *i;
+         else if (players_R.find(*i) == players_R.end())
+         {
+-            LOG_ERROR("Rs for player %lu not found in Rs list", *i);
++            LOG_ERROR("Rs for player %llu not found in Rs list", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -288,7 +288,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_r(const std::string& txid,
+     {
+         if (i->second.size() != data.sig_data.size())
+         {
+-            LOG_ERROR("Rs for player %lu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
++            LOG_ERROR("Rs for player %llu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -300,7 +300,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_r(const std::string& txid,
+         auto it = players_R.find(i->first);
+         if (it == players_R.end())
+         {
+-            LOG_ERROR("R from player %lu missing", i->first);
++            LOG_ERROR("R from player %llu missing", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+@@ -308,7 +308,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_r(const std::string& txid,
+         {
+             if (!verify_commit_to_r(i->second[j], txid, j + data.start_index, i->first, it->second[j].data))
+             {
+-                LOG_ERROR("Failed to verify commitment from player %lu to block %lu", i->first, j);
++                LOG_ERROR("Failed to verify commitment from player %llu to block %lu", i->first, j);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+ 
+@@ -342,13 +342,13 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_si(const std::string& txid,
+ 
+     if (data.signers_ids.find(sender) == data.signers_ids.end())
+     {
+-        LOG_ERROR("player %lu is not part of signers list", sender);
++        LOG_ERROR("player %llu is not part of signers list", sender);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ 
+     if (partial_sigs.size() != data.sig_data.size())
+     {
+-        LOG_ERROR("partial sigs from player %lu size %lu is different from block size %lu", sender, partial_sigs.size(), data.sig_data.size());
++        LOG_ERROR("partial sigs from player %llu size %lu is different from block size %lu", sender, partial_sigs.size(), data.sig_data.size());
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+     ed25519_algebra_ctx_t* ed25519 = (ed25519_algebra_ctx_t*)_ctx->ctx;
+@@ -359,7 +359,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_si(const std::string& txid,
+     auto sender_info = metadata.players_info.find(sender);
+     if (sender_info == metadata.players_info.end())
+     {
+-        LOG_ERROR("player %lu is not part of key %s", sender, data.key_id.c_str());
++        LOG_ERROR("player %llu is not part of key %s", sender, data.key_id.c_str());
+         assert(0);
+         throw cosigner_exception(cosigner_exception::INTERNAL_ERROR);
+     }
+@@ -380,7 +380,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_si(const std::string& txid,
+     uint64_t min_signer_id = *send_to.begin();
+     if (my_id == min_signer_id)
+     {
+-        LOG_INFO("My id %lu is the min id, will add client s to my s", my_id);
++        LOG_INFO("My id %llu is the min id, will add client s to my s", my_id);
+     }
+ 
+     sigs.reserve(data.sig_data.size());
+@@ -390,7 +390,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_si(const std::string& txid,
+         _signing_persistency.load_preprocessed_data(data.key_id, data.start_index + i, commitment);
+         if (!verify_commit_to_r(commitment, data.key_id, i + data.start_index, sender, partial_sigs[i].R))
+         {
+-            LOG_ERROR("Failed to verify commitment from player %lu to block %lu", sender, i);
++            LOG_ERROR("Failed to verify commitment from player %llu to block %lu", sender, i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         eddsa_signature sig;
+@@ -403,7 +403,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_si(const std::string& txid,
+         throw_cosigner_exception(ed25519_calc_hram(ed25519, &hram, &sig.R, &derived_public_key, (const uint8_t*)data.sig_data[i].message.data(), data.sig_data[i].message.size(), data.sig_data[i].flags & EDDSA_KECCAK));
+         if (!verify_client_s(partial_sigs[i].R, partial_sigs[i].s, hram, sender_info->second.public_share, delta))
+         {
+-            LOG_ERROR("Failed to verify the signature s sent by client %lu for block %lu txid %s", sender, i, txid.c_str());
++            LOG_ERROR("Failed to verify the signature s sent by client %llu for block %lu txid %s", sender, i, txid.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         ed25519_scalar_t x;
+@@ -458,7 +458,7 @@ uint64_t asymmetric_eddsa_cosigner_server::broadcast_si(const std::string& txid,
+         {
+             uint64_t diff = (clock() - timing_it->second);
+             _timing_map.erase(timing_it);
+-            LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %lums", data.signers_ids.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
++            LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %llums", data.signers_ids.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
+         }
+     }
+     else
+@@ -490,12 +490,12 @@ uint64_t asymmetric_eddsa_cosigner_server::get_eddsa_signature(const std::string
+             continue;
+         if (it == partial_sigs.end())
+         {
+-            LOG_ERROR("partial sig for player %lu not found in Rs list", *i);
++            LOG_ERROR("partial sig for player %llu not found in Rs list", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->second.size() != data.sig_data.size())
+         {
+-            LOG_ERROR("number of s (%lu) from player %lu is different from block size %lu", it->second.size(), *i, data.sig_data.size());
++            LOG_ERROR("number of s (%lu) from player %llu is different from block size %lu", it->second.size(), *i, data.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -514,7 +514,7 @@ uint64_t asymmetric_eddsa_cosigner_server::get_eddsa_signature(const std::string
+         {
+             if (memcmp(cur_sig.R, i->second[index].R, sizeof(ed25519_point_t)) != 0)
+             {
+-                LOG_ERROR("R from player %lu is different from stored R", i->first);
++                LOG_ERROR("R from player %llu is different from stored R", i->first);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+             ed25519_le_scalar_t s;
+@@ -559,7 +559,7 @@ uint64_t asymmetric_eddsa_cosigner_server::get_eddsa_signature(const std::string
+     {
+         uint64_t diff = (clock() - timing_it->second);
+         _timing_map.erase(timing_it);
+-        LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %lums", sigs.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
++        LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %llums", sigs.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
+     }
+ 
+     return my_id;
+diff --git a/src/common/cosigner/cmp_ecdsa_offline_signing_service.cpp b/src/common/cosigner/cmp_ecdsa_offline_signing_service.cpp
+index 0109a86..8d786f1 100644
+--- a/src/common/cosigner/cmp_ecdsa_offline_signing_service.cpp
++++ b/src/common/cosigner/cmp_ecdsa_offline_signing_service.cpp
+@@ -56,7 +56,7 @@ void cmp_ecdsa_offline_signing_service::start_ecdsa_signature_preprocessing(cons
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("Player %lu is not part of key %s", *i, key_id.c_str());
++            LOG_ERROR("Player %llu is not part of key %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -115,7 +115,7 @@ uint64_t cmp_ecdsa_offline_signing_service::offline_mta_response(const std::stri
+             auto my_proof = req_it->second[i].mta_proofs.find(my_id);
+             if (my_proof == req_it->second[i].mta_proofs.end())
+             {
+-                LOG_ERROR("Player %lu didn't send k rddh proof to me in block %lu", req_it->first, i);
++                LOG_ERROR("Player %llu didn't send k rddh proof to me in block %lu", req_it->first, i);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+             paillier_with_range_proof_t proof = {(uint8_t*)req_it->second[i].mta.message.data(), (uint32_t)req_it->second[i].mta.message.size(), (uint8_t*)my_proof->second.data(), (uint32_t)my_proof->second.size()};
+@@ -123,7 +123,7 @@ uint64_t cmp_ecdsa_offline_signing_service::offline_mta_response(const std::stri
+                 &req_it->second[i].Z.data, &req_it->second[i].A.data, &req_it->second[i].B.data, &proof);
+             if (status != ZKP_SUCCESS)
+             {
+-                LOG_ERROR("Failed to verify k rddh proof from player %lu block %lu, error %d", req_it->first, i, status);
++                LOG_ERROR("Failed to verify k rddh proof from player %llu block %lu, error %d", req_it->first, i, status);
+                 throw_cosigner_exception(status);
+             }
+         }
+@@ -170,17 +170,17 @@ uint64_t cmp_ecdsa_offline_signing_service::offline_mta_verify(const std::string
+         auto it = mta_responses.find(*i);
+         if (it == mta_responses.end())
+         {
+-            LOG_ERROR("missing mta response from player %lu", *i);
++            LOG_ERROR("missing mta response from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->first != my_id && it->second.response.size() != metadata.count)
+         {
+-            LOG_ERROR("got %lu mta responses from player %lu, but the request is for %u presigning data", it->second.response.size(), *i, metadata.count);
++            LOG_ERROR("got %lu mta responses from player %llu, but the request is for %u presigning data", it->second.response.size(), *i, metadata.count);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (memcmp(it->second.ack, metadata.ack, sizeof(commitments_sha256_t)) != 0)
+         {
+-            LOG_ERROR("got wrong ack from player %lu", *i);
++            LOG_ERROR("got wrong ack from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -239,12 +239,12 @@ uint64_t cmp_ecdsa_offline_signing_service::store_presigning_data(const std::str
+         auto it = deltas.find(*i);
+         if (it == deltas.end())
+         {
+-            LOG_ERROR("missing delta from player %lu", *i);
++            LOG_ERROR("missing delta from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->second.size() != metadata.count)
+         {
+-            LOG_ERROR("got %lu delta from player %lu, but the request is for %u presigning data", it->second.size(), *i, metadata.count);
++            LOG_ERROR("got %lu delta from player %llu, but the request is for %u presigning data", it->second.size(), *i, metadata.count);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -279,7 +279,7 @@ void cmp_ecdsa_offline_signing_service::ecdsa_sign(const std::string& key_id, co
+ 
+     if (players_ids.size() < metadata.t || players_ids.size() > metadata.n)
+     {
+-        LOG_ERROR("got signing request for %lu players, but the key was created for %u/%u players", players_ids.size(), metadata.t, metadata.n);
++        LOG_ERROR("got signing request for %zu players, but the key was created for %u/%u players", players_ids.size(), metadata.t, metadata.n);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ 
+@@ -287,7 +287,7 @@ void cmp_ecdsa_offline_signing_service::ecdsa_sign(const std::string& key_id, co
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("player %lu is not part of key %s", *i, key_id.c_str());
++            LOG_ERROR("player %llu is not part of key %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -398,7 +398,7 @@ uint64_t cmp_ecdsa_offline_signing_service::ecdsa_offline_signature(const std::s
+ 
+     if (!count)
+     {
+-        LOG_ERROR("Got 0 signatures from player %lu, txid %s", first_player->first, txid.c_str());
++        LOG_ERROR("Got 0 signatures from player %llu, txid %s", first_player->first, txid.c_str());
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+     if ((algorithm != ECDSA_SECP256K1 && algorithm != ECDSA_SECP256R1 && algorithm != ECDSA_STARK))
+@@ -413,7 +413,7 @@ uint64_t cmp_ecdsa_offline_signing_service::ecdsa_offline_signature(const std::s
+     {
+         if (i->second.size() != count)
+         {
+-            LOG_ERROR("Got %lu signatures from player %lu but %lu from player %lu, txid %s", count, first_player->first, i->second.size(), i->first, txid.c_str());
++            LOG_ERROR("Got %lu signatures from player %llu but %lu from player %llu, txid %s", count, first_player->first, i->second.size(), i->first, txid.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -427,12 +427,12 @@ uint64_t cmp_ecdsa_offline_signing_service::ecdsa_offline_signature(const std::s
+                 continue;
+             if (memcmp(first_player->second[i].r, it->second[i].r, sizeof(elliptic_curve256_scalar_t)) != 0)
+             {
+-                LOG_ERROR("r value from player %lu is different from player %lu r, txid %s", first_player->first, it->first, txid.c_str());
++                LOG_ERROR("r value from player %llu is different from player %llu r, txid %s", first_player->first, it->first, txid.c_str());
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);   
+             }
+             if (first_player->second[i].v != it->second[i].v)
+             {
+-                LOG_ERROR("v value from player %lu is different from player %lu v, txid %s", first_player->first, it->first, txid.c_str());
++                LOG_ERROR("v value from player %llu is different from player %llu v, txid %s", first_player->first, it->first, txid.c_str());
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);   
+             }
+             throw_cosigner_exception(algebra->add_scalars(algebra, &sig.s, sig.s, sizeof(elliptic_curve256_scalar_t), it->second[i].s, sizeof(elliptic_curve256_scalar_t)));
+diff --git a/src/common/cosigner/cmp_ecdsa_online_signing_service.cpp b/src/common/cosigner/cmp_ecdsa_online_signing_service.cpp
+index 21bb43a..a9bb8e2 100644
+--- a/src/common/cosigner/cmp_ecdsa_online_signing_service.cpp
++++ b/src/common/cosigner/cmp_ecdsa_online_signing_service.cpp
+@@ -78,7 +78,7 @@ void cmp_ecdsa_online_signing_service::start_signing(const std::string& key_id,
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("playerid %lu not part of key, for keyid = %s, txid = %s", *i, key_id.c_str(), txid.c_str());
++            LOG_ERROR("playerid %llu not part of key, for keyid = %s, txid = %s", *i, key_id.c_str(), txid.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -182,7 +182,7 @@ uint64_t cmp_ecdsa_online_signing_service::mta_response(const std::string& txid,
+             auto my_proof = req_it->second[i].mta_proofs.find(my_id);
+             if (my_proof == req_it->second[i].mta_proofs.end())
+             {
+-                LOG_ERROR("Player %lu didn't send k rddh proof to me in block %lu", req_it->first, i);
++                LOG_ERROR("Player %llu didn't send k rddh proof to me in block %lu", req_it->first, i);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+             paillier_with_range_proof_t proof = {(uint8_t*)req_it->second[i].mta.message.data(), (uint32_t)req_it->second[i].mta.message.size(), (uint8_t*)my_proof->second.data(), (uint32_t)my_proof->second.size()};
+@@ -190,7 +190,7 @@ uint64_t cmp_ecdsa_online_signing_service::mta_response(const std::string& txid,
+                 &req_it->second[i].Z.data, &req_it->second[i].A.data, &req_it->second[i].B.data, &proof);
+             if (status != ZKP_SUCCESS)
+             {
+-                LOG_ERROR("Failed to verify k rddh proof from player %lu block %lu, error %d", req_it->first, i, status);
++                LOG_ERROR("Failed to verify k rddh proof from player %llu block %lu, error %d", req_it->first, i, status);
+                 throw_cosigner_exception(status);
+             }
+         }
+@@ -236,17 +236,17 @@ uint64_t cmp_ecdsa_online_signing_service::mta_verify(const std::string& txid, c
+         auto it = mta_responses.find(*i);
+         if (it == mta_responses.end())
+         {
+-            LOG_ERROR("missing mta response from player %lu", *i);
++            LOG_ERROR("missing mta response from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->first != my_id && it->second.response.size() != metadata.sig_data.size())
+         {
+-            LOG_ERROR("got %lu mta responses from player %lu, but the request is for %lu presigning data", it->second.response.size(), *i, metadata.sig_data.size());
++            LOG_ERROR("got %lu mta responses from player %llu, but the request is for %lu presigning data", it->second.response.size(), *i, metadata.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (memcmp(it->second.ack, metadata.ack, sizeof(commitments_sha256_t)) != 0)
+         {
+-            LOG_ERROR("got wrong ack from player %lu", *i);
++            LOG_ERROR("got wrong ack from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -308,12 +308,12 @@ uint64_t cmp_ecdsa_online_signing_service::get_si(const std::string& txid, const
+         auto it = deltas.find(*i);
+         if (it == deltas.end())
+         {
+-            LOG_ERROR("missing delta from player %lu", *i);
++            LOG_ERROR("missing delta from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->second.size() != metadata.sig_data.size())
+         {
+-            LOG_ERROR("got %lu delta from player %lu, but the request is for %lu presigning data", it->second.size(), *i, metadata.sig_data.size());
++            LOG_ERROR("got %lu delta from player %llu, but the request is for %lu presigning data", it->second.size(), *i, metadata.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -409,12 +409,12 @@ uint64_t cmp_ecdsa_online_signing_service::get_cmp_signature(const std::string&
+         auto it = s.find(*i);
+         if (it == s.end())
+         {
+-            LOG_ERROR("s from player %lu missing", *i);
++            LOG_ERROR("s from player %llu missing", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->second.size() != metadata.sig_data.size())
+         {
+-            LOG_ERROR("number of s (%lu) from player %lu is different from block size %lu", it->second.size(), *i, metadata.sig_data.size());
++            LOG_ERROR("number of s (%lu) from player %llu is different from block size %lu", it->second.size(), *i, metadata.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -477,7 +477,7 @@ uint64_t cmp_ecdsa_online_signing_service::get_cmp_signature(const std::string&
+     {
+         uint64_t diff = (clock() - timing_it->second);
+         _timing_map.erase(timing_it);
+-        LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %lums", full_sig.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
++        LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %llums", full_sig.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
+     }
+ 
+     return my_id;
+diff --git a/src/common/cosigner/cmp_ecdsa_signing_service.cpp b/src/common/cosigner/cmp_ecdsa_signing_service.cpp
+index 7278a82..2671d9c 100644
+--- a/src/common/cosigner/cmp_ecdsa_signing_service.cpp
++++ b/src/common/cosigner/cmp_ecdsa_signing_service.cpp
+@@ -53,12 +53,12 @@ void cmp_ecdsa_signing_service::ack_mta_request(uint32_t count, const std::map<u
+         auto it = requests.find(*i);
+         if (it == requests.end())
+         {
+-            LOG_ERROR("missing commitment from player %lu", *i);
++            LOG_ERROR("missing commitment from player %llu", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         else if (it->second.size() != count)
+         {
+-            LOG_ERROR("got %lu mta requests from player %lu, but the request is for %u presigning data", it->second.size(), *i, count);
++            LOG_ERROR("got %lu mta requests from player %llu, but the request is for %u presigning data", it->second.size(), *i, count);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         SHA256_Update(&ctx, &it->first, sizeof(uint64_t));
+@@ -127,7 +127,7 @@ cmp_mta_deltas cmp_ecdsa_signing_service::mta_verify(ecdsa_signing_data& data, c
+         auto status = range_proof_exponent_zkpok_verify(aux_keys.ring_pedersen.get(), other.paillier.get(), algebra, other_aad.data(), other_aad.size(), &pub.GAMMA.data, &proof);
+         if (status != ZKP_SUCCESS)
+         {
+-            LOG_ERROR("Failed to verify gamma log proof from player %lu block %lu, error %d", it->first, index, status);
++            LOG_ERROR("Failed to verify gamma log proof from player %llu block %lu, error %d", it->first, index, status);
+             throw_cosigner_exception(status);
+         }
+         pub.gamma_commitment.clear();
+@@ -172,7 +172,7 @@ void cmp_ecdsa_signing_service::calc_R(ecdsa_signing_data& data, elliptic_curve_
+             continue;
+         if (it->second[index].proof.size() != sizeof(diffie_hellman_log_zkp_t))
+         {
+-            LOG_ERROR("ddh proof from player %lu block %lu has wrong size %lu", it->first, index, it->second[index].proof.size());
++            LOG_ERROR("ddh proof from player %llu block %lu has wrong size %lu", it->first, index, it->second[index].proof.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         auto aad = build_aad(uuid, it->first, metadata.seed);
+@@ -185,7 +185,7 @@ void cmp_ecdsa_signing_service::calc_R(ecdsa_signing_data& data, elliptic_curve_
+         auto status = diffie_hellman_log_zkp_verify(algebra, aad.data(), aad.size(), &data.GAMMA.data, &pub, (diffie_hellman_log_zkp_t*)it->second[index].proof.data());
+         if (status != ZKP_SUCCESS)
+         {
+-            LOG_ERROR("Failed to verify ddh proof from player %lu block %lu, error %d", it->first, index, status);
++            LOG_ERROR("Failed to verify ddh proof from player %llu block %lu, error %d", it->first, index, status);
+             throw_cosigner_exception(status);
+         }
+         throw_cosigner_exception(algebra->add_scalars(algebra, &data.delta.data, data.delta.data, sizeof(elliptic_curve256_scalar_t), it->second[index].delta.data, sizeof(elliptic_curve256_scalar_t)));
+diff --git a/src/common/cosigner/cmp_offline_refresh_service.cpp b/src/common/cosigner/cmp_offline_refresh_service.cpp
+index 7e5c5b9..b060b5b 100644
+--- a/src/common/cosigner/cmp_offline_refresh_service.cpp
++++ b/src/common/cosigner/cmp_offline_refresh_service.cpp
+@@ -46,7 +46,7 @@ void cmp_offline_refresh_service::refresh_key_request(const std::string& tenant_
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("playerid %lu is not part of key, for keyid = %s", *i, key_id.c_str());
++            LOG_ERROR("playerid %llu is not part of key, for keyid = %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -93,7 +93,7 @@ void cmp_offline_refresh_service::refresh_key(const std::string& key_id, const s
+     {
+         if (metadata.players_info.find(i->first) == metadata.players_info.end())
+         {
+-            LOG_ERROR("playerid %lu is not part of key, for keyid = %s", i->first, key_id.c_str());
++            LOG_ERROR("playerid %llu is not part of key, for keyid = %s", i->first, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -113,14 +113,14 @@ void cmp_offline_refresh_service::refresh_key(const std::string& key_id, const s
+         auto my_seed_it = i->second.find(my_id);
+         if (my_seed_it == i->second.end())
+         {
+-            LOG_ERROR("Player %lu didn't send seed to me", player_id);
++            LOG_ERROR("Player %llu didn't send seed to me", player_id);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+         auto decrypt_seed = _service.decrypt_message(my_seed_it->second);
+         if (decrypt_seed.size() != sizeof(commitments_sha256_t))
+         {
+-            LOG_ERROR("Player %lu sent invalid seed to me", player_id);
++            LOG_ERROR("Player %llu sent invalid seed to me", player_id);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         commitments_sha256_t seed_from_player;
+diff --git a/src/common/cosigner/cmp_setup_service.cpp b/src/common/cosigner/cmp_setup_service.cpp
+index 8bf373d..2497855 100644
+--- a/src/common/cosigner/cmp_setup_service.cpp
++++ b/src/common/cosigner/cmp_setup_service.cpp
+@@ -60,7 +60,7 @@ void cmp_setup_service::generate_setup_commitments(const std::string& key_id, co
+     uint64_t my_id = _service.get_id_from_keyid(key_id);
+     if (std::find(players_ids.begin(), players_ids.end(), my_id) == players_ids.end())
+     {
+-        LOG_ERROR("my id (%lu) is not part of setup request, abort", my_id);
++        LOG_ERROR("my id (%llu) is not part of setup request, abort", my_id);
+         throw cosigner_exception(cosigner_exception::BAD_KEY);
+     }
+ 
+@@ -139,7 +139,7 @@ void cmp_setup_service::store_setup_commitments(const std::string& key_id, const
+     {
+         if (!commitments.count(i->first))
+         {
+-            LOG_ERROR("missing commitment from player %lu", i->first);
++            LOG_ERROR("missing commitment from player %llu", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -245,14 +245,14 @@ void cmp_setup_service::create_secret(const std::string& key_id, const std::map<
+         auto player_it = metadata.players_info.find(i->first);
+         if (player_it == metadata.players_info.end())
+         {
+-            LOG_ERROR("player %lu is not part of key %s", i->first, key_id.c_str());
++            LOG_ERROR("player %llu is not part of key %s", i->first, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+         auto proof_it = i->second.find(my_id);
+         if (proof_it == i->second.end())
+         {
+-            LOG_ERROR("missing proof from player %lu", i->first);
++            LOG_ERROR("missing proof from player %llu", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         
+@@ -260,7 +260,7 @@ void cmp_setup_service::create_secret(const std::string& key_id, const std::map<
+         auto status = range_proof_paillier_large_factors_zkp_verify(player_it->second.paillier.get(), aux.ring_pedersen.get(), aad.data(), aad.size(), proof_it->second.data(), proof_it->second.size());
+         if (status != ZKP_SUCCESS)
+         {
+-            LOG_ERROR("Failed to verify player %lu paillier key has large factors, error %d", i->first, status);
++            LOG_ERROR("Failed to verify player %llu paillier key has large factors, error %d", i->first, status);
+             throw_cosigner_exception(status);
+         }
+     }
+@@ -339,7 +339,7 @@ void cmp_setup_service::add_user_request(const std::string& key_id, cosigner_sig
+     for (auto i = players_ids.begin(); i != players_ids.end(); ++i)
+         if (metadata.players_info.find(*i) != metadata.players_info.end())
+         {
+-            LOG_ERROR("playerid %lu is already part of key, for keyid = %s", *i, key_id.c_str());
++            LOG_ERROR("playerid %llu is already part of key, for keyid = %s", *i, key_id.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+@@ -376,7 +376,7 @@ void cmp_setup_service::add_user(const std::string& tenant_id, const std::string
+     {
+         if (n != i->second.encrypted_shares.size())
+         {
+-            LOG_ERROR("Number of new player (%lu) from player %lu is different from the number of players (%lu) from player %lu", i->second.encrypted_shares.size(), i->first, n, data.begin()->first);
++            LOG_ERROR("Number of new player (%lu) from player %llu is different from the number of players (%lu) from player %llu", i->second.encrypted_shares.size(), i->first, n, data.begin()->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -417,12 +417,12 @@ void cmp_setup_service::add_user(const std::string& tenant_id, const std::string
+         {
+             if (memcmp(pubkey, i->second.public_key.data, sizeof(elliptic_curve256_point_t)) != 0)
+             {
+-                LOG_ERROR("Public key from player %lu is different from the key sent by player %lu", i->first, data.begin()->first);
++                LOG_ERROR("Public key from player %llu is different from the key sent by player %llu", i->first, data.begin()->first);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+             if (i->second.encrypted_shares.size() != players_ids.size())
+             {
+-                LOG_ERROR("Number of shares from player %lu is different from the number sent by player %lu", i->first, data.begin()->first);
++                LOG_ERROR("Number of shares from player %llu is different from the number sent by player %llu", i->first, data.begin()->first);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+ 
+@@ -430,7 +430,7 @@ void cmp_setup_service::add_user(const std::string& tenant_id, const std::string
+             {
+                 if (std::find(players_ids.begin(), players_ids.end(), j->first) == players_ids.end())
+                 {
+-                    LOG_ERROR("Shares for player %lu from player %lu wasn't sent by player %lu", j->first, i->first, data.begin()->first);
++                    LOG_ERROR("Shares for player %llu from player %llu wasn't sent by player %llu", j->first, i->first, data.begin()->first);
+                     throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+                 }
+             }
+@@ -439,7 +439,7 @@ void cmp_setup_service::add_user(const std::string& tenant_id, const std::string
+         auto it = i->second.encrypted_shares.find(my_id);
+         if (it == i->second.encrypted_shares.end())
+         {
+-            LOG_ERROR("Player %lu didnt sent share to me", i->first);
++            LOG_ERROR("Player %llu didnt sent share to me", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         auto share = _service.decrypt_message(it->second);
+@@ -542,24 +542,24 @@ void cmp_setup_service::deserialize_auxiliary_keys(uint64_t id, const std::vecto
+     paillier.reset(paillier_public_key_deserialize(paillier_public_key.data(), paillier_public_key.size()), paillier_free_public_key);
+     if (!paillier)
+     {
+-        LOG_ERROR("failed to parse paillier public key from player %lu", id);
++        LOG_ERROR("failed to parse paillier public key from player %llu", id);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+     if (paillier_public_key_size(paillier.get()) < PAILLIER_KEY_SIZE)
+     {
+-        LOG_ERROR("paillier public key from player %lu size %u, is smaller then the minimum key size %u", id, paillier_public_key_size(paillier.get()), PAILLIER_KEY_SIZE);
++        LOG_ERROR("paillier public key from player %llu size %u, is smaller then the minimum key size %u", id, paillier_public_key_size(paillier.get()), PAILLIER_KEY_SIZE);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ 
+     ring_pedersen.reset(ring_pedersen_public_deserialize(ring_pedersen_public_key.data(), ring_pedersen_public_key.size()), ring_pedersen_free_public);
+     if (!ring_pedersen)
+     {
+-        LOG_ERROR("failed to parse ring pedersen public key from player %lu", id);
++        LOG_ERROR("failed to parse ring pedersen public key from player %llu", id);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+     if (ring_pedersen_public_size(ring_pedersen.get()) < RING_PEDERSEN_KEY_SIZE)
+     {
+-        LOG_ERROR("ring pedersen public key from player %lu size %u, is smaller then the minimum key size %u", id, ring_pedersen_public_size(ring_pedersen.get()), RING_PEDERSEN_KEY_SIZE);
++        LOG_ERROR("ring pedersen public key from player %llu size %u, is smaller then the minimum key size %u", id, ring_pedersen_public_size(ring_pedersen.get()), RING_PEDERSEN_KEY_SIZE);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ }
+@@ -624,7 +624,7 @@ void cmp_setup_service::create_setup_commitment(const std::string& key_id, uint6
+         auto status = commitments_ctx_verify_final(ctx);
+         if (status != COMMITMENTS_SUCCESS)
+         {
+-            LOG_ERROR("failed to verify commitment for player %lu error %d", id, status);
++            LOG_ERROR("failed to verify commitment for player %llu error %d", id, status);
+             throw_cosigner_exception(status);
+         }
+     }
+@@ -660,7 +660,7 @@ void cmp_setup_service::verify_and_load_setup_decommitments(const std::string& k
+         auto decommit_it = decommitments.find(i->first);
+         if (decommit_it == decommitments.end())
+         {
+-            LOG_ERROR("missing decommitment from player %lu", i->first);
++            LOG_ERROR("missing decommitment from player %llu", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         commitment commit = i->second;
+@@ -668,7 +668,7 @@ void cmp_setup_service::verify_and_load_setup_decommitments(const std::string& k
+ 
+         if (memcmp(ack, decommit_it->second.ack, sizeof(commitments_sha256_t)) != 0)
+         {
+-            LOG_ERROR("ack from player %lu is different from my claculated ack", i->first);
++            LOG_ERROR("ack from player %llu is different from my claculated ack", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+@@ -714,7 +714,7 @@ void cmp_setup_service::verify_setup_proofs(const std::string& key_id, const cmp
+         auto proof = proofs.find(i->first);
+         if (proof == proofs.end())
+         {
+-            LOG_ERROR("missing proof from player %lu", i->first);
++            LOG_ERROR("missing proof from player %llu", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (i->first == my_id)
+@@ -727,21 +727,21 @@ void cmp_setup_service::verify_setup_proofs(const std::string& key_id, const cmp
+         auto status = schnorr_zkp_verify(algebra, aad.data(), aad.size(), &i->second.public_share.data, &schnorr);
+         if (status != ZKP_SUCCESS)
+         {
+-            LOG_ERROR("Failed to verify schnorr zkp from player %lu", i->first);
++            LOG_ERROR("Failed to verify schnorr zkp from player %llu", i->first);
+             throw_cosigner_exception(status);
+         }
+ 
+         auto paillier_status = paillier_verify_paillier_blum_zkp(i->second.paillier.get(), aad.data(), aad.size(), proof->second.paillier_blum_zkp.data(), proof->second.paillier_blum_zkp.size());
+         if (paillier_status != PAILLIER_SUCCESS)
+         {
+-            LOG_ERROR("Failed to verify paillier blum zkp from player %lu", i->first);
++            LOG_ERROR("Failed to verify paillier blum zkp from player %llu", i->first);
+             throw_paillier_exception(paillier_status);   
+         }
+ 
+         status = ring_pedersen_parameters_zkp_verify(i->second.ring_pedersen.get(), aad.data(), aad.size(), proof->second.ring_pedersen_param_zkp.data(), proof->second.ring_pedersen_param_zkp.size());
+         if (status != ZKP_SUCCESS)
+         {
+-            LOG_ERROR("Failed to verify ring pedersen parameters zkp from player %lu", i->first);
++            LOG_ERROR("Failed to verify ring pedersen parameters zkp from player %llu", i->first);
+             throw_cosigner_exception(status);   
+         }
+     }
+diff --git a/src/common/cosigner/eddsa_online_signing_service.cpp b/src/common/cosigner/eddsa_online_signing_service.cpp
+index 8bb4f91..3bb84f7 100644
+--- a/src/common/cosigner/eddsa_online_signing_service.cpp
++++ b/src/common/cosigner/eddsa_online_signing_service.cpp
+@@ -62,7 +62,7 @@ void eddsa_online_signing_service::start_signing(const std::string& key_id, cons
+     {
+         if (metadata.players_info.find(*i) == metadata.players_info.end())
+         {
+-            LOG_ERROR("playerid %lu not part of key, for keyid = %s, txid = %s", *i, key_id.c_str(), txid.c_str());
++            LOG_ERROR("playerid %llu not part of key, for keyid = %s, txid = %s", *i, key_id.c_str(), txid.c_str());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -158,7 +158,7 @@ uint64_t eddsa_online_signing_service::store_commitments(const std::string& txid
+     {
+         if (commitments.find(*i) == commitments.end())
+         {
+-            LOG_ERROR("commitment for player %lu not found in commitments list", *i);
++            LOG_ERROR("commitment for player %llu not found in commitments list", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS); 
+         }
+     }
+@@ -166,7 +166,7 @@ uint64_t eddsa_online_signing_service::store_commitments(const std::string& txid
+     {
+         if (i->second.size() != data.sig_data.size())
+         {
+-            LOG_ERROR("commitment for player %lu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
++            LOG_ERROR("commitment for player %llu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS); 
+         }
+     }
+@@ -208,7 +208,7 @@ uint64_t eddsa_online_signing_service::broadcast_si(const std::string& txid, con
+     {
+         if (Rs.find(*i) == Rs.end())
+         {
+-            LOG_ERROR("commitment for player %lu not found in commitments list", *i);
++            LOG_ERROR("commitment for player %llu not found in commitments list", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS); 
+         }
+     }
+@@ -216,7 +216,7 @@ uint64_t eddsa_online_signing_service::broadcast_si(const std::string& txid, con
+     {
+         if (i->second.size() != data.sig_data.size())
+         {
+-            LOG_ERROR("commitment for player %lu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
++            LOG_ERROR("commitment for player %llu size %lu is different from block size %lu", i->first, i->second.size(), data.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS); 
+         }
+     }
+@@ -230,7 +230,7 @@ uint64_t eddsa_online_signing_service::broadcast_si(const std::string& txid, con
+         auto it = Rs.find(i->first);
+         if (it == Rs.end())
+         {
+-            LOG_ERROR("R from player %lu missing", i->first);
++            LOG_ERROR("R from player %llu missing", i->first);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+@@ -238,7 +238,7 @@ uint64_t eddsa_online_signing_service::broadcast_si(const std::string& txid, con
+         {
+             if (commitments_verify_commitment(it->second[j].data, sizeof(elliptic_curve256_point_t), &i->second[j].data) != COMMITMENTS_SUCCESS)
+             {
+-                LOG_ERROR("failed to verify gamma commitment for player %lu", i->first);
++                LOG_ERROR("failed to verify gamma commitment for player %llu", i->first);
+                 throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+             }
+         }
+@@ -320,12 +320,12 @@ uint64_t eddsa_online_signing_service::get_eddsa_signature(const std::string& tx
+         auto it = s.find(*i);
+         if (it == s.end())
+         {
+-            LOG_ERROR("s from player %lu missing", *i);
++            LOG_ERROR("s from player %llu missing", *i);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+         if (it->second.size() != data.sig_data.size())
+         {
+-            LOG_ERROR("number of s (%lu) from player %lu is different from block size %lu", it->second.size(), *i, data.sig_data.size());
++            LOG_ERROR("number of s (%lu) from player %llu is different from block size %lu", it->second.size(), *i, data.sig_data.size());
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS); 
+         }
+         if (*i == my_id)
+@@ -393,7 +393,7 @@ uint64_t eddsa_online_signing_service::get_eddsa_signature(const std::string& tx
+     {
+         uint64_t diff = (clock() - timing_it->second);
+         _timing_map.erase(timing_it);
+-        LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %lums", sig.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
++        LOG_INFO("Finished signing %lu blocks for transaction %s (tenanat %s) in %llums", sig.size(), txid.c_str(), _service.get_current_tenantid().c_str(), diff);
+     }
+ 
+     return my_id;
+diff --git a/src/common/cosigner/mta.cpp b/src/common/cosigner/mta.cpp
+index 073fc86..8195f5b 100644
+--- a/src/common/cosigner/mta.cpp
++++ b/src/common/cosigner/mta.cpp
+@@ -565,7 +565,7 @@ elliptic_curve_scalar decrypt_mta_response(uint64_t other_id, const elliptic_cur
+     auto status = paillier_decrypt_openssl_internal(my_key.get(), resp, alpha.get(), ctx.get());
+     if (status != PAILLIER_SUCCESS)
+     {
+-        LOG_ERROR("Failed to decrypt mta response from player %lu, error %ld", other_id, status);
++        LOG_ERROR("Failed to decrypt mta response from player %llu, error %ld", other_id, status);
+         throw cosigner_exception(cosigner_exception::INTERNAL_ERROR);
+     }
+     if (!BN_rshift1(tmp, my_key->pub.n))
+@@ -690,12 +690,12 @@ void response_verifier::process(const byte_vector_t& request, cmp_mta_message& r
+     // start with range check
+     if ((size_t)BN_num_bytes(proof.z1) > sizeof(elliptic_curve256_scalar_t) + MTA_ZKP_EPSILON_SIZE)
+     {
+-        LOG_ERROR("player %lu z1 (%d bits) is out of range", _other_id, BN_num_bits(proof.z1));
++        LOG_ERROR("player %llu z1 (%d bits) is out of range", _other_id, BN_num_bits(proof.z1));
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+     if ((size_t)BN_num_bytes(proof.z2) > sizeof(elliptic_curve256_scalar_t) * BETA_HIDING_FACTOR + MTA_ZKP_EPSILON_SIZE)
+     {
+-        LOG_ERROR("player %lu z2 (%d bits) is out of range", _other_id, BN_num_bits(proof.z2));
++        LOG_ERROR("player %llu z2 (%d bits) is out of range", _other_id, BN_num_bits(proof.z2));
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ 
+@@ -751,7 +751,7 @@ void response_verifier::process(const byte_vector_t& request, cmp_mta_message& r
+ 
+     if (memcmp(p1, p2, sizeof(elliptic_curve256_point_t)) != 0)
+     {
+-        LOG_ERROR("Failed to verify Bx*X^e == g^z1 for player %lu", _other_id);
++        LOG_ERROR("Failed to verify Bx*X^e == g^z1 for player %llu", _other_id);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+     process_paillier(e, mta_request, mta_response, commitment, proof);
+@@ -777,7 +777,7 @@ void response_verifier::verify()
+         }
+         if (BN_cmp(tmp, _mta_B[i]) != 0)
+         {
+-            LOG_ERROR("Failed to verify mta ro^N == B for player %lu", _other_id);
++            LOG_ERROR("Failed to verify mta ro^N == B for player %llu", _other_id);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+ 
+@@ -788,7 +788,7 @@ void response_verifier::verify()
+         }
+         if (BN_cmp(tmp, _commitment_B[i]) != 0)
+         {
+-            LOG_ERROR("Failed to verify commitment ro^N == B for player %lu", _other_id);
++            LOG_ERROR("Failed to verify commitment ro^N == B for player %llu", _other_id);
+             throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+         }
+     }
+@@ -803,7 +803,7 @@ void response_verifier::verify()
+ 
+     if (BN_cmp(_pedersen_t_exp, _pedersen_B) != 0)
+     {
+-        LOG_ERROR("Failed to verify commitment t^exp_t == B for player %lu", _other_id);
++        LOG_ERROR("Failed to verify commitment t^exp_t == B for player %llu", _other_id);
+         throw cosigner_exception(cosigner_exception::INVALID_PARAMETERS);
+     }
+ }

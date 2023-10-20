@@ -1,0 +1,16 @@
+diff --git a/Makefile b/Makefile
+index 9f02fce..5fef306 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,10 +1,5 @@
+ all:
+ 	@$(MAKE) -C src/ all
+-	@$(MAKE) -C test/ all
+-	
++
+ clean:
+ 	@$(MAKE) -C src/ clean
+-	@$(MAKE) -C test/ clean
+-
+-run-tests:
+-	@$(MAKE) -C test/ run

@@ -1,0 +1,13 @@
+diff --git a/include/cosigner/cmp_ecdsa_signing_service.h b/include/cosigner/cmp_ecdsa_signing_service.h
+index 87b2f09..52cd255 100644
+--- a/include/cosigner/cmp_ecdsa_signing_service.h
++++ b/include/cosigner/cmp_ecdsa_signing_service.h
+@@ -22,7 +22,7 @@ namespace mta
+ 
+ class cmp_key_persistency;
+ class platform_service;
+-class cmp_key_metadata;
++struct cmp_key_metadata;
+ struct auxiliary_keys;
+ 
+ struct cmp_mta_message
