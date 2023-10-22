@@ -18,7 +18,7 @@ secp256k1_config:
 		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
 		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
-		--with-pic --enable-static --disable-shared \
+		--with-pic --enable-static --disable-shared --enable-module-recovery \
 	)
 
 secp256k1_build:
