@@ -69,7 +69,14 @@ mpc-lib_uninstall:
 	${BSPSUDO} rm -rf ${BSPROOTFS}/bin/cosigner-test
 
 mpc-lib_clean:
-	rm -rf mpc-lib-$(MPC_LIB_VERSION)
+	CC=${BSPCC} \
+	CXX=${BSPCXX} \
+	CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+	CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+	CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+	LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
+	PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
+	ARCH_CFLAGS=$(MPC_LIB_FLAGS) make -C mpc-lib-$(MPC_LIB_VERSION) -j ${BSPJOB} clean;
 
 mpc-lib_distclean:
 	rm -rf mpc-lib-$(MPC_LIB_VERSION)
