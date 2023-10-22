@@ -43,6 +43,7 @@ mpc-lib_config:
 ifeq ($(HOST_PLATFORM),MACOS)
 	if [ -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then patch -d mpc-lib-$(MPC_LIB_VERSION) -p1 < patches-macos/006-mpc-lib-macos-no-tests.patch ; fi
 	if [ -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then patch -d mpc-lib-$(MPC_LIB_VERSION) -p1 < patches-macos/007-mpc-lib-macos-format.patch ; fi
+	if [ -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then patch -d mpc-lib-$(MPC_LIB_VERSION) -p1 < patches-macos/008-mpc-lib-macos-flags.patch ; fi
 	if [ -d "mpc-lib-$(MPC_LIB_VERSION)/include" ]; then cp -a patches-macos/byteswap.h mpc-lib-$(MPC_LIB_VERSION)/include/ ; fi
 endif
 
