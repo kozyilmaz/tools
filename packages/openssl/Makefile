@@ -78,8 +78,8 @@ openssl_uninstall:
 	${BSPSUDO} make -C openssl-$(OPENSSL_VERSION) uninstall_sw
 
 openssl_clean:
-	rm -rf openssl-$(OPENSSL_VERSION)
+	@rm -rf openssl-$(OPENSSL_VERSION)
 
 openssl_distclean:
-	rm -rf openssl-$(OPENSSL_VERSION)
-	rm -rf openssl-$(OPENSSL_VERSION).tar.gz
+	@rm -rf openssl-$(OPENSSL_VERSION)
+	@rm -rf openssl-$(OPENSSL_VERSION).tar.gz
