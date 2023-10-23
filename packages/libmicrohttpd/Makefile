@@ -34,8 +34,8 @@ libmicrohttpd_uninstall:
 	${BSPSUDO} make -C libmicrohttpd-$(LIBMICROHTTPD_VERSION) uninstall
 
 libmicrohttpd_clean:
-	rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION)
+	@rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION)
 
 libmicrohttpd_distclean:
-	rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION)
-	rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION).tar.gz
+	@rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION)
+	@rm -rf libmicrohttpd-$(LIBMICROHTTPD_VERSION).tar.gz
