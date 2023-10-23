@@ -40,8 +40,8 @@ prometheus_uninstall:
 	${BSPSUDO} rm -rf ${BSPROOTFS}/lib/cmake/prometheus-cpp
 
 prometheus_clean:
-	if [ -d "prometheus-cpp-$(PROMETHEUS_VERSION)" ]; then cd prometheus-cpp-$(PROMETHEUS_VERSION) && git clean -dfx && git clean -dfX && git checkout * ; fi
+	@if [ -d "prometheus-cpp-$(PROMETHEUS_VERSION)" ]; then cd prometheus-cpp-$(PROMETHEUS_VERSION) && git clean -dfx && git clean -dfX && git checkout * ; fi
 
 prometheus_distclean:
-	rm -rf prometheus-cpp-$(PROMETHEUS_VERSION)
-	rm -rf prometheus-cpp-$(PROMETHEUS_VERSION).tar.gz
+	@rm -rf prometheus-cpp-$(PROMETHEUS_VERSION)
+	@rm -rf prometheus-cpp-$(PROMETHEUS_VERSION).tar.gz
