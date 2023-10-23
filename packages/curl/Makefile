@@ -48,8 +48,8 @@ curl_uninstall:
 	${BSPSUDO} make -C curl-$(CURL_VERSION) uninstall
 
 curl_clean:
-	rm -rf curl-$(CURL_VERSION)
+	@rm -rf curl-$(CURL_VERSION)
 
 curl_distclean:
-	rm -rf curl-$(CURL_VERSION)
-	rm -rf curl-$(CURL_VERSION).tar.gz
+	@rm -rf curl-$(CURL_VERSION)
+	@rm -rf curl-$(CURL_VERSION).tar.gz
