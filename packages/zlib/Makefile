@@ -32,8 +32,8 @@ zlib_uninstall:
 	${BSPSUDO} make -C zlib-$(ZLIB_VERSION) uninstall
 
 zlib_clean:
-	rm -rf zlib-$(ZLIB_VERSION)
+	@rm -rf zlib-$(ZLIB_VERSION)
 
 zlib_distclean:
-	rm -rf zlib-$(ZLIB_VERSION)
-	rm -rf zlib-$(ZLIB_VERSION).tar.gz
+	@rm -rf zlib-$(ZLIB_VERSION)
+	@rm -rf zlib-$(ZLIB_VERSION).tar.gz

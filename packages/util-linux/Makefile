@@ -37,8 +37,8 @@ util-linux_uninstall:
 	${BSPSUDO} make -C util-linux-$(UTIL-LINUX_VERSION) uninstall
 
 util-linux_clean:
-	rm -rf util-linux-$(UTIL-LINUX_VERSION)
+	@rm -rf util-linux-$(UTIL-LINUX_VERSION)
 
 util-linux_distclean:
-	rm -rf util-linux-$(UTIL-LINUX_VERSION)
-	rm -rf util-linux-$(UTIL-LINUX_VERSION).tar.gz
+	@rm -rf util-linux-$(UTIL-LINUX_VERSION)
+	@rm -rf util-linux-$(UTIL-LINUX_VERSION).tar.gz
