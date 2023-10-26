@@ -5,7 +5,7 @@ include ../../Makefile.build
 
 CMAKE_MAJOR=3
 CMAKE_MINOR=27
-CMAKE_MICRO=6
+CMAKE_MICRO=7
 CMAKE_VERSION=$(CMAKE_MAJOR).$(CMAKE_MINOR).$(CMAKE_MICRO)
 
 cmake_clone:
