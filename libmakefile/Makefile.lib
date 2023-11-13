@@ -53,6 +53,7 @@
 #   20200627 - uniq files
 #   20211105 - accept *.h as cpp header
 #   20220611 - archflags support
+#   20231029 - add rules for all subdirs
 
 #
 # Example
@@ -886,8 +887,15 @@ define target_empty-defaults
 endef
 
 define subdir_empty-defaults
-    $(addsuffix _$2, $1): __FORCE
-	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _$2,,$$@)' $2
+    $1: $1_all
+	$(do_print_deps)
+
+    $(addsuffix _all, $1): $($1_depends-y) __FORCE
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _all,,$$@)' all
+	$(do_print_deps)
+
+    $(addsuffix _clean, $1): __FORCE
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _clean,,$$@)' clean
 endef
 
 define subdir-defaults
