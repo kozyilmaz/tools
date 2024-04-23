@@ -7,25 +7,9 @@ TOOLS_ENABLE_ESSENTIALS ?= y
 TOOLS_ENABLE_CMAKE      ?= y
 TOOLS_ENABLE_GCC        ?= n
 
-# macOS does have m4 and libtool by default
-# Linux does not have any tools by default
-# therefore,
-# if m4 is not available, it is built (out-of-the-box Linux)
-# libtool is built with 'g' prefix on all platforms
-
-# check for m4 presence, add if not
-ifeq ($(shell command -v m4;),)
-subdir-y = \
-	m4
-endif
-# for distclean inclusion
-ifneq ($(findstring $(BSPTOOLS)/bin/m4,$(shell command -v m4;)),)
-subdir-y = \
-	m4
-endif
-
 # essentials
 subdir-${TOOLS_ENABLE_ESSENTIALS} += \
+	m4 \
 	autoconf \
 	automake \
 	libtool \
