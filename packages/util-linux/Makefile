@@ -14,6 +14,7 @@ util-linux_clone:
 	if [ ! -d "util-linux-$(UTIL-LINUX_VERSION)" ]; then tar xvf util-linux-$(UTIL-LINUX_VERSION).tar.gz; fi
 
 util-linux_config:
+	$(call patchme,util-linux-$(UTIL-LINUX_VERSION))
 	( cd util-linux-$(UTIL-LINUX_VERSION); \
 		CC=${BSPCC} \
 		CXX=${BSPCXX} \
