@@ -3,7 +3,7 @@ target_name ?= prometheus
 
 include ../../Makefile.build
 
-PROMETHEUS_VERSION=v1.1.0
+PROMETHEUS_VERSION=v1.2.4
 
 prometheus_clone:
 	if [ ! -d "prometheus-cpp-$(PROMETHEUS_VERSION)" ]; then (git clone https://github.com/jupp0r/prometheus-cpp.git prometheus-cpp-$(PROMETHEUS_VERSION) && cd prometheus-cpp-$(PROMETHEUS_VERSION) && git checkout $(PROMETHEUS_VERSION) && git submodule init && git submodule update); fi
