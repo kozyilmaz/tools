@@ -3,7 +3,7 @@ target_name ?= autoconf
 
 include ../../Makefile.build
 
-AUTOCONF_VERSION="2.71"
+AUTOCONF_VERSION="2.72"
 
 autoconf_clone:
 	if [ ! -f "autoconf-$(AUTOCONF_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/autoconf/autoconf-$(AUTOCONF_VERSION).tar.gz; fi
