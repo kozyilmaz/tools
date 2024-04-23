@@ -21,10 +21,14 @@ gcc        (suffixed with '-gnu')
 
 ### Available Packages
 ```
-zlib
-openssl
-curl
-libuuid
+zlib           (compression)
+openssl        (ssl)
+curl           (http client)
+libuuid        (unique ids)
+libmicrohttpd  (http server)
+libhttpserver  (http server)
+prometheus-cpp (monitoring)
+secp256k1      (ecc)
 ```
 
 ### Build instructions
