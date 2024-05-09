@@ -5,9 +5,9 @@ include ../../Makefile.build
 
 UTIL-LINUX_MAJOR=2
 UTIL-LINUX_MINOR=40
-UTIL-LINUX_MICRO=0
+UTIL-LINUX_MICRO=1
 
-UTIL-LINUX_VERSION=$(UTIL-LINUX_MAJOR).$(UTIL-LINUX_MINOR)
+UTIL-LINUX_VERSION=$(UTIL-LINUX_MAJOR).$(UTIL-LINUX_MINOR).$(UTIL-LINUX_MICRO)
 
 util-linux_clone:
 	if [ ! -f "util-linux-$(UTIL-LINUX_VERSION).tar.gz" ]; then curl -OL https://www.kernel.org/pub/linux/utils/util-linux/v$(UTIL-LINUX_MAJOR).$(UTIL-LINUX_MINOR)/util-linux-$(UTIL-LINUX_VERSION).tar.gz; fi
