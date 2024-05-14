@@ -22,8 +22,8 @@ gmp_uninstall:
 	${BSPSUDO} make -C gmp-$(GMP_VERSION) uninstall
 
 gmp_clean:
-	rm -rf gmp-$(GMP_VERSION)
+	@rm -rf gmp-$(GMP_VERSION)
 
 gmp_distclean:
-	rm -rf gmp-$(GMP_VERSION)
-	rm -rf gmp-$(GMP_VERSION).tar.bz2
+	@rm -rf gmp-$(GMP_VERSION)
+	@rm -rf gmp-$(GMP_VERSION).tar.bz2

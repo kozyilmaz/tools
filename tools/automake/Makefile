@@ -22,8 +22,8 @@ automake_uninstall:
 	${BSPSUDO} make -C automake-$(AUTOMAKE_VERSION) uninstall
 
 automake_clean:
-	rm -rf automake-$(AUTOMAKE_VERSION)
+	@rm -rf automake-$(AUTOMAKE_VERSION)
 
 automake_distclean:
-	rm -rf automake-$(AUTOMAKE_VERSION)
-	rm -rf automake-$(AUTOMAKE_VERSION).tar.gz
+	@rm -rf automake-$(AUTOMAKE_VERSION)
+	@rm -rf automake-$(AUTOMAKE_VERSION).tar.gz

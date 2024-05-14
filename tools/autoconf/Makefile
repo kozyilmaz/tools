@@ -22,8 +22,8 @@ autoconf_uninstall:
 	${BSPSUDO} make -C autoconf-$(AUTOCONF_VERSION) uninstall
 
 autoconf_clean:
-	rm -rf autoconf-$(AUTOCONF_VERSION)
+	@rm -rf autoconf-$(AUTOCONF_VERSION)
 
 autoconf_distclean:
-	rm -rf autoconf-$(AUTOCONF_VERSION)
-	rm -rf autoconf-$(AUTOCONF_VERSION).tar.gz
+	@rm -rf autoconf-$(AUTOCONF_VERSION)
+	@rm -rf autoconf-$(AUTOCONF_VERSION).tar.gz

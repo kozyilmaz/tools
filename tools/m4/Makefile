@@ -22,8 +22,8 @@ m4_uninstall:
 	${BSPSUDO} make -C m4-$(M4_VERSION) uninstall
 
 m4_clean:
-	rm -rf m4-$(M4_VERSION)
+	@rm -rf m4-$(M4_VERSION)
 
 m4_distclean:
-	rm -rf m4-$(M4_VERSION)
-	rm -rf m4-$(M4_VERSION).tar.gz
+	@rm -rf m4-$(M4_VERSION)
+	@rm -rf m4-$(M4_VERSION).tar.gz

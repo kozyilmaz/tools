@@ -22,8 +22,8 @@ mpc_uninstall:
 	${BSPSUDO} make -C mpc-$(MPC_VERSION) uninstall
 
 mpc_clean:
-	rm -rf mpc-$(MPC_VERSION)
+	@rm -rf mpc-$(MPC_VERSION)
 
 mpc_distclean:
-	rm -rf mpc-$(MPC_VERSION)
-	rm -rf mpc-$(MPC_VERSION).tar.gz
+	@rm -rf mpc-$(MPC_VERSION)
+	@rm -rf mpc-$(MPC_VERSION).tar.gz

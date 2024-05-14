@@ -44,8 +44,8 @@ gnugcc_uninstall:
 	${BSPSUDO} make -C gcc-$(GCC_VERSION) uninstall
 
 gnugcc_clean:
-	rm -rf gcc-$(GCC_VERSION)
+	@rm -rf gcc-$(GCC_VERSION)
 
 gnugcc_distclean:
-	rm -rf gcc-$(GCC_VERSION)
-	rm -rf gcc-$(GCC_VERSION).tar.gz
+	@rm -rf gcc-$(GCC_VERSION)
+	@rm -rf gcc-$(GCC_VERSION).tar.gz

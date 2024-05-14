@@ -22,8 +22,8 @@ libtool_uninstall:
 	${BSPSUDO} make -C libtool-$(LIBTOOL_VERSION) uninstall
 
 libtool_clean:
-	rm -rf libtool-$(LIBTOOL_VERSION)
+	@rm -rf libtool-$(LIBTOOL_VERSION)
 
 libtool_distclean:
-	rm -rf libtool-$(LIBTOOL_VERSION)
-	rm -rf libtool-$(LIBTOOL_VERSION).tar.gz
+	@rm -rf libtool-$(LIBTOOL_VERSION)
+	@rm -rf libtool-$(LIBTOOL_VERSION).tar.gz
