@@ -4,8 +4,8 @@ target_name ?= cmake
 include ../../Makefile.build
 
 CMAKE_MAJOR=3
-CMAKE_MINOR=29
-CMAKE_MICRO=3
+CMAKE_MINOR=30
+CMAKE_MICRO=5
 CMAKE_VERSION=$(CMAKE_MAJOR).$(CMAKE_MINOR).$(CMAKE_MICRO)
 
 cmake_clone:
