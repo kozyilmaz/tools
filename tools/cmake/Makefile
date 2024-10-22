@@ -15,7 +15,7 @@ cmake_clone:
 cmake_config:
 	( cd cmake-$(CMAKE_VERSION); \
 		CC=gcc CFLAGS="" CXXFLAGS="" \
-		./bootstrap --parallel=${BSPJOB} --prefix=${BSPTOOLS} --no-qt-gui -- -DCMAKE_USE_OPENSSL=OFF; \
+		./bootstrap --parallel=${BSPJOB} --prefix=${BSPTOOLS} --no-system-libs --no-qt-gui -- -DCMAKE_USE_OPENSSL=OFF; \
 	)
 
 cmake_build:
