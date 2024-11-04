@@ -10,7 +10,7 @@ pkgconfig_clone:
 	if [ ! -d "pkg-config-$(PKGCONFIG_VERSION)" ]; then tar xzf pkg-config-$(PKGCONFIG_VERSION).tar.gz; fi
 
 pkgconfig_config:
-	( cd pkg-config-$(PKGCONFIG_VERSION) && autoreconf -i; \
+	( cd pkg-config-$(PKGCONFIG_VERSION); \
 		CFLAGS="-Wno-int-conversion" ./configure --prefix=${BSPTOOLS} -with-internal-glib; \
 	)
 
