@@ -33,7 +33,7 @@ libhttpserver_uninstall:
 	${BSPSUDO} make -C libhttpserver-$(LIBHTTPSERVER_VERSION)/build uninstall
 
 libhttpserver_clean:
-	@if [ -d "libhttpserver-$(LIBHTTPSERVER_VERSION)" ]; then cd libhttpserver-$(LIBHTTPSERVER_VERSION) && git clean -dfx && git clean -dfX && git checkout * ; fi
+	@if [ -d "libhttpserver-$(LIBHTTPSERVER_VERSION)" ]; then cd libhttpserver-$(LIBHTTPSERVER_VERSION) && git clean -dfx --quiet && git clean -dfX --quiet && git checkout * --quiet; fi
 
 libhttpserver_distclean:
 	@rm -rf libhttpserver-$(LIBHTTPSERVER_VERSION)
