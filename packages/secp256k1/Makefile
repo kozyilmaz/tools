@@ -31,7 +31,7 @@ secp256k1_uninstall:
 	${BSPSUDO} make -C secp256k1-$(SECP256K1_VERSION) uninstall
 
 secp256k1_clean:
-	@if [ -d "secp256k1-$(SECP256K1_VERSION)" ]; then cd secp256k1-$(SECP256K1_VERSION) && git clean -dfx && git clean -dfX && git checkout * ; fi
+	@if [ -d "secp256k1-$(SECP256K1_VERSION)" ]; then cd secp256k1-$(SECP256K1_VERSION) && git clean -dfx --quiet && git clean -dfX --quiet && git checkout * --quiet; fi
 
 secp256k1_distclean:
 	@rm -rf secp256k1-$(SECP256K1_VERSION)
