@@ -1,5 +1,5 @@
 diff --git a/push/CMakeLists.txt b/push/CMakeLists.txt
-index bc116ed..90a4b52 100644
+index f6110b1..51cb281 100644
 --- a/push/CMakeLists.txt
 +++ b/push/CMakeLists.txt
 @@ -1,5 +1,6 @@
@@ -8,12 +8,12 @@ index bc116ed..90a4b52 100644
 +find_package(OpenSSL REQUIRED)
  
  add_library(push
-   src/curl_wrapper.cc
-@@ -20,6 +21,7 @@ target_link_libraries(push
-   PRIVATE
-     Threads::Threads
+   src/gateway.cc
+@@ -21,6 +22,7 @@ target_link_libraries(push
+   PUBLIC
+     ${PROJECT_NAME}::core
      CURL::libcurl
 +    OpenSSL::SSL OpenSSL::Crypto
-     $<$<AND:$<BOOL:UNIX>,$<NOT:$<BOOL:APPLE>>>:rt>
- )
- 
+   PRIVATE
+     ${PROJECT_NAME}::util
+     Threads::Threads
