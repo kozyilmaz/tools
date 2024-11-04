@@ -10,9 +10,7 @@ libtool_clone:
 	if [ ! -d "libtool-$(LIBTOOL_VERSION)" ]; then tar xzf libtool-$(LIBTOOL_VERSION).tar.gz; fi
 
 libtool_config:
-	( cd libtool-$(LIBTOOL_VERSION); \
-		./configure --prefix=${BSPTOOLS} --enable-static --disable-shared;
-	)
+	( cd libtool-$(LIBTOOL_VERSION); ./configure --prefix=${BSPTOOLS} --enable-static --disable-shared )
 
 libtool_build:
 	make -C libtool-$(LIBTOOL_VERSION) -j ${BSPJOB}
