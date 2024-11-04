@@ -1,0 +1,13 @@
+diff --git a/bootstrap b/bootstrap
+index 7de7c1b..132ba12 100755
+--- a/bootstrap
++++ b/bootstrap
+@@ -20,7 +20,7 @@
+ aclocal -I m4
+ autoheader
+ if [[ "$OSTYPE" == "darwin"* ]]; then
+-    glibtoolize --automake
++    libtoolize --automake
+ else
+     libtoolize --automake
+ fi
