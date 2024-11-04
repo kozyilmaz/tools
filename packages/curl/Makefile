@@ -33,6 +33,7 @@ curl_config:
 		--disable-dict --disable-telnet --disable-tftp --disable-pop3 \
 		--disable-imap --disable-smb --disable-smtp --disable-gopher \
 		--disable-ntlm-wb \
+		--without-libpsl \
 		--with-ssl=${BSPROOTFS} \
 		--with-ca-fallback \
 		--with-zlib=${BSPROOTFS} \
