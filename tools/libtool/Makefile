@@ -3,7 +3,7 @@ target_name ?= libtool
 
 include ../../Makefile.build
 
-LIBTOOL_VERSION="2.5.3"
+LIBTOOL_VERSION="2.5.4"
 
 libtool_clone:
 	if [ ! -f "libtool-$(LIBTOOL_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/libtool/libtool-$(LIBTOOL_VERSION).tar.gz; fi;
