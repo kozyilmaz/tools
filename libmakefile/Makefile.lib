@@ -53,7 +53,6 @@
 #   20200627 - uniq files
 #   20211105 - accept *.h as cpp header
 #   20220611 - archflags support
-#   20231029 - add rules for all subdirs
 
 #
 # Example
@@ -887,15 +886,8 @@ define target_empty-defaults
 endef
 
 define subdir_empty-defaults
-    $1: $1_all
-	$(do_print_deps)
-
-    $(addsuffix _all, $1): $($1_depends-y) __FORCE
-	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _all,,$$@)' all
-	$(do_print_deps)
-
-    $(addsuffix _clean, $1): __FORCE
-	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _clean,,$$@)' clean
+    $(addsuffix _$2, $1): __FORCE
+	${Q}+ $(MAKE) $($1_makeflags-y) -C '$$(subst _$2,,$$@)' $2
 endef
 
 define subdir-defaults
@@ -945,7 +937,7 @@ define dist-defaults
 
     $1_distclean: __FORCE
 	$(do_distclean) $(addprefix $(dist.dir)/$2/, $($1_files))
-	$(Q)if [ -e '$$(abspath $(dist.dir))' ]; then find '$$(abspath $(dist.dir))' -depth -type d -empty -exec rm -rf {} \; ; fi
+	$(Q)if [ -e '$$(abspath $(dist.dir))' ]; then find '$$(abspath $(dist.dir))' -depth -type d -empty -exec rm -rf {} \; 2>/dev/null ; fi
 endef
 
 define dist.share-variables
