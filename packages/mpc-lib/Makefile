@@ -63,6 +63,7 @@ mpc-lib_build:
 mpc-lib_install:
 	if [ ! -d "${BSPROOTFS}/include/mpc-lib" ]; then ${BSPSUDO} mkdir -p ${BSPROOTFS}/include/mpc-lib; fi
 	if [ -d "mpc-lib-$(MPC_LIB_VERSION)/include" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/include/* ${BSPROOTFS}/include/mpc-lib; fi
+	if [ -f "mpc-lib-$(MPC_LIB_VERSION)/_build/src/common/cosigner_export.h" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/_build/src/common/cosigner_export.h ${BSPROOTFS}/include/mpc-lib; fi
 	if [ -f "mpc-lib-$(MPC_LIB_VERSION)/_build/src/common/libcosigner.so" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/_build/src/common/libcosigner.so ${BSPROOTFS}/lib; fi
 	if [ -f "mpc-lib-$(MPC_LIB_VERSION)/_build/test/cosigner/cosigner_test" ]; then ${BSPSUDO} cp -a mpc-lib-$(MPC_LIB_VERSION)/_build/test/cosigner/cosigner_test ${BSPROOTFS}/bin/cosigner-test; fi
 
