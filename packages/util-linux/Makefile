@@ -4,8 +4,8 @@ target_name ?= util-linux
 include ../../Makefile.build
 
 UTIL-LINUX_MAJOR=2
-UTIL-LINUX_MINOR=40
-UTIL-LINUX_MICRO=2
+UTIL-LINUX_MINOR=41
+UTIL-LINUX_MICRO=1
 
 UTIL-LINUX_VERSION=$(UTIL-LINUX_MAJOR).$(UTIL-LINUX_MINOR).$(UTIL-LINUX_MICRO)
 
@@ -14,7 +14,6 @@ util-linux_clone:
 	if [ ! -d "util-linux-$(UTIL-LINUX_VERSION)" ]; then tar xvf util-linux-$(UTIL-LINUX_VERSION).tar.gz; fi
 
 util-linux_config:
-	$(call patchme,util-linux-$(UTIL-LINUX_VERSION))
 	( cd util-linux-$(UTIL-LINUX_VERSION); \
 		CC=${BSPCC} \
 		CXX=${BSPCXX} \
