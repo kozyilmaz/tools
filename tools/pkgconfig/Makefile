@@ -11,7 +11,7 @@ pkgconfig_clone:
 
 pkgconfig_config:
 	( cd pkg-config-$(PKGCONFIG_VERSION); \
-		CFLAGS="-Wno-int-conversion" ./configure --prefix=${BSPTOOLS} -with-internal-glib; \
+		CFLAGS="-Wno-int-conversion" ./configure --prefix=${BSPTOOLS} -with-internal-glib --disable-host-tool; \
 	)
 
 pkgconfig_build:
