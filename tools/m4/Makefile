@@ -3,7 +3,7 @@ target_name ?= m4
 
 include ../../Makefile.build
 
-M4_VERSION="1.4.19"
+M4_VERSION="1.4.20"
 
 m4_clone:
 	if [ ! -f "m4-$(M4_VERSION).tar.gz" ]; then curl -OL https://ftpmirror.gnu.org/m4/m4-$(M4_VERSION).tar.gz; fi
