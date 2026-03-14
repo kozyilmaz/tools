@@ -64,6 +64,7 @@ openssl_config:
 		no-ssl no-dtls \
 		no-tls1 no-tls1_1 \
 		no-weak-ssl-ciphers \
+		--api=1.1.1 \
 		--with-zlib-include=${BSPROOTFS}/include \
 		--with-zlib-lib=${BSPROOTFS}/lib \
 	)
