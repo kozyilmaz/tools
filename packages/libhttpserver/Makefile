@@ -3,7 +3,7 @@ target_name ?= libhttpserver
 
 include ../../Makefile.build
 
-LIBHTTPSERVER_VERSION=0.19.0
+LIBHTTPSERVER_VERSION=6c115f32d225284903bce1b69d28f3641f41965e
 
 libhttpserver_clone:
 	if [ ! -d "libhttpserver-$(LIBHTTPSERVER_VERSION)" ]; then (git clone https://github.com/etr/libhttpserver.git libhttpserver-$(LIBHTTPSERVER_VERSION) && cd libhttpserver-$(LIBHTTPSERVER_VERSION) && git checkout $(LIBHTTPSERVER_VERSION)); fi
