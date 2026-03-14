@@ -3,7 +3,7 @@ target_name ?= mpc-lib
 
 include ../../Makefile.build
 
-MPC_LIB_VERSION=latest
+MPC_LIB_VERSION=77333548dda38894419b6623dee8032f5292b41e
 
 ifeq      (${BSPPLATFORM},ios-arm64)
 else ifeq (${BSPPLATFORM},ios-sim)
@@ -36,7 +36,7 @@ endif
 endif
 
 mpc-lib_clone:
-	if [ ! -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then (git clone https://github.com/fireblocks/mpc-lib.git mpc-lib-$(MPC_LIB_VERSION)); fi
+	if [ ! -d "mpc-lib-$(MPC_LIB_VERSION)" ]; then (git clone https://github.com/fireblocks/mpc-lib.git mpc-lib-$(MPC_LIB_VERSION) && cd mpc-lib-$(MPC_LIB_VERSION) && git checkout $(MPC_LIB_VERSION)); fi
 
 mpc-lib_config:
 	( cd mpc-lib-$(MPC_LIB_VERSION) && mkdir -p _build && cd _build; \
